@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">Movies</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="video_poster">Video\'s poster</string>
+    <string name="video_backdrop">video\'s backdrop</string>
+    <string name="popularity">Popularity: %s </string>
+    <string name="overview">Overview</string>
+    <string name="released_title">Released</string>
+    <string name="original_title_title">Original Title</string>
+    <string name="original_language_title">Original Language</string>
+    <string name="popularity_title">Popularity</string>
+    <string name="revenue_title">Revenue</string>
+    <string name="clip_thumbnail">Clip thumbnail</string>
+    <string name="author_avatar">Author\'s avatar</string>
+    <string name="genres_title">Genres</string>
+    <string name="button_text_add_to_favorites">Add to Favorites</string>
+    <string name="app_logo">App logo</string>
+
+    <string-array name="tab_layout_home_titles">
+        <item>Movies</item>
+        <item>TV Shows</item>
+        <item>Favorites</item>
+    </string-array>
+
+    <string-array name="tab_layout_details_titles">
+        <item>Info</item>
+        <item>Clips</item>
+        <item>Reviews</item>
+    </string-array>
 </resources>

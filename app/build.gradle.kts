@@ -1,6 +1,11 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+    id("androidx.navigation.safeargs")
+    id("androidx.room")
+    id ("kotlin-parcelize")
 }
 
 android {
@@ -38,14 +43,24 @@ android {
     }
     buildFeatures {
         compose = true
+
+        //View Binding
+        viewBinding = true
+
+        //Data Binding
+        dataBinding = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
     }
 }
 
@@ -66,4 +81,60 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+
+    // Dagger Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+
+    //Fragment
+    implementation(libs.androidx.fragment.ktx)
+
+    // Gson
+    implementation(libs.converter.gson)
+
+
+    // Glide
+    implementation(libs.glide)
+
+    //Multi-dex
+//    implementation "com.android.support:multidex:$multidex_version"
+
+    // Navigation Component
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
+
+    // Okhttp logging interceptor
+    implementation(libs.logging.interceptor)
+
+    //PierfrancescoSoffritti - android-youtube-player
+    implementation(libs.core)
+
+    // Retrofit
+    implementation(libs.retrofit)
+
+    //Room
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
+    //Timber
+    implementation(libs.timber)
+
+    //Lifecycle
+    // ViewModel
+    implementation(libs.lifecycle.viewmodel.ktx)
+    //LiveData
+    implementation(libs.lifecycle.livedata.ktx)
+
+    //Work Manager
+    val workVersion = "2.9.1"
+    implementation(libs.androidx.work.runtime.ktx)
+}
+
+kapt {
+    correctErrorTypes = true
 }

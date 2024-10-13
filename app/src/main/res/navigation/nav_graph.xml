@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_grav"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.movies.presentation.home.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.movies.presentation.details.DetailsFragment"
+        android:label="Details">
+        <argument
+            android:name="video"
+            app:argType="com.example.movies.domain.models.Video"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_detailsFragment_to_videoPlayerFragment"
+            app:destination="@id/videoPlayerFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_self"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/videoPlayerFragment"
+        android:name="com.example.movies.presentation.videoplayer.VideoPlayerFragment"
+        android:label="{clipName}"
+        tools:layout="@layout/fragment_video_player">
+        <argument
+            android:name="clipKey"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="clipName"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/moviesFragment"
+        android:name="com.example.movies.presentation.home.movies.MoviesFragment"
+        android:label="Movies">
+        <action
+            android:id="@+id/action_moviesFragment_to_videoPlayerFragment"
+            app:destination="@id/videoPlayerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tvShowsFragment"
+        android:name="com.example.movies.presentation.home.tvshows.TVShowsFragment"
+        android:label="TV Shows">
+        <action
+            android:id="@+id/action_TVShowsFragment_to_videoPlayerFragment"
+            app:destination="@id/videoPlayerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.example.movies.presentation.details.favorites.FavoritesFragment"
+        android:label="Favorites" />
+</navigation>

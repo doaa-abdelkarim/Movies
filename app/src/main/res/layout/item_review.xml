@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.net.Uri" />
+
+        <variable
+            name="review"
+            type="com.example.movies.domain.models.Review" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@color/gray_700"
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_vertical_02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.02" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_vertical_98"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.98" />
+
+        <ImageView
+            android:id="@+id/image_view_author_avatar"
+            imageURL="@{Uri.parse(review.avatarPath)"
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:adjustViewBounds="false"
+            android:background="@drawable/background_author_avatar"
+            android:contentDescription="@string/author_avatar"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="@id/guide_line_vertical_02"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_author_avatar" />
+
+        <TextView
+            android:id="@+id/text_view_username"
+            style="@style/reviewUserName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@{review.username}"
+            app:layout_constraintEnd_toStartOf="@id/guide_line_vertical_98"
+            app:layout_constraintStart_toEndOf="@id/image_view_author_avatar"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="username" />
+
+        <TextView
+            android:id="@+id/text_view_content"
+            style="@style/videoTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@{review.content}"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@id/guide_line_vertical_98"
+            app:layout_constraintStart_toEndOf="@id/image_view_author_avatar"
+            app:layout_constraintTop_toBottomOf="@id/text_view_username"
+            tools:text="content" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

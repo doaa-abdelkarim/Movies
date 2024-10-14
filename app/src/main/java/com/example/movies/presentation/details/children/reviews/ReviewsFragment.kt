@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.databinding.FragmentReviewsBinding
 import com.example.movies.presentation.details.parent.DetailsViewModel
-import com.example.movies.util.Constants.Companion.PAGE
+import com.example.movies.data.remote.apis.APIConstants.Companion.PAGE
 import com.example.movies.util.EndlessRecyclerViewScrollListener
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber

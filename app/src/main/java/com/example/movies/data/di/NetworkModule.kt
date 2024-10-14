@@ -1,13 +1,13 @@
 package com.example.movies.data.di
 
 import android.util.Log
+import com.example.movies.data.remote.apis.APIConstants.Companion.API_KEY
+import com.example.movies.data.remote.apis.APIConstants.Companion.BASE_URL
+import com.example.movies.data.remote.apis.APIConstants.Companion.LANGUAGE
+import com.example.movies.data.remote.apis.APIConstants.Companion.PARAM_API_KEY
+import com.example.movies.data.remote.apis.APIConstants.Companion.PARAM_LANGUAGE
+import com.example.movies.data.remote.apis.APIConstants.Companion.TAG_OK_HTTP
 import com.example.movies.data.remote.apis.MoviesAPI
-import com.example.movies.util.Constants.Companion.API_KEY
-import com.example.movies.util.Constants.Companion.BASE_URL
-import com.example.movies.util.Constants.Companion.LANGUAGE
-import com.example.movies.util.Constants.Companion.PARAM_API_KEY
-import com.example.movies.util.Constants.Companion.PARAM_LANGUAGE
-import com.example.movies.util.Constants.Companion.TAG_OK_HTTP
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

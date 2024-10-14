@@ -5,8 +5,8 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.movies.data.di.MoviesRepo
 import com.example.movies.data.di.TVShowsRepo
+import com.example.movies.data.remote.apis.APIConstants.Companion.PAGE
 import com.example.movies.domain.repositories.BaseVideosRepository
-import com.example.movies.util.Constants.Companion.PAGE
 import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.HttpException
 

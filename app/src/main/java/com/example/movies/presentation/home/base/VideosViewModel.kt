@@ -7,8 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.movies.MoviesApp
+import com.example.movies.data.remote.apis.APIConstants.Companion.PAGE
 import com.example.movies.domain.entities.Video
-import com.example.movies.util.Constants
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -17,7 +17,7 @@ abstract class VideosViewModel(
     context: Context,
 ) : AndroidViewModel(context as Application) {
 
-    var nextPage = Constants.PAGE
+    var nextPage = PAGE
     var videosList = mutableListOf<Video>()
 
     val _video = MutableLiveData<Video>()

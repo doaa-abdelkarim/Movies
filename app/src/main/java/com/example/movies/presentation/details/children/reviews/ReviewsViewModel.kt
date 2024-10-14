@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movies.data.di.MoviesRepo
 import com.example.movies.data.di.TVShowsRepo
+import com.example.movies.data.remote.apis.APIConstants.Companion.PAGE
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Review
 import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseVideosRepository
-import com.example.movies.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -22,7 +22,7 @@ class ReviewsViewModel @Inject constructor(
     @TVShowsRepo private val tvShowsRepository: BaseVideosRepository
 ) : ViewModel() {
 
-    var nextPage = Constants.PAGE
+    var nextPage = PAGE
     var reviewsList = mutableListOf<Review>()
 
     private val _reviews = MutableLiveData<List<Review>?>()

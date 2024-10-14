@@ -14,6 +14,6 @@ interface FavoriteMoviesDao {
     suspend fun insert(databaseFavoriteMovie: LocalFavoriteMovie)
 
     @Query("SELECT m.id, m.posterPath, m.title  FROM movie_table m JOIN favorite_movies_table f ON m.id = f.videoId ORDER BY f.id")
-    fun getAllFavoritesMovie(): List<LocalMovie>
+    suspend fun getAllFavoritesMovie(): List<LocalMovie>
 
 }

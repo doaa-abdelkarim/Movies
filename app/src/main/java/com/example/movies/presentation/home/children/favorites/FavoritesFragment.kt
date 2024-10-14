@@ -10,15 +10,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.R
-import com.example.movies.databinding.FragmentFavoritesListBinding
+import com.example.movies.databinding.FragmentFavoritesBinding
 import com.example.movies.presentation.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 //CodeReview favorites package should be moved outside details package
 @AndroidEntryPoint
-class FavoritesFragment : Fragment(R.layout.fragment_favorites_list) {
+class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
-    private var _binding: FragmentFavoritesListBinding? = null
+    private var _binding: FragmentFavoritesBinding? = null
     private val binding
         get() = _binding!!
 
@@ -32,7 +32,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites_list) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentFavoritesListBinding.inflate(inflater, container, false)
+        _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         return binding.root
     }
 

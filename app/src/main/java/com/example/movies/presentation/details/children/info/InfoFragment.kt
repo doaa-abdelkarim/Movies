@@ -30,9 +30,9 @@ class InfoFragment : Fragment(R.layout.fragment_info) {
     }
 
     private fun subscribeToLiveData() {
-        detailsViewModel.video.observe(viewLifecycleOwner, {
+        detailsViewModel.video.observe(viewLifecycleOwner) {
             infoViewModel.getVideoInfo(it)
-        })
+        }
     }
 
     companion object {

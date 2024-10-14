@@ -12,9 +12,7 @@ import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseVideosRepository
 import com.example.movies.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -36,24 +34,22 @@ class ReviewsViewModel @Inject constructor(
         viewModelScope.launch {
             if (video != null) {
                 try {
-                    withContext(Dispatchers.IO) {
-                        if (video is Movie) {
-                            reviewsList.addAll(
-                                moviesRepository.getVideoReviews(
-                                    video.id ?: -1,
-                                    nextPage
-                                )
+                    if (video is Movie) {
+                        reviewsList.addAll(
+                            moviesRepository.getVideoReviews(
+                                video.id ?: -1,
+                                nextPage
                             )
-                            _reviews.postValue(reviewsList)
-                        } else {
-                            reviewsList.addAll(
-                                tvShowsRepository.getVideoReviews(
-                                    video.id ?: -1,
-                                    nextPage
-                                )
+                        )
+                        _reviews.value = reviewsList
+                    } else {
+                        reviewsList.addAll(
+                            tvShowsRepository.getVideoReviews(
+                                video.id ?: -1,
+                                nextPage
                             )
-                            _reviews.postValue(reviewsList)
-                        }
+                        )
+                        _reviews.value = reviewsList
                     }
                 } catch (e: Exception) {
                     Timber.d(e.localizedMessage)

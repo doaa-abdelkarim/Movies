@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movies.databinding.FragmentReviewsListBinding
+import com.example.movies.databinding.FragmentReviewsBinding
 import com.example.movies.presentation.details.parent.DetailsViewModel
 import com.example.movies.util.Constants.Companion.PAGE
 import com.example.movies.util.EndlessRecyclerViewScrollListener
@@ -20,7 +20,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class ReviewsFragment : Fragment() {
 
-    private var _binding: FragmentReviewsListBinding? = null
+    private var _binding: FragmentReviewsBinding? = null
     private val binding get() = _binding!!
 
     private val detailsViewModel: DetailsViewModel by viewModels({ requireParentFragment() })
@@ -28,18 +28,12 @@ class ReviewsFragment : Fragment() {
 
     private lateinit var reviewsAdapter: ReviewsAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        //CodeReview you can initialize your adapter when creating it, there's no need to assign it in onCreate
-        initReviewsAdapter()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentReviewsListBinding.inflate(inflater, container, false)
+        _binding = FragmentReviewsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -55,11 +49,8 @@ class ReviewsFragment : Fragment() {
         _binding = null
     }
 
-    private fun initReviewsAdapter() {
-        reviewsAdapter = ReviewsAdapter()
-    }
-
     private fun initRecyclerView() {
+        reviewsAdapter = ReviewsAdapter()
         binding.apply {
             recyclerViewReviewsList.apply {
                 adapter = reviewsAdapter
@@ -81,7 +72,6 @@ class ReviewsFragment : Fragment() {
                                 500
                             )
                     }
-
                 })
                 setHasFixedSize(true)
             }
@@ -89,17 +79,17 @@ class ReviewsFragment : Fragment() {
     }
 
     private fun subscribeToLiveData() {
-        detailsViewModel.video.observe(viewLifecycleOwner, {
+        detailsViewModel.video.observe(viewLifecycleOwner) {
             reviewsViewModel.nextPage = PAGE
             reviewsViewModel.reviewsList.clear()
             reviewsViewModel.getVideoReviews(it)
-        })
+        }
 
-        reviewsViewModel.reviews.observe(viewLifecycleOwner, {
+        reviewsViewModel.reviews.observe(viewLifecycleOwner) {
             Timber.d(it.toString())
             reviewsAdapter.submitList(it)
             reviewsAdapter.notifyDataSetChanged()
-        })
+        }
     }
 
     companion object {

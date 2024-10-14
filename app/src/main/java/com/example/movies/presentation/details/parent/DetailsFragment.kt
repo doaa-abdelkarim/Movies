@@ -48,12 +48,10 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         super.onCreate(savedInstanceState)
 
         if ((appContext as MoviesApp).isLargeScreen)
-            if (parentFragment?.javaClass == MoviesFragment::class.java)
-                videosViewModel =
-                    ViewModelProvider(requireParentFragment()).get(MoviesViewModel::class.java)
+            videosViewModel = if (parentFragment?.javaClass == MoviesFragment::class.java)
+                ViewModelProvider(requireParentFragment())[MoviesViewModel::class.java]
             else
-                videosViewModel =
-                    ViewModelProvider(requireParentFragment()).get(TVShowsViewModel::class.java)
+                ViewModelProvider(requireParentFragment())[TVShowsViewModel::class.java]
         else
             detailsViewModel.updateVideoLiveData()
     }
@@ -114,7 +112,10 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 binding.video = it
             }
             detailsViewModel.favorites.observe(viewLifecycleOwner) {
-                setFragmentResult(REQUEST_SHOW_FAVORITES, bundleOf(RESULT_SHOW_FAVORITES to it))
+                setFragmentResult(
+                    REQUEST_SHOW_FAVORITES,
+                    bundleOf(RESULT_SHOW_FAVORITES to it)
+                )
             }
         }
     }

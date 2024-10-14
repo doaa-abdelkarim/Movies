@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.R
-import com.example.movies.databinding.FragmentClipsListBinding
+import com.example.movies.databinding.FragmentClipsBinding
 import com.example.movies.presentation.details.parent.DetailsViewModel
 import com.example.movies.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ClipsFragment : Fragment() {
 
-    private var _binding: FragmentClipsListBinding? = null
+    private var _binding: FragmentClipsBinding? = null
     private val binding
         get() = _binding!!
 
@@ -29,17 +29,12 @@ class ClipsFragment : Fragment() {
 
     private lateinit var clipsAdapter: ClipsAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initClipsAdapter()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentClipsListBinding.inflate(inflater, container, false)
+        _binding = FragmentClipsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -56,13 +51,10 @@ class ClipsFragment : Fragment() {
         _binding = null
     }
 
-    private fun initClipsAdapter() {
+    private fun initRecyclerView() {
         clipsAdapter = ClipsAdapter(ClipsAdapter.OnItemClickListener {
             clipsViewModel.onClipClicked(it)
         })
-    }
-
-    private fun initRecyclerView() {
         binding.apply {
             recyclerViewClipsList.apply {
                 adapter = clipsAdapter
@@ -73,13 +65,13 @@ class ClipsFragment : Fragment() {
     }
 
     private fun subscribeToLiveData() {
-        detailsViewModel.video.observe(viewLifecycleOwner, {
+        detailsViewModel.video.observe(viewLifecycleOwner) {
             clipsViewModel.getVideoClips(it)
-        })
+        }
 
-        clipsViewModel.clips.observe(viewLifecycleOwner, {
+        clipsViewModel.clips.observe(viewLifecycleOwner) {
             clipsAdapter.submitList(it)
-        })
+        }
     }
 
     private fun subscribeToFlow() {

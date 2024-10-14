@@ -29,7 +29,7 @@ class DetailsViewModel @Inject constructor(
     @FavoriteMoviesRepo private val favoriteMoviesRepository: BaseFavoriteRepository,
     @FavoriteTVShowsRepo private val favoriteTVShowsRepository: BaseFavoriteRepository,
     @ApplicationContext context: Context,
-    private val state: SavedStateHandle
+    state: SavedStateHandle
 ) : AndroidViewModel(context as Application) {
 
     var videoArg = state.get<Video>("video")

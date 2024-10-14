@@ -1,7 +1,8 @@
 package com.example.movies.data.remote.datasources
 
 import com.example.movies.data.remote.apis.MoviesAPI
-import com.example.movies.data.remote.models.movies.asDomainModel
+import com.example.movies.data.remote.models.asDomainModel
+import com.example.movies.data.remote.models.asMovieDomainModel
 import com.example.movies.domain.entities.Clip
 import com.example.movies.domain.entities.Review
 import com.example.movies.domain.entities.Video
@@ -13,7 +14,7 @@ class MoviesRemoteDataSource(
     private val moviesAPI: MoviesAPI
 ) : BaseMoviesRemoteDataSource {
     override suspend fun getVideos(page: Int): List<Video> {
-        return moviesAPI.getMovies(page).asDomainModel()
+        return moviesAPI.getMovies(page).asMovieDomainModel()
     }
 
     override suspend fun getVideoDetails(videoId: Int): Video {

@@ -11,11 +11,9 @@ import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseVideosRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -36,12 +34,10 @@ class ClipsViewModel @Inject constructor(
         viewModelScope.launch {
             if (video != null) {
                 try {
-                    _clips.value = withContext(Dispatchers.IO) {
-                        if (video is Movie)
-                            moviesRepository.getVideoClips(video.id ?: -1)
-                        else
-                            tvShowsRepository.getVideoClips(video.id ?: -1)
-                    }
+                    _clips.value = if (video is Movie)
+                        moviesRepository.getVideoClips(video.id ?: -1)
+                    else
+                        tvShowsRepository.getVideoClips(video.id ?: -1)
                 } catch (e: Exception) {
                     Timber.d(e.localizedMessage)
                 }

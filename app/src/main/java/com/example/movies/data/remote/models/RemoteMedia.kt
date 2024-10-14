@@ -1,9 +1,11 @@
-package com.example.movies.data.remote.models.movies
+package com.example.movies.data.remote.models
 
 import com.example.movies.domain.entities.Movie
+import com.example.movies.domain.entities.TVShow
+import com.example.movies.domain.entities.Video
 import com.google.gson.annotations.SerializedName
 
-data class RemoteMovies(
+data class RemoteMedia(
 
     @field:SerializedName("dates")
     val dates: Dates? = null,
@@ -15,7 +17,7 @@ data class RemoteMovies(
     val totalPages: Int? = null,
 
     @field:SerializedName("results")
-    val results: List<NetworkMovie?>? = null,
+    val results: List<Network?>? = null,
 
     @field:SerializedName("total_results")
     val totalResults: Int? = null
@@ -30,7 +32,7 @@ data class Dates(
     val minimum: String? = null
 )
 
-data class NetworkMovie(
+data class Network(
 
     @field:SerializedName("overview")
     val overview: String? = null,
@@ -72,14 +74,47 @@ data class NetworkMovie(
     val adult: Boolean? = null,
 
     @field:SerializedName("vote_count")
-    val voteCount: Int? = null
+    val voteCount: Int? = null,
+
+    @field:SerializedName("first_air_date")
+    val firstAirDate: String? = null,
+
+    @field:SerializedName("origin_country")
+    val originCountry: List<String?>? = null,
+
+    @field:SerializedName("original_name")
+    val originalName: String? = null,
+
+    @field:SerializedName("name")
+    val name: String? = null
 )
 
-fun RemoteMovies.asDomainModel(): List<Movie> {
+fun RemoteMedia.asMovieDomainModel(): List<Video> {
     return results?.asSequence()
         ?.filterNotNull()
         ?.map {
-            Movie(it.id, it.posterPath, it.backdropPath, it.title, it.popularity)
+            Movie(
+                it.id,
+                it.posterPath,
+                it.backdropPath,
+                it.title,
+                it.popularity
+            )
+        }?.toList()
+        ?: listOf()
+}
+
+fun RemoteMedia.asTVShowDomainModel(): List<Video> {
+    return results?.asSequence()
+        ?.filterNotNull()
+        ?.map {
+            TVShow(
+                it.id,
+                it.posterPath,
+                it.backdropPath,
+                it.name,
+                it.popularity
+            )
         }?.toList()
         ?: listOf()
 }

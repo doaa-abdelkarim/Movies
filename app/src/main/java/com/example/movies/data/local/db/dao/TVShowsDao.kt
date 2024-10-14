@@ -13,8 +13,8 @@ interface TVShowsDao {
     suspend fun update(localTVShow: LocalTVShow)
 
     @Query("SELECT * FROM tv_show_table")
-    fun getAllTVShows(): List<LocalTVShow>
+    suspend fun getAllTVShows(): List<LocalTVShow>
 
     @Query("SELECT * FROM tv_show_table where id = :id")
-    fun getTVShowById(id: Int): LocalTVShow
+    suspend fun getTVShowById(id: Int): LocalTVShow
 }

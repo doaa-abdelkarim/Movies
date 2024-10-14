@@ -14,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.movies.R
 import com.example.movies.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+
 //import kotlinx.android.synthetic.main.activity_main.*
 
 @AndroidEntryPoint
@@ -78,10 +79,9 @@ class ManActivity : AppCompatActivity() {
     }
 
     private fun subscribeToLiveData() {
-        mainActivityViewModel.favorites.observe(this, {
+        mainActivityViewModel.favorites.observe(this) {
             favoritesItem.isVisible = !it.isNullOrEmpty()
-
-        })
+        }
     }
 
 }

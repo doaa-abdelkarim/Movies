@@ -13,6 +13,6 @@ interface TvShowReviewsDao {
     suspend fun insert(reviews: List<LocalTVShowReview>)
 
     @Query("SELECT * FROM tv_show_review_table WHERE videoId = :tvShowId")
-    fun getAllReviews(tvShowId: Int): List<LocalTVShowReview>
+    suspend fun getAllReviews(tvShowId: Int): List<LocalTVShowReview>
 
 }

@@ -19,7 +19,7 @@ import timber.log.Timber
 
 //CodeReview swipe to refresh is not implemented which is required in "add infinite scrolling" task
 //CodeReview i think there's a problem in progress bar behavior, it doesn't always show when it should
-abstract class VideosFragment<VM: VideosViewModel> : Fragment(R.layout.fragment_videos_list) {
+abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment_videos) {
 
     private lateinit var videosAdapter: VideosAdapter
     abstract val videosViewModel: VM
@@ -31,7 +31,8 @@ abstract class VideosFragment<VM: VideosViewModel> : Fragment(R.layout.fragment_
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<FragmentContainerView>(R.id.fragment_details)?.let { insertNestedFragment() }
+        view.findViewById<FragmentContainerView>(R.id.fragment_details)
+            ?.let { insertNestedFragment() }
         initRecyclerView(view)
         subscribeToLiveData()
         subscribeToFlow()
@@ -76,7 +77,7 @@ abstract class VideosFragment<VM: VideosViewModel> : Fragment(R.layout.fragment_
     }
 
     private fun subscribeToLiveData() {
-        videosViewModel.videos.observe(viewLifecycleOwner, {
+        videosViewModel.videos.observe(viewLifecycleOwner) {
             Timber.i("moviesList: ${videosViewModel.videosList.size}")
             videosAdapter.submitList(it)
 
@@ -84,7 +85,7 @@ abstract class VideosFragment<VM: VideosViewModel> : Fragment(R.layout.fragment_
                 if (!it.isNullOrEmpty() && videosViewModel._video.value == null)
                     videosViewModel._video.value = it[0]
 
-        })
+        }
     }
 
     private fun subscribeToFlow() {
@@ -94,7 +95,9 @@ abstract class VideosFragment<VM: VideosViewModel> : Fragment(R.layout.fragment_
                     is VideosEvent.NavigateToDetailsScreen ->
                         findNavController().navigate(
                             R.id.detailsFragment,
-                            Bundle().apply { putParcelable("video", it.video) })
+                            Bundle().apply { putParcelable("video", it.video) }
+                        )
+
                     is VideosEvent.PassVideoToDetailsScreen ->
                         videosViewModel._video.value = it.video
 

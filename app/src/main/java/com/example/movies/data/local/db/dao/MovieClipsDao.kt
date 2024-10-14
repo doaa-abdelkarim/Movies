@@ -13,6 +13,6 @@ interface MovieClipsDao {
     suspend fun insert(clips: List<LocalMovieClip>)
 
     @Query("SELECT * FROM movie_clip_table WHERE videoId = :movieId")
-    fun getAllClips(movieId: Int): List<LocalMovieClip>
+    suspend fun getAllClips(movieId: Int): List<LocalMovieClip>
 
 }

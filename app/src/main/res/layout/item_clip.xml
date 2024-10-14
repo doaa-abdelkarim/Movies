@@ -7,11 +7,11 @@
 
         <variable
             name="clip"
-            type="com.example.movies.domain.models.Clip" />
+            type="com.example.movies.domain.entities.Clip" />
 
         <variable
             name="onItemClickListener"
-            type="com.example.movies.presentation.details.clips.ClipsAdapter.OnItemClickListener" />
+            type="com.example.movies.presentation.details.children.clips.ClipsAdapter.OnItemClickListener" />
 
     </data>
 

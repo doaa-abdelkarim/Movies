@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
 import androidx.work.*
-import com.example.movies.di.ApplicationScope
+import com.example.movies.data.di.ApplicationScope
 import com.example.movies.worker.RefreshDataWorker
 import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.android.qualifiers.ApplicationContext

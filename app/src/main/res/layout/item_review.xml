@@ -9,7 +9,7 @@
 
         <variable
             name="review"
-            type="com.example.movies.domain.models.Review" />
+            type="com.example.movies.domain.entities.Review" />
 
     </data>
 

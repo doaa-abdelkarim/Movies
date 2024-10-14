@@ -3,17 +3,17 @@ package com.example.movies.worker
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.example.movies.di.MoviesRepository
-import com.example.movies.di.TVShowsRepository
-import com.example.movies.domain.repositoriescontract.VideosRepositoryContract
+import com.example.movies.data.di.MoviesRepository
+import com.example.movies.data.di.TVShowsRepository
+import com.example.movies.domain.repositories.BaseVideosRepositoryRepository
 import com.example.movies.util.Constants.Companion.PAGE
 import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.HttpException
 
 class RefreshDataWorker(
     @ApplicationContext context: Context, params: WorkerParameters,
-    @MoviesRepository private val moviesRepository: VideosRepositoryContract,
-    @TVShowsRepository private val tvShowRepository: VideosRepositoryContract
+    @MoviesRepository private val moviesRepository: BaseVideosRepositoryRepository,
+    @TVShowsRepository private val tvShowRepository: BaseVideosRepositoryRepository
 ) :
     CoroutineWorker(context, params) {
 

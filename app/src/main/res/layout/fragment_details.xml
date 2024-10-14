@@ -7,7 +7,7 @@
 
         <variable
             name="video"
-            type="com.example.movies.domain.models.Video" />
+            type="com.example.movies.domain.entities.Video" />
 
     </data>
 

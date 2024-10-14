@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.base.adapter.BasePaginationAdapter
 import com.example.movies.databinding.ItemVideoBinding
-import com.example.movies.domain.models.Video
+import com.example.movies.domain.entities.Video
 
 class VideosAdapter(private val onItemClickListener: OnItemClickListener) :
     BasePaginationAdapter<Video>(DiffCallback()) {

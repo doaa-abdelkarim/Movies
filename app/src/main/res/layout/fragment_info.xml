@@ -4,13 +4,13 @@
 
     <data>
 
-        <import type="com.example.movies.domain.models.Movie" />
+        <import type="com.example.movies.domain.entities.Movie" />
 
         <import type="android.view.View" />
 
         <variable
             name="infoViewModel"
-            type="com.example.movies.presentation.details.info.InfoViewModel" />
+            type="com.example.movies.presentation.details.children.info.InfoViewModel" />
 
     </data>
 

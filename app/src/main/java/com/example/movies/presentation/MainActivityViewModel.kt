@@ -3,8 +3,8 @@ package com.example.movies.presentation
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movies.data.di.FavoriteMoviesRepository
-import com.example.movies.data.di.FavoriteTVShowsRepository
+import com.example.movies.data.di.FavoriteMoviesRepo
+import com.example.movies.data.di.FavoriteTVShowsRepo
 import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseFavoriteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,8 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    @FavoriteMoviesRepository private val favoriteMoviesRepository: BaseFavoriteRepository,
-    @FavoriteTVShowsRepository private val favoriteTVShowsRepository: BaseFavoriteRepository
+    @FavoriteMoviesRepo private val favoriteMoviesRepository: BaseFavoriteRepository,
+    @FavoriteTVShowsRepo private val favoriteTVShowsRepository: BaseFavoriteRepository
 ) : ViewModel() {
 
     val favorites = MutableLiveData<List<Video>?>()

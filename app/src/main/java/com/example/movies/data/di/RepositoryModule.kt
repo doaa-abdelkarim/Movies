@@ -1,6 +1,14 @@
 package com.example.movies.data.di
 
 import android.content.Context
+import com.example.movies.data.local.datasources.BaseFavoriteMoviesLocalDataSource
+import com.example.movies.data.local.datasources.BaseFavoriteTVShowsLocalDataSource
+import com.example.movies.data.local.datasources.BaseMoviesLocalDataSource
+import com.example.movies.data.local.datasources.BaseTVShowsLocalDataSource
+import com.example.movies.data.local.datasources.FavoriteMoviesLocalDataSource
+import com.example.movies.data.local.datasources.FavoriteTVShowsLocalDataSource
+import com.example.movies.data.local.datasources.MoviesLocalDataSource
+import com.example.movies.data.local.datasources.TVShowsLocalDataSource
 import com.example.movies.data.local.db.dao.FavoriteMoviesDao
 import com.example.movies.data.local.db.dao.FavoriteTVShowsDao
 import com.example.movies.data.local.db.dao.MovieClipsDao
@@ -10,24 +18,16 @@ import com.example.movies.data.local.db.dao.TVShowsDao
 import com.example.movies.data.local.db.dao.TvShowClipsDao
 import com.example.movies.data.local.db.dao.TvShowReviewsDao
 import com.example.movies.data.remote.apis.MoviesAPI
-import com.example.movies.data.repositories.OfflineFavoriteMoviesRepository
-import com.example.movies.data.repositories.OfflineFavoriteTVShowsRepository
-import com.example.movies.data.repositories.OfflineTVShowsRepository
-import com.example.movies.data.repositories.OnlineFavoriteMoviesRepository
-import com.example.movies.data.repositories.OnlineFavoriteTVShowsRepository
-import com.example.movies.data.repositories.OnlineTVShowsRepository
-import com.example.movies.data.repositories.TVShowsRepositoryRepository
+import com.example.movies.data.remote.datasources.BaseMoviesRemoteDataSource
+import com.example.movies.data.remote.datasources.BaseTVShowsRemoteDataSource
+import com.example.movies.data.remote.datasources.MoviesRemoteDataSource
+import com.example.movies.data.remote.datasources.TVShowsRemoteDataSource
+import com.example.movies.data.repositories.FavoriteMoviesRepository
+import com.example.movies.data.repositories.FavoriteTVShowsRepository
+import com.example.movies.data.repositories.MoviesRepository
+import com.example.movies.data.repositories.TVShowsRepository
 import com.example.movies.domain.repositories.BaseFavoriteRepository
-import com.example.movies.domain.repositories.BaseOfflineFavoriteMoviesRepository
-import com.example.movies.domain.repositories.BaseOfflineFavoriteTVShowsRepository
-import com.example.movies.domain.repositories.BaseOfflineMoviesRepository
-import com.example.movies.domain.repositories.BaseOfflineTVShowsRepository
-import com.example.movies.domain.repositories.BaseOnlineMoviesRepository
-import com.example.movies.domain.repositories.BaseOnlineTVShowsRepository
-import com.example.movies.domain.repositories.BaseVideosRepositoryRepository
-import com.example.movies.domain.repositories.MoviesRepositoryRepository
-import com.example.movies.domain.repositories.OfflineMoviesRepository
-import com.example.movies.domain.repositories.OnlineMoviesRepository
+import com.example.movies.domain.repositories.BaseVideosRepository
 import com.example.movies.util.NetworkHandler
 import com.example.movies.util.NetworkHandlerImpl
 import dagger.Module
@@ -42,89 +42,89 @@ import javax.inject.Qualifier
 class RepositoryModule {
 
     @Provides
-    @MoviesRepository
+    @MoviesRepo
     fun provideMoviesRepository(
-        baseOnlineMoviesRepository: BaseOnlineMoviesRepository,
-        baseOfflineMoviesRepository: BaseOfflineMoviesRepository,
+        baseMoviesRemoteDataSource: BaseMoviesRemoteDataSource,
+        baseMoviesLocalDataSource: BaseMoviesLocalDataSource,
         networkHandler: NetworkHandler
-    ): BaseVideosRepositoryRepository {
-        return MoviesRepositoryRepository(
-            baseOnlineMoviesRepository,
-            baseOfflineMoviesRepository,
+    ): BaseVideosRepository {
+        return MoviesRepository(
+            baseMoviesRemoteDataSource,
+            baseMoviesLocalDataSource,
             networkHandler
         )
     }
 
     @Provides
-    fun provideOnlineMovies(moviesAPI: MoviesAPI): BaseOnlineMoviesRepository {
-        return OnlineMoviesRepository(moviesAPI)
+    fun provideMoviesRemoteDataSource(moviesAPI: MoviesAPI): BaseMoviesRemoteDataSource {
+        return MoviesRemoteDataSource(moviesAPI)
     }
 
     @Provides
-    fun provideOfflineMovies(
+    fun provideMoviesLocalDataSource(
         moviesDao: MoviesDao,
         movieClipsDao: MovieClipsDao,
         movieReviewsDao: MovieReviewsDao
-    ): BaseOfflineMoviesRepository {
-        return OfflineMoviesRepository(moviesDao, movieClipsDao, movieReviewsDao)
+    ): BaseMoviesLocalDataSource {
+        return MoviesLocalDataSource(moviesDao, movieClipsDao, movieReviewsDao)
     }
 
     @Provides
-    @TVShowsRepository
+    @TVShowsRepo
     fun provideTVShowsRepository(
-        baseOnlineTVShowsRepository: BaseOnlineTVShowsRepository,
-        baseOfflineTVShowsRepository: BaseOfflineTVShowsRepository,
+        baseTVShowsRemoteDataSource: BaseTVShowsRemoteDataSource,
+        baseTVShowsLocalDataSource: BaseTVShowsLocalDataSource,
         networkHandler: NetworkHandler
-    ): BaseVideosRepositoryRepository {
-        return TVShowsRepositoryRepository(
-            baseOnlineTVShowsRepository,
-            baseOfflineTVShowsRepository,
+    ): BaseVideosRepository {
+        return TVShowsRepository(
+            baseTVShowsRemoteDataSource,
+            baseTVShowsLocalDataSource,
             networkHandler
         )
     }
 
     @Provides
-    fun provideOnlineTVShows(moviesAPI: MoviesAPI): BaseOnlineTVShowsRepository {
-        return OnlineTVShowsRepository(moviesAPI)
+    fun provideTVShowsRemoteDataSource(moviesAPI: MoviesAPI): BaseTVShowsRemoteDataSource {
+        return TVShowsRemoteDataSource(moviesAPI)
     }
 
     @Provides
-    fun provideOfflineTVShows(
+    fun provideTVShowsLocalDataSource(
         tvShowsDao: TVShowsDao,
         tvShowClipsDao: TvShowClipsDao,
         tvShowReviewsDao: TvShowReviewsDao
-    ): BaseOfflineTVShowsRepository {
-        return OfflineTVShowsRepository(tvShowsDao, tvShowClipsDao, tvShowReviewsDao)
+    ): BaseTVShowsLocalDataSource {
+        return TVShowsLocalDataSource(tvShowsDao, tvShowClipsDao, tvShowReviewsDao)
     }
 
     @Provides
-    @FavoriteMoviesRepository
+    @FavoriteMoviesRepo
     fun provideFavoriteMoviesRepository(
-        baseOfflineFavoriteMoviesRepository: BaseOfflineFavoriteMoviesRepository
+        baseFavoriteMoviesLocalDataSource: BaseFavoriteMoviesLocalDataSource
     ): BaseFavoriteRepository {
-        return OnlineFavoriteMoviesRepository(baseOfflineFavoriteMoviesRepository)
+        return FavoriteMoviesRepository(baseFavoriteMoviesLocalDataSource)
     }
 
     @Provides
-    fun provideOfflineFavoriteMovies(
+    fun provideFavoriteMoviesLocalDataSource(
         favoriteMoviesDao: FavoriteMoviesDao
-    ): BaseOfflineFavoriteMoviesRepository {
-        return OfflineFavoriteMoviesRepository(favoriteMoviesDao)
+    ): BaseFavoriteMoviesLocalDataSource {
+        return FavoriteMoviesLocalDataSource(favoriteMoviesDao)
     }
 
     @Provides
-    @FavoriteTVShowsRepository
+    @FavoriteTVShowsRepo
     fun provideFavoriteTVShowsRepository(
-        baseOfflineFavoriteTVShowsRepository: BaseOfflineFavoriteTVShowsRepository
+        baseFavoriteTVShowsLocalDataSource: BaseFavoriteTVShowsLocalDataSource
     ): BaseFavoriteRepository {
-        return OnlineFavoriteTVShowsRepository(baseOfflineFavoriteTVShowsRepository)
+        return FavoriteTVShowsRepository(baseFavoriteTVShowsLocalDataSource)
     }
 
     @Provides
-    fun provideOfflineFavoriteTVShows(
+    fun provideFavoriteTVShowsLocalDataSource(
         favoriteTVShowsDao: FavoriteTVShowsDao
-    ): BaseOfflineFavoriteTVShowsRepository {
-        return OfflineFavoriteTVShowsRepository(favoriteTVShowsDao)
+    ): BaseFavoriteTVShowsLocalDataSource {
+        return FavoriteTVShowsLocalDataSource(favoriteTVShowsDao)
     }
 
     @Provides
@@ -136,16 +136,16 @@ class RepositoryModule {
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class MoviesRepository
+annotation class MoviesRepo
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class TVShowsRepository
+annotation class TVShowsRepo
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class FavoriteMoviesRepository
+annotation class FavoriteMoviesRepo
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class FavoriteTVShowsRepository
+annotation class FavoriteTVShowsRepo

@@ -9,8 +9,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.movies.data.local.models.favorites.LocalFavoriteMovie
 import com.example.movies.data.local.models.favorites.LocalFavoriteTVShow
-import com.example.movies.data.di.FavoriteMoviesRepository
-import com.example.movies.data.di.FavoriteTVShowsRepository
+import com.example.movies.data.di.FavoriteMoviesRepo
+import com.example.movies.data.di.FavoriteTVShowsRepo
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseFavoriteRepository
@@ -26,8 +26,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
-    @FavoriteMoviesRepository private val favoriteMoviesRepository: BaseFavoriteRepository,
-    @FavoriteTVShowsRepository private val favoriteTVShowsRepository: BaseFavoriteRepository,
+    @FavoriteMoviesRepo private val favoriteMoviesRepository: BaseFavoriteRepository,
+    @FavoriteTVShowsRepo private val favoriteTVShowsRepository: BaseFavoriteRepository,
     @ApplicationContext context: Context,
     private val state: SavedStateHandle
 ) : AndroidViewModel(context as Application) {

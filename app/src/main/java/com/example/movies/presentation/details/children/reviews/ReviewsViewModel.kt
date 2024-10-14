@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movies.data.di.MoviesRepository
-import com.example.movies.data.di.TVShowsRepository
+import com.example.movies.data.di.MoviesRepo
+import com.example.movies.data.di.TVShowsRepo
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Review
 import com.example.movies.domain.entities.Video
-import com.example.movies.domain.repositories.BaseVideosRepositoryRepository
+import com.example.movies.domain.repositories.BaseVideosRepository
 import com.example.movies.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,8 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReviewsViewModel @Inject constructor(
-    @MoviesRepository private val moviesRepository: BaseVideosRepositoryRepository,
-    @TVShowsRepository private val tvShowsRepository: BaseVideosRepositoryRepository
+    @MoviesRepo private val moviesRepository: BaseVideosRepository,
+    @TVShowsRepo private val tvShowsRepository: BaseVideosRepository
 ) : ViewModel() {
 
     var nextPage = Constants.PAGE

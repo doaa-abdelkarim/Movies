@@ -2,8 +2,8 @@ package com.example.movies.presentation.home.children.movies
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
-import com.example.movies.data.di.MoviesRepository
-import com.example.movies.domain.repositories.BaseVideosRepositoryRepository
+import com.example.movies.data.di.MoviesRepo
+import com.example.movies.domain.repositories.BaseVideosRepository
 import com.example.movies.presentation.home.base.VideosViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MoviesViewModel @Inject constructor(
     @ApplicationContext context: Context,
-    @MoviesRepository private val videosRepository: BaseVideosRepositoryRepository,
+    @MoviesRepo private val videosRepository: BaseVideosRepository,
 ) : VideosViewModel(context) {
 
     init {

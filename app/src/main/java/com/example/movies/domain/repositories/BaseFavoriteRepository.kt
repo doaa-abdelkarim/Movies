@@ -7,9 +7,3 @@ interface BaseFavoriteRepository {
     suspend fun cacheFavorites(baseLocalFavorite: BaseLocalFavorite)
     suspend fun getAllFavorites(): List<Video>
 }
-
-interface BaseOnlineFavoriteMoviesRepository: BaseFavoriteRepository
-interface BaseOfflineFavoriteMoviesRepository : BaseFavoriteRepository
-
-interface BaseOnlineFavoriteTVShowsRepository: BaseFavoriteRepository
-interface BaseOfflineFavoriteTVShowsRepository : BaseFavoriteRepository

@@ -8,9 +8,7 @@ import com.example.movies.data.di.FavoriteTVShowsRepo
 import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseFavoriteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -30,11 +28,9 @@ class MainActivityViewModel @Inject constructor(
 
     suspend fun getAllFavorites(): List<Video>? {
         return try {
-            withContext(Dispatchers.IO) {
-                favoriteMoviesRepository.getAllFavorites().plus(
-                    favoriteTVShowsRepository.getAllFavorites()
-                )
-            }
+            favoriteMoviesRepository.getAllFavorites().plus(
+                favoriteTVShowsRepository.getAllFavorites()
+            )
         } catch (e: Exception) {
             Timber.d(e.localizedMessage)
             null

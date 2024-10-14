@@ -7,20 +7,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.example.movies.data.local.models.favorites.LocalFavoriteMovie
-import com.example.movies.data.local.models.favorites.LocalFavoriteTVShow
 import com.example.movies.data.di.FavoriteMoviesRepo
 import com.example.movies.data.di.FavoriteTVShowsRepo
+import com.example.movies.data.local.models.favorites.LocalFavoriteMovie
+import com.example.movies.data.local.models.favorites.LocalFavoriteTVShow
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseFavoriteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -54,7 +52,7 @@ class DetailsViewModel @Inject constructor(
     fun onAddFavorite() {
         viewModelScope.launch {
             try {
-                _favorites.value = withContext(Dispatchers.IO) {
+                _favorites.value =
                     if (type) {
                         favoriteMoviesRepository.cacheFavorites(
                             LocalFavoriteMovie(videoArg?.id)
@@ -66,7 +64,6 @@ class DetailsViewModel @Inject constructor(
                         )
                         favoriteTVShowsRepository.getAllFavorites()
                     }
-                }
                 detailsEventChannel.send(DetailsEvent.ShowSavedMessage("Saved"))
 
             } catch (e: Exception) {

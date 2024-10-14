@@ -5,7 +5,7 @@ import com.example.movies.domain.entities.TVShow
 import com.example.movies.domain.entities.Video
 import com.google.gson.annotations.SerializedName
 
-data class RemoteMedia(
+data class RemoteVideo(
 
     @field:SerializedName("dates")
     val dates: Dates? = null,
@@ -89,7 +89,7 @@ data class Network(
     val name: String? = null
 )
 
-fun RemoteMedia.asMovieDomainModel(): List<Video> {
+fun RemoteVideo.asMovieDomainModel(): List<Video> {
     return results?.asSequence()
         ?.filterNotNull()
         ?.map {
@@ -104,7 +104,7 @@ fun RemoteMedia.asMovieDomainModel(): List<Video> {
         ?: listOf()
 }
 
-fun RemoteMedia.asTVShowDomainModel(): List<Video> {
+fun RemoteVideo.asTVShowDomainModel(): List<Video> {
     return results?.asSequence()
         ?.filterNotNull()
         ?.map {

@@ -9,7 +9,9 @@ import com.example.movies.domain.repositories.BaseVideosRepository
 
 interface BaseMoviesRemoteDataSource : BaseVideosRepository
 
-class MoviesRemoteDataSource(private val moviesAPI: MoviesAPI) : BaseMoviesRemoteDataSource {
+class MoviesRemoteDataSource(
+    private val moviesAPI: MoviesAPI
+) : BaseMoviesRemoteDataSource {
     override suspend fun getVideos(page: Int): List<Video> {
         return moviesAPI.getMovies(page).asDomainModel()
     }
@@ -24,6 +26,22 @@ class MoviesRemoteDataSource(private val moviesAPI: MoviesAPI) : BaseMoviesRemot
 
     override suspend fun getVideoReviews(videoId: Int, page: Int): List<Review> {
         return moviesAPI.getMovieReviews(videoId, page).asDomainModel()
+    }
+
+    override suspend fun cacheVideos(videos: List<Video>) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun cacheVideoDetails(video: Video) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun cacheVideoClips(clips: List<Clip>) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun cacheVideoReviews(reviews: List<Review>) {
+        TODO("Not yet implemented")
     }
 
 }

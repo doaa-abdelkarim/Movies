@@ -13,8 +13,8 @@ interface MoviesDao {
     suspend fun update(localMovie: LocalMovie)
 
     @Query("SELECT * FROM movie_table")
-    fun getAllMovies(): List<LocalMovie>
+    suspend fun getAllMovies(): List<LocalMovie>
 
     @Query("SELECT * FROM movie_table where id = :id")
-    fun getMovieById(id: Int): LocalMovie
+    suspend fun getMovieById(id: Int): LocalMovie
 }

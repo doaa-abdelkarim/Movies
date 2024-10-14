@@ -9,9 +9,6 @@ interface BaseVideosRepository {
     suspend fun getVideoDetails(videoId: Int): Video
     suspend fun getVideoClips(videoId: Int): List<Clip>
     suspend fun getVideoReviews(videoId: Int, page: Int): List<Review>
-}
-
-interface BaseOfflineVideosRepository {
     suspend fun cacheVideos(videos: List<Video>)
     suspend fun cacheVideoDetails(video: Video)
     suspend fun cacheVideoClips(clips: List<Clip>)

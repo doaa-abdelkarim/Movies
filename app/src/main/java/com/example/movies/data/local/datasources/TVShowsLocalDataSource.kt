@@ -10,10 +10,9 @@ import com.example.movies.domain.entities.Video
 import com.example.movies.domain.entities.asTVShowClipsDatabaseModel
 import com.example.movies.domain.entities.asTVShowDatabaseModel
 import com.example.movies.domain.entities.asTVShowReviewsDatabaseModel
-import com.example.movies.domain.repositories.BaseOfflineVideosRepository
 import com.example.movies.domain.repositories.BaseVideosRepository
 
-interface BaseTVShowsLocalDataSource : BaseVideosRepository, BaseOfflineVideosRepository
+interface BaseTVShowsLocalDataSource : BaseVideosRepository
 
 class TVShowsLocalDataSource(
     private val tvShowsDao: TVShowsDao,

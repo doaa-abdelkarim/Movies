@@ -27,35 +27,29 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
     private lateinit var videosAdapter: VideosAdapter
     abstract val videosViewModel: VM
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initMoviesAdapter()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<FragmentContainerView>(R.id.fragment_details)
-            ?.let { insertNestedFragment() }
         initRecyclerView(view)
+        initFragmentContainerView(view)
         observeState()
         listenToEvents()
     }
 
-    private fun insertNestedFragment() {
-        childFragmentManager.beginTransaction()
-            .replace(R.id.fragment_details, DetailsFragment.newInstance())
-            .commit()
+    private fun initFragmentContainerView(view: View) {
+        view.findViewById<FragmentContainerView>(R.id.fragment_details)
+            ?.let {
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_details, DetailsFragment.newInstance())
+                    .commit()
+            }
     }
 
-    private fun initMoviesAdapter() {
+    private fun initRecyclerView(view: View) {
         videosAdapter = VideosAdapter(
             VideosAdapter.OnItemClickListener {
                 videosViewModel.onVideoClicked(it)
             }
         )
-    }
-
-    private fun initRecyclerView(view: View) {
         view.findViewById<RecyclerView>(R.id.recycler_view_videos_list).apply {
             adapter = videosAdapter
             val layoutManager = GridLayoutManager(requireContext(), 4)

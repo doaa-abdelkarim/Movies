@@ -22,13 +22,13 @@ class MoviesRepository(
         return baseMoviesLocalDataSource.getVideos(page)
     }
 
-    override suspend fun getVideoDetails(videoId: Int): Video {
+    override suspend fun getVideoInfo(videoId: Int): Video {
         if (networkHandler.isOnline()) {
-            val movie = baseMoviesRemoteDataSource.getVideoDetails(videoId)
+            val movie = baseMoviesRemoteDataSource.getVideoInfo(videoId)
             baseMoviesLocalDataSource.cacheVideoDetails(movie)
             return movie
         }
-        return baseMoviesLocalDataSource.getVideoDetails(videoId)
+        return baseMoviesLocalDataSource.getVideoInfo(videoId)
     }
 
     override suspend fun getVideoClips(videoId: Int): List<Clip> {

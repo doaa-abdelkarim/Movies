@@ -22,13 +22,13 @@ class TVShowsRepository(
         return baseTVShowsLocalDataSource.getVideos(page)
     }
 
-    override suspend fun getVideoDetails(videoId: Int): Video {
+    override suspend fun getVideoInfo(videoId: Int): Video {
         if (networkHandler.isOnline()) {
-            val tvShow = baseTVShowsRemoteDataSource.getVideoDetails(videoId)
+            val tvShow = baseTVShowsRemoteDataSource.getVideoInfo(videoId)
             baseTVShowsLocalDataSource.cacheVideoDetails(tvShow)
             return tvShow
         }
-        return baseTVShowsLocalDataSource.getVideoDetails(videoId)
+        return baseTVShowsLocalDataSource.getVideoInfo(videoId)
     }
 
     override suspend fun getVideoClips(videoId: Int): List<Clip> {

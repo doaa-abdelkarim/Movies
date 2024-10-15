@@ -26,6 +26,7 @@ class MoviesViewModel @Inject constructor(
             try {
                 videosList.addAll(videosRepository.getVideos(nextPage))
                 _videos.value = videosList
+                initializeFirstVideoAsDefaultSelectedVideoForLargeScreen()
             } catch (e: Exception) {
                 Timber.d(e.localizedMessage)
             }

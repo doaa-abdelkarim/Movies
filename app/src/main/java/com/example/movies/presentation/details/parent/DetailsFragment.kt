@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.movies.MoviesApp
 import com.example.movies.R
 import com.example.movies.databinding.FragmentDetailsBinding
@@ -29,6 +31,7 @@ import com.example.movies.util.exhaustive
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -52,8 +55,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 ViewModelProvider(requireParentFragment())[MoviesViewModel::class.java]
             else
                 ViewModelProvider(requireParentFragment())[TVShowsViewModel::class.java]
-        else
-            detailsViewModel.updateVideoLiveData()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,8 +65,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         initViews()
         initDetailsViewPager()
-        subscribeToLiveData()
-        subscribeToFlow()
+        observeState()
+        listenToEvents()
     }
 
     private fun initViews() {
@@ -97,36 +98,55 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     }
 
-    private fun subscribeToLiveData() {
-        if (::videosViewModel.isInitialized) {
-            videosViewModel.video.observe(viewLifecycleOwner) {
-                detailsViewModel.videoArg = it
-                detailsViewModel.updateVideoLiveData()
-                binding.video = it
+
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                detailsViewModel.favorites.collect {
+                    mainActivityViewModel.favorites.value = it
+                }
             }
-            detailsViewModel.favorites.observe(viewLifecycleOwner) {
-                mainActivityViewModel.favorites.value = it
+        }
+
+        if ((appContext as MoviesApp).isLargeScreen) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    videosViewModel.selectedVideo.collect {
+                        detailsViewModel.updateSelectedVideo(selectedVideo = it)
+                        binding.video = it
+                    }
+                }
             }
         } else {
-            detailsViewModel.video.observe(viewLifecycleOwner) {
-                binding.video = it
+            viewLifecycleOwner.lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    detailsViewModel.selectedVideo.collect {
+                        binding.video = it
+                    }
+                }
             }
-            detailsViewModel.favorites.observe(viewLifecycleOwner) {
-                setFragmentResult(
-                    REQUEST_SHOW_FAVORITES,
-                    bundleOf(RESULT_SHOW_FAVORITES to it)
-                )
+            viewLifecycleOwner.lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    detailsViewModel.favorites.collect {
+                        setFragmentResult(
+                            REQUEST_SHOW_FAVORITES,
+                            bundleOf(RESULT_SHOW_FAVORITES to it)
+                        )
+                    }
+                }
             }
         }
     }
 
-    private fun subscribeToFlow() {
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            detailsViewModel.detailsEvent.collect {
-                when (it) {
-                    is DetailsViewModel.DetailsEvent.ShowSavedMessage ->
-                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                }.exhaustive
+    private fun listenToEvents() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                detailsViewModel.detailsEvent.collect {
+                    when (it) {
+                        is DetailsViewModel.DetailsEvent.ShowSavedMessage ->
+                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    }.exhaustive
+                }
             }
         }
     }

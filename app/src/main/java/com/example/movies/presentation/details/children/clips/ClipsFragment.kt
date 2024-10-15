@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.R
@@ -15,6 +17,7 @@ import com.example.movies.databinding.FragmentClipsBinding
 import com.example.movies.presentation.details.parent.DetailsViewModel
 import com.example.movies.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -42,7 +45,7 @@ class ClipsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initRecyclerView()
-        subscribeToLiveData()
+        observeState()
         subscribeToFlow()
     }
 
@@ -64,13 +67,20 @@ class ClipsFragment : Fragment() {
         }
     }
 
-    private fun subscribeToLiveData() {
-        detailsViewModel.video.observe(viewLifecycleOwner) {
-            clipsViewModel.getVideoClips(it)
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                detailsViewModel.selectedVideo.collect {
+                    clipsViewModel.getVideoClips(it)
+                }
+            }
         }
-
-        clipsViewModel.clips.observe(viewLifecycleOwner) {
-            clipsAdapter.submitList(it)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                clipsViewModel.clips.collect {
+                    clipsAdapter.submitList(it)
+                }
+            }
         }
     }
 

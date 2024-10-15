@@ -17,8 +17,8 @@ class MoviesRemoteDataSource(
         return moviesAPI.getMovies(page).asMovieDomainModel()
     }
 
-    override suspend fun getVideoDetails(videoId: Int): Video {
-        return moviesAPI.getMovieDetails(videoId).asDomainModel()
+    override suspend fun getVideoInfo(videoId: Int): Video {
+        return moviesAPI.getMovieInfo(videoId).asDomainModel()
     }
 
     override suspend fun getVideoClips(videoId: Int): List<Clip> {

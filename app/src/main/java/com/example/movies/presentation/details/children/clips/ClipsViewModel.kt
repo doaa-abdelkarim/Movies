@@ -1,7 +1,5 @@
 package com.example.movies.presentation.details.children.clips
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movies.data.di.MoviesRepo
@@ -12,6 +10,8 @@ import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseVideosRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -23,9 +23,8 @@ class ClipsViewModel @Inject constructor(
     @TVShowsRepo private val tvShowsRepository: BaseVideosRepository
 ) : ViewModel() {
 
-    private val _clips = MutableLiveData<List<Clip>?>()
-    val clips: LiveData<List<Clip>?>
-        get() = _clips
+    private val _clips = MutableStateFlow<List<Clip>>(emptyList())
+    val clips = _clips.asStateFlow()
 
     private val clipEventChannel = Channel<ClipsEvent>()
     val clipsEvent = clipEventChannel.receiveAsFlow()

@@ -1,13 +1,19 @@
 package com.example.movies.presentation.details.children.info
 
+import android.content.pm.ConfigurationInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.movies.R
 import com.example.movies.databinding.FragmentInfoBinding
 import com.example.movies.presentation.details.parent.DetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -25,13 +31,18 @@ class InfoFragment : Fragment(R.layout.fragment_info) {
         binding.infoViewModel = infoViewModel
         binding.lifecycleOwner = this
 
-        subscribeToLiveData()
+        observeState()
 
     }
 
-    private fun subscribeToLiveData() {
-        detailsViewModel.video.observe(viewLifecycleOwner) {
-            infoViewModel.getVideoInfo(it)
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                detailsViewModel.selectedVideo.collect {
+                    Log.d("pppppppppppppppppppp here", "observeState: ")
+                    infoViewModel.getVideoInfo(it)
+                }
+            }
         }
     }
 

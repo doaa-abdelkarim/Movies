@@ -6,15 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.R
 import com.example.movies.databinding.FragmentFavoritesBinding
 import com.example.movies.presentation.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-//CodeReview favorites package should be moved outside details package
 @AndroidEntryPoint
 class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
@@ -23,7 +24,6 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         get() = _binding!!
 
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
-    private val favoritesViewModel: FavoritesViewModel by viewModels()
 
     private lateinit var favoritesAdapter: FavoritesAdapter
 
@@ -38,18 +38,8 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initFavoritesAdapter()
         initRecyclerView()
-        subscribeToLiveData()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            favoritesViewModel.favorites.value = mainActivityViewModel.getAllFavorites()
-        }
+        observeState()
     }
 
     override fun onDestroy() {
@@ -57,11 +47,8 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         _binding = null
     }
 
-    private fun initFavoritesAdapter() {
-        favoritesAdapter = FavoritesAdapter()
-    }
-
     private fun initRecyclerView() {
+        favoritesAdapter = FavoritesAdapter()
         binding.apply {
             recyclerViewFavoritesList.apply {
                 adapter = favoritesAdapter
@@ -71,9 +58,13 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         }
     }
 
-    private fun subscribeToLiveData() {
-        favoritesViewModel.favorites.observe(viewLifecycleOwner) {
-            favoritesAdapter.submitList(it)
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainActivityViewModel.favorites.collect {
+                    favoritesAdapter.submitList(it)
+                }
+            }
         }
     }
 

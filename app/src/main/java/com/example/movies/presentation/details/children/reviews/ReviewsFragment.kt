@@ -8,13 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movies.data.remote.apis.APIConstants.Companion.PAGE
 import com.example.movies.databinding.FragmentReviewsBinding
 import com.example.movies.presentation.details.parent.DetailsViewModel
-import com.example.movies.data.remote.apis.APIConstants.Companion.PAGE
 import com.example.movies.util.EndlessRecyclerViewScrollListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -41,7 +45,7 @@ class ReviewsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initRecyclerView()
-        subscribeToLiveData()
+        observeState()
     }
 
     override fun onDestroy() {
@@ -65,7 +69,7 @@ class ReviewsFragment : Fragment() {
                                     reviewsAdapter.setLoadingProgressBarVisibility(true)
                                     reviewsViewModel.nextPage = page
                                     reviewsViewModel.getVideoReviews(
-                                        detailsViewModel.video.value
+                                        detailsViewModel.selectedVideo.value
                                     )
 
                                 },
@@ -78,17 +82,25 @@ class ReviewsFragment : Fragment() {
         }
     }
 
-    private fun subscribeToLiveData() {
-        detailsViewModel.video.observe(viewLifecycleOwner) {
-            reviewsViewModel.nextPage = PAGE
-            reviewsViewModel.reviewsList.clear()
-            reviewsViewModel.getVideoReviews(it)
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                detailsViewModel.selectedVideo.collect {
+                    reviewsViewModel.nextPage = PAGE
+                    reviewsViewModel.reviewsList.clear()
+                    reviewsViewModel.getVideoReviews(it)
+                }
+            }
         }
 
-        reviewsViewModel.reviews.observe(viewLifecycleOwner) {
-            Timber.d(it.toString())
-            reviewsAdapter.submitList(it)
-            reviewsAdapter.notifyDataSetChanged()
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                reviewsViewModel.reviews.collect {
+                    Timber.d(it.toString())
+                    reviewsAdapter.submitList(it)
+                    reviewsAdapter.notifyDataSetChanged()
+                }
+            }
         }
     }
 

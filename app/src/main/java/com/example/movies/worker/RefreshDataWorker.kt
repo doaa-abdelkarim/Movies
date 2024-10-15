@@ -25,14 +25,14 @@ class RefreshDataWorker(
         return try {
             val movies = moviesRepository.getVideos(PAGE)
             movies.forEach {
-                moviesRepository.getVideoDetails(it.id ?: -1)
+                moviesRepository.getVideoInfo(it.id ?: -1)
                 moviesRepository.getVideoClips(it.id ?: -1)
                 moviesRepository.getVideoReviews(it.id ?: -1, PAGE)
             }
 
             val tvShows = tvShowRepository.getVideos(PAGE)
             tvShows.forEach {
-                tvShowRepository.getVideoDetails(it.id ?: -1)
+                tvShowRepository.getVideoInfo(it.id ?: -1)
                 tvShowRepository.getVideoClips(it.id ?: -1)
                 tvShowRepository.getVideoReviews(it.id ?: -1, PAGE)
             }

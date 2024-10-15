@@ -6,7 +6,7 @@ import com.example.movies.domain.entities.Video
 
 interface BaseVideosRepository {
     suspend fun getVideos(page: Int): List<Video>
-    suspend fun getVideoDetails(videoId: Int): Video
+    suspend fun getVideoInfo(videoId: Int): Video
     suspend fun getVideoClips(videoId: Int): List<Clip>
     suspend fun getVideoReviews(videoId: Int, page: Int): List<Review>
     suspend fun cacheVideos(videos: List<Video>)

@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -14,8 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.movies.R
 import com.example.movies.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-
-//import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ManActivity : AppCompatActivity() {
@@ -38,7 +40,7 @@ class ManActivity : AppCompatActivity() {
             initToolBar()
             initNavigationView()
             lookUpFavoritesItem()
-            subscribeToLiveData()
+            observeState()
         }
     }
 
@@ -78,9 +80,13 @@ class ManActivity : AppCompatActivity() {
         }
     }
 
-    private fun subscribeToLiveData() {
-        mainActivityViewModel.favorites.observe(this) {
-            favoritesItem.isVisible = !it.isNullOrEmpty()
+    private fun observeState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainActivityViewModel.favorites.collect {
+                    favoritesItem.isVisible = it.isNotEmpty()
+                }
+            }
         }
     }
 

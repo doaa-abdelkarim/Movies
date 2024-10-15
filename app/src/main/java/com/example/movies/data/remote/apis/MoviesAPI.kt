@@ -18,10 +18,10 @@ interface MoviesAPI {
     suspend fun getTVShows(@Query("page") page: Int): RemoteVideo
 
     @GET("movie/{movie_id}")
-    suspend fun getMovieDetails(@Path("movie_id") movieId: Int): RemoteMovieDetails
+    suspend fun getMovieInfo(@Path("movie_id") movieId: Int): RemoteMovieDetails
 
     @GET("tv/{tv_id}")
-    suspend fun getTVShowDetails(@Path("tv_id") tvShowId: Int): RemoteTVShowDetails
+    suspend fun getTVShowInfo(@Path("tv_id") tvShowId: Int): RemoteTVShowDetails
 
     @GET("movie/{movie_id}/videos")
     suspend fun getMovieClips(@Path("movie_id") movieId: Int): RemoteClips

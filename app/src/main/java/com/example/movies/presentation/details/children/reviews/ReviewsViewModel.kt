@@ -1,7 +1,5 @@
 package com.example.movies.presentation.details.children.reviews
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movies.data.di.MoviesRepo
@@ -12,6 +10,8 @@ import com.example.movies.domain.entities.Review
 import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseVideosRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -25,10 +25,8 @@ class ReviewsViewModel @Inject constructor(
     var nextPage = PAGE
     var reviewsList = mutableListOf<Review>()
 
-    private val _reviews = MutableLiveData<List<Review>?>()
-    val reviews: LiveData<List<Review>?>
-        get() = _reviews
-
+    private val _reviews = MutableStateFlow<List<Review>>(emptyList())
+    val reviews = _reviews.asStateFlow()
 
     fun getVideoReviews(video: Video?) {
         viewModelScope.launch {

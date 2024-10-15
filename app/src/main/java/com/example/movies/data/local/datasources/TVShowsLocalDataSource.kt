@@ -39,7 +39,7 @@ class TVShowsLocalDataSource(
         return tvShowsDao.getAllTVShows().asDomainModel()
     }
 
-    override suspend fun getVideoDetails(videoId: Int): Video {
+    override suspend fun getVideoInfo(videoId: Int): Video {
         return tvShowsDao.getTVShowById(videoId).asDomainModel()
     }
 

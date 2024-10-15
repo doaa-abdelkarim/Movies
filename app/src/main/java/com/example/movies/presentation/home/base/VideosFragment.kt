@@ -6,7 +6,9 @@ import android.os.Looper
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +17,7 @@ import com.example.movies.R
 import com.example.movies.presentation.details.parent.DetailsFragment
 import com.example.movies.util.EndlessRecyclerViewScrollListener
 import com.example.movies.util.exhaustive
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 //CodeReview swipe to refresh is not implemented which is required in "add infinite scrolling" task
@@ -34,8 +37,8 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
         view.findViewById<FragmentContainerView>(R.id.fragment_details)
             ?.let { insertNestedFragment() }
         initRecyclerView(view)
-        subscribeToLiveData()
-        subscribeToFlow()
+        observeState()
+        listenToEvents()
     }
 
     private fun insertNestedFragment() {
@@ -76,19 +79,18 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
         }
     }
 
-    private fun subscribeToLiveData() {
-        videosViewModel.videos.observe(viewLifecycleOwner) {
-            Timber.i("moviesList: ${videosViewModel.videosList.size}")
-            videosAdapter.submitList(it)
-
-            if ((requireContext().applicationContext as MoviesApp).isLargeScreen)
-                if (!it.isNullOrEmpty() && videosViewModel._video.value == null)
-                    videosViewModel._video.value = it[0]
-
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                videosViewModel.videos.collect {
+                    Timber.i("moviesList: ${videosViewModel.videosList.size}")
+                    videosAdapter.submitList(it)
+                }
+            }
         }
     }
 
-    private fun subscribeToFlow() {
+    private fun listenToEvents() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             videosViewModel.videoEvent.collect {
                 when (it) {
@@ -97,9 +99,6 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
                             R.id.detailsFragment,
                             Bundle().apply { putParcelable("video", it.video) }
                         )
-
-                    is VideosEvent.PassVideoToDetailsScreen ->
-                        videosViewModel._video.value = it.video
 
                 }.exhaustive
             }

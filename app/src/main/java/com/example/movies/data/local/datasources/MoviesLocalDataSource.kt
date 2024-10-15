@@ -24,7 +24,7 @@ class MoviesLocalDataSource(
         return moviesDao.getAllMovies().asDomainModel()
     }
 
-    override suspend fun getVideoDetails(videoId: Int): Video {
+    override suspend fun getVideoInfo(videoId: Int): Video {
         return moviesDao.getMovieById(videoId).asDomainModel()
     }
 

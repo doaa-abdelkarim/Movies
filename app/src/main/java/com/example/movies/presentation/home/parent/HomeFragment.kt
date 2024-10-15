@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.movies.R
 import com.example.movies.databinding.FragmentHomeBinding
 import com.example.movies.domain.entities.Video
@@ -18,6 +21,7 @@ import com.example.movies.util.Constants
 import com.example.movies.util.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -51,7 +55,7 @@ class HomeFragment : Fragment() {
                 showFavoritesFragment()
         }
 
-        subscribeToLiveData()
+        observeState()
     }
 
     override fun onDestroy() {
@@ -81,10 +85,14 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun subscribeToLiveData() {
-        mainActivityViewModel.favorites.observe(viewLifecycleOwner) {
-            if (!it.isNullOrEmpty() && fragmentList.size < 3)
-                showFavoritesFragment()
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainActivityViewModel.favorites.collect {
+                    if (it.isNotEmpty() && fragmentList.size < 3)
+                        showFavoritesFragment()
+                }
+            }
         }
     }
 

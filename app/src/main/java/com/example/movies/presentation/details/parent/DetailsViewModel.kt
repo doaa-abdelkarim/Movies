@@ -2,10 +2,11 @@ package com.example.movies.presentation.details.parent
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.example.movies.MoviesApp
+import com.example.movies.R
 import com.example.movies.data.di.FavoriteMoviesRepo
 import com.example.movies.data.di.FavoriteTVShowsRepo
 import com.example.movies.data.local.models.favorites.LocalFavoriteMovie
@@ -15,10 +16,10 @@ import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseFavoriteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -40,8 +41,8 @@ class DetailsViewModel @Inject constructor(
     private val _favorites = MutableStateFlow<List<Video>>(emptyList())
     val favorites = _favorites.asStateFlow()
 
-    private val detailsEventChannel = Channel<DetailsEvent>()
-    val detailsEvent = detailsEventChannel.receiveAsFlow()
+    private val _detailsEventFlow = MutableSharedFlow<DetailsEvent>()
+    val detailsEvent = _detailsEventFlow.asSharedFlow()
 
     fun updateSelectedVideo(selectedVideo: Video?) {
         _selectedVideo.value = selectedVideo
@@ -62,7 +63,13 @@ class DetailsViewModel @Inject constructor(
                 _favorites.value = favoriteMoviesRepository.getAllFavorites().plus(
                     favoriteTVShowsRepository.getAllFavorites()
                 )
-                detailsEventChannel.send(DetailsEvent.ShowSavedMessage("Saved"))
+                _detailsEventFlow.emit(
+                    DetailsEvent.ShowSavedMessage(
+                        getApplication<MoviesApp>().getString(
+                            R.string.saved
+                        )
+                    )
+                )
             } catch (e: Exception) {
                 Timber.d(e.localizedMessage)
             }

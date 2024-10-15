@@ -9,10 +9,10 @@ import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseVideosRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,8 +26,8 @@ class ClipsViewModel @Inject constructor(
     private val _clips = MutableStateFlow<List<Clip>>(emptyList())
     val clips = _clips.asStateFlow()
 
-    private val clipEventChannel = Channel<ClipsEvent>()
-    val clipsEvent = clipEventChannel.receiveAsFlow()
+    private val _clipsEventFlow = MutableSharedFlow<ClipsEvent>()
+    val clipsEvent = _clipsEventFlow.asSharedFlow()
 
     fun getVideoClips(video: Video?) {
         viewModelScope.launch {
@@ -46,14 +46,20 @@ class ClipsViewModel @Inject constructor(
 
     fun onClipClicked(clip: Clip) {
         viewModelScope.launch {
-            clipEventChannel.send(ClipsEvent.EventNavigateToVideoPlayerScreen(clip.key, clip.name))
+            _clipsEventFlow.emit(
+                ClipsEvent.EventNavigateToVideoPlayerScreen(
+                    clip.key,
+                    clip.name
+                )
+            )
         }
     }
 }
 
 sealed class ClipsEvent {
-    data class EventNavigateToVideoPlayerScreen(val clipKey: String?, val clipName: String?) :
-        ClipsEvent()
+    data class EventNavigateToVideoPlayerScreen(
+        val clipKey: String?, val clipName: String?
+    ) : ClipsEvent()
 }
 
 

@@ -7,10 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.movies.MoviesApp
 import com.example.movies.data.remote.apis.APIConstants.Companion.PAGE
 import com.example.movies.domain.entities.Video
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 abstract class VideosViewModel(
@@ -26,8 +26,8 @@ abstract class VideosViewModel(
     protected val _videos = MutableStateFlow<List<Video>>(emptyList())
     val videos = _videos.asStateFlow()
 
-    private val videosEventChannel = Channel<VideosEvent>()
-    val videoEvent = videosEventChannel.receiveAsFlow()
+    private val _videosEventFlow = MutableSharedFlow<VideosEvent>()
+    val videosEvent = _videosEventFlow.asSharedFlow()
 
     abstract fun getVideos()
 
@@ -44,7 +44,7 @@ abstract class VideosViewModel(
             if (getApplication<MoviesApp>().isLargeScreen)
                 _selectedVideo.value = video
             else
-                videosEventChannel.send(VideosEvent.NavigateToDetailsScreen(video))
+                _videosEventFlow.emit(VideosEvent.NavigateToDetailsScreen(video))
         }
     }
 

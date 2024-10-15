@@ -39,7 +39,6 @@ class InfoFragment : Fragment(R.layout.fragment_info) {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 detailsViewModel.selectedVideo.collect {
-                    Log.d("pppppppppppppppppppp here", "observeState: ")
                     infoViewModel.getVideoInfo(it)
                 }
             }

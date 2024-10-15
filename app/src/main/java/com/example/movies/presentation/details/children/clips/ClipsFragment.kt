@@ -85,20 +85,22 @@ class ClipsFragment : Fragment() {
     }
 
     private fun subscribeToFlow() {
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            clipsViewModel.clipsEvent.collect {
-                when (it) {
-                    is ClipsEvent.EventNavigateToVideoPlayerScreen -> {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                clipsViewModel.clipsEvent.collect {
+                    when (it) {
+                        is ClipsEvent.EventNavigateToVideoPlayerScreen -> {
 
-                        findNavController().navigate(
-                            R.id.videoPlayerFragment,
-                            bundleOf(
-                                "clipKey" to it.clipKey,
-                                "clipName" to it.clipName
+                            findNavController().navigate(
+                                R.id.videoPlayerFragment,
+                                bundleOf(
+                                    "clipKey" to it.clipKey,
+                                    "clipName" to it.clipName
+                                )
                             )
-                        )
-                    }
-                }.exhaustive
+                        }
+                    }.exhaustive
+                }
             }
         }
     }

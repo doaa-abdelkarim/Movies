@@ -1,5 +1,6 @@
 package com.example.movies.presentation.details.children.clips
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movies.data.di.MoviesRepo
@@ -8,6 +9,7 @@ import com.example.movies.domain.entities.Clip
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseVideosRepository
+import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,23 +22,29 @@ import javax.inject.Inject
 @HiltViewModel
 class ClipsViewModel @Inject constructor(
     @MoviesRepo private val moviesRepository: BaseVideosRepository,
-    @TVShowsRepo private val tvShowsRepository: BaseVideosRepository
+    @TVShowsRepo private val tvShowsRepository: BaseVideosRepository,
+    state: SavedStateHandle
 ) : ViewModel() {
 
+    private val selectedVideo = state.get<Video>(KEY_STATE_SELECTED_VIDEO)
     private val _clips = MutableStateFlow<List<Clip>>(emptyList())
     val clips = _clips.asStateFlow()
 
     private val _clipsEventFlow = MutableSharedFlow<ClipsEvent>()
     val clipsEvent = _clipsEventFlow.asSharedFlow()
 
-    fun getVideoClips(video: Video?) {
+    init {
+        getVideoClips()
+    }
+
+    private fun getVideoClips() {
         viewModelScope.launch {
-            if (video != null) {
+            if (selectedVideo != null) {
                 try {
-                    _clips.value = if (video is Movie)
-                        moviesRepository.getVideoClips(video.id ?: -1)
+                    _clips.value = if (selectedVideo is Movie)
+                        moviesRepository.getVideoClips(selectedVideo.id ?: -1)
                     else
-                        tvShowsRepository.getVideoClips(video.id ?: -1)
+                        tvShowsRepository.getVideoClips(selectedVideo.id ?: -1)
                 } catch (e: Exception) {
                     Timber.d(e.localizedMessage)
                 }

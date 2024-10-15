@@ -31,7 +31,7 @@
                 style="@style/infoValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{infoViewModel.videoInfo.overview}"
+                android:text="@{infoViewModel.info.overview}"
                 tools:text="@string/overview" />
 
             <TextView
@@ -50,7 +50,7 @@
                 android:layout_below="@id/text_view_overview"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/text_view_genres_title"
-                android:text="@{infoViewModel.videoInfo.genres}"
+                android:text="@{infoViewModel.info.genres}"
                 tools:text="@string/genres_title" />
 
             <TextView
@@ -69,7 +69,7 @@
                 android:layout_below="@id/text_view_genres_title"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/text_view_released_title"
-                android:text="@{infoViewModel.videoInfo.releaseDate}"
+                android:text="@{infoViewModel.info.releaseDate}"
                 tools:text="@string/released_title" />
 
             <TextView
@@ -88,7 +88,7 @@
                 android:layout_below="@id/text_view_released_title"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/text_view_original_title_title"
-                android:text="@{infoViewModel.videoInfo.originalTitle}"
+                android:text="@{infoViewModel.info.originalTitle}"
                 tools:text="@string/original_title_title" />
 
             <TextView
@@ -107,7 +107,7 @@
                 android:layout_below="@id/text_view_original_title_title"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/text_view_original_language_title"
-                android:text="@{infoViewModel.videoInfo.originalLanguage}"
+                android:text="@{infoViewModel.info.originalLanguage}"
                 tools:text="@string/original_language_title" />
 
             <TextView
@@ -126,7 +126,7 @@
                 android:layout_below="@id/text_view_original_language_title"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/text_view_popularity_title"
-                android:text="@{String.valueOf(infoViewModel.videoInfo.popularity)}"
+                android:text="@{String.valueOf(infoViewModel.info.popularity)}"
                 tools:text="@string/popularity_title" />
 
             <TextView
@@ -136,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_view_popularity_title"
                 android:text="@string/revenue_title"
-                android:visibility="@{(infoViewModel.videoInfo instanceof Movie)? View.VISIBLE : View.GONE}" />
+                android:visibility="@{(infoViewModel.info instanceof Movie)? View.VISIBLE : View.GONE}" />
 
             <TextView
                 android:id="@+id/text_view_revenue"
@@ -146,8 +146,8 @@
                 android:layout_below="@id/text_view_popularity_title"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/text_view_revenue_title"
-                android:text="@{(infoViewModel.videoInfo instanceof Movie)? String.valueOf(((Movie)infoViewModel.videoInfo).revenue) : ``}"
-                android:visibility="@{(infoViewModel.videoInfo instanceof Movie)? View.VISIBLE : View.GONE}"
+                android:text="@{(infoViewModel.info instanceof Movie)? String.valueOf(((Movie)infoViewModel.info).revenue) : ``}"
+                android:visibility="@{(infoViewModel.info instanceof Movie)? View.VISIBLE : View.GONE}"
                 tools:text="@string/revenue_title" />
 
         </RelativeLayout>

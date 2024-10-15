@@ -13,9 +13,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movies.data.remote.apis.APIConstants.Companion.PAGE
 import com.example.movies.databinding.FragmentReviewsBinding
+import com.example.movies.domain.entities.Video
 import com.example.movies.presentation.details.parent.DetailsViewModel
+import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import com.example.movies.util.EndlessRecyclerViewScrollListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -68,10 +69,7 @@ class ReviewsFragment : Fragment() {
                                 {
                                     reviewsAdapter.setLoadingProgressBarVisibility(true)
                                     reviewsViewModel.nextPage = page
-                                    reviewsViewModel.getVideoReviews(
-                                        detailsViewModel.selectedVideo.value
-                                    )
-
+                                    reviewsViewModel.getVideoReviews()
                                 },
                                 500
                             )
@@ -85,16 +83,6 @@ class ReviewsFragment : Fragment() {
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                detailsViewModel.selectedVideo.collect {
-                    reviewsViewModel.nextPage = PAGE
-                    reviewsViewModel.reviewsList.clear()
-                    reviewsViewModel.getVideoReviews(it)
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 reviewsViewModel.reviews.collect {
                     Timber.d(it.toString())
                     reviewsAdapter.submitList(it)
@@ -105,6 +93,11 @@ class ReviewsFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() = ReviewsFragment()
+        fun newInstance(selectedVideo: Video?) =
+            ReviewsFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(KEY_STATE_SELECTED_VIDEO, selectedVideo)
+                }
+            }
     }
 }

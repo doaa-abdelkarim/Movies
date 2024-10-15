@@ -1,5 +1,6 @@
 package com.example.movies.presentation.details.children.reviews
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movies.data.di.MoviesRepo
@@ -9,6 +10,7 @@ import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Review
 import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseVideosRepository
+import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,23 +21,29 @@ import javax.inject.Inject
 @HiltViewModel
 class ReviewsViewModel @Inject constructor(
     @MoviesRepo private val moviesRepository: BaseVideosRepository,
-    @TVShowsRepo private val tvShowsRepository: BaseVideosRepository
+    @TVShowsRepo private val tvShowsRepository: BaseVideosRepository,
+    state: SavedStateHandle
 ) : ViewModel() {
 
+    private val selectedVideo = state.get<Video>(KEY_STATE_SELECTED_VIDEO)
+    private var reviewsList = mutableListOf<Review>()
     var nextPage = PAGE
-    var reviewsList = mutableListOf<Review>()
 
     private val _reviews = MutableStateFlow<List<Review>>(emptyList())
     val reviews = _reviews.asStateFlow()
 
-    fun getVideoReviews(video: Video?) {
+    init {
+        getVideoReviews()
+    }
+
+    fun getVideoReviews() {
         viewModelScope.launch {
-            if (video != null) {
+            if (selectedVideo != null) {
                 try {
-                    if (video is Movie) {
+                    if (selectedVideo is Movie) {
                         reviewsList.addAll(
                             moviesRepository.getVideoReviews(
-                                video.id ?: -1,
+                                selectedVideo.id ?: -1,
                                 nextPage
                             )
                         )
@@ -43,7 +51,7 @@ class ReviewsViewModel @Inject constructor(
                     } else {
                         reviewsList.addAll(
                             tvShowsRepository.getVideoReviews(
-                                video.id ?: -1,
+                                selectedVideo.id ?: -1,
                                 nextPage
                             )
                         )

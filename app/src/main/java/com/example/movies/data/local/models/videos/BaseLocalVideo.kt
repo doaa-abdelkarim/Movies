@@ -1,7 +1,7 @@
 package com.example.movies.data.local.models.videos
 
 import android.net.Uri
-import com.example.movies.util.Constants.Companion.IMAGE_BASE_URL
+import com.example.movies.util.AppConstants.Companion.IMAGE_BASE_URL
 
 abstract class BaseLocalVideo {
     abstract val id: Int?

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.R
 import com.example.movies.presentation.details.parent.DetailsFragment
+import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import com.example.movies.util.EndlessRecyclerViewScrollListener
 import com.example.movies.util.exhaustive
 import kotlinx.coroutines.launch
@@ -97,9 +98,10 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
                         is VideosEvent.NavigateToDetailsScreen ->
                             findNavController().navigate(
                                 R.id.detailsFragment,
-                                Bundle().apply { putParcelable("video", it.video) }
+                                Bundle().apply {
+                                    putParcelable(KEY_STATE_SELECTED_VIDEO, it.video)
+                                }
                             )
-
                     }.exhaustive
                 }
             }

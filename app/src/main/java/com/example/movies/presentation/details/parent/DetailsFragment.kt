@@ -24,8 +24,8 @@ import com.example.movies.presentation.home.base.VideosViewModel
 import com.example.movies.presentation.home.children.movies.MoviesFragment
 import com.example.movies.presentation.home.children.movies.MoviesViewModel
 import com.example.movies.presentation.home.children.tvshows.TVShowsViewModel
-import com.example.movies.util.Constants.Companion.REQUEST_SHOW_FAVORITES
-import com.example.movies.util.Constants.Companion.RESULT_SHOW_FAVORITES
+import com.example.movies.util.AppConstants.Companion.REQUEST_SHOW_FAVORITES
+import com.example.movies.util.AppConstants.Companion.RESULT_SHOW_FAVORITES
 import com.example.movies.util.ViewPagerAdapter
 import com.example.movies.util.exhaustive
 import com.google.android.material.tabs.TabLayoutMediator
@@ -77,9 +77,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private fun initDetailsViewPager() {
         val fragmentList = arrayListOf(
-            InfoFragment.newInstance(),
-            ClipsFragment.newInstance(),
-            ReviewsFragment.newInstance()
+            InfoFragment.newInstance(selectedVideo = detailsViewModel.selectedVideo.value),
+            ClipsFragment.newInstance(selectedVideo = detailsViewModel.selectedVideo.value),
+            ReviewsFragment.newInstance(selectedVideo = detailsViewModel.selectedVideo.value)
         )
 
         val tabsTitles = resources.getStringArray(R.array.tab_layout_details_titles)

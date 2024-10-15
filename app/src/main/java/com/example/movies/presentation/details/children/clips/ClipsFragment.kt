@@ -14,7 +14,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.R
 import com.example.movies.databinding.FragmentClipsBinding
-import com.example.movies.presentation.details.parent.DetailsViewModel
+import com.example.movies.domain.entities.Video
+import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import com.example.movies.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -27,7 +28,6 @@ class ClipsFragment : Fragment() {
     private val binding
         get() = _binding!!
 
-    private val detailsViewModel: DetailsViewModel by viewModels({ requireParentFragment() })
     private val clipsViewModel: ClipsViewModel by viewModels()
 
     private lateinit var clipsAdapter: ClipsAdapter
@@ -46,7 +46,7 @@ class ClipsFragment : Fragment() {
 
         initRecyclerView()
         observeState()
-        subscribeToFlow()
+        listenToEvents()
     }
 
     override fun onDestroy() {
@@ -70,13 +70,6 @@ class ClipsFragment : Fragment() {
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                detailsViewModel.selectedVideo.collect {
-                    clipsViewModel.getVideoClips(it)
-                }
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 clipsViewModel.clips.collect {
                     clipsAdapter.submitList(it)
                 }
@@ -84,7 +77,7 @@ class ClipsFragment : Fragment() {
         }
     }
 
-    private fun subscribeToFlow() {
+    private fun listenToEvents() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 clipsViewModel.clipsEvent.collect {
@@ -106,7 +99,12 @@ class ClipsFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() = ClipsFragment()
+        fun newInstance(selectedVideo: Video?) =
+            ClipsFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(KEY_STATE_SELECTED_VIDEO, selectedVideo)
+                }
+            }
     }
 
 }

@@ -27,8 +27,8 @@ class ReviewsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val selectedVideo = state.get<Video>(KEY_STATE_SELECTED_VIDEO)
+    private var reviewsList = mutableListOf<Review>()
     var nextPage = PAGE
-    var reviewsList = mutableListOf<Review>()
 
     private val _reviews = MutableStateFlow<List<Review>>(emptyList())
     val reviews = _reviews.asStateFlow()
@@ -78,6 +78,11 @@ class ReviewsViewModel @Inject constructor(
                     Timber.d(e.localizedMessage)
                 }
             }
+    }
+
+    fun reset() {
+        nextPage = PAGE
+        reviewsList.clear()
     }
 
 }

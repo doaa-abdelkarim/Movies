@@ -55,8 +55,10 @@ class DetailsViewModel @Inject constructor(
         _observableSelectedVideo.value = selectedVideo
     }
 
-    fun onAddFavorite() {
+    fun onAddToFavorite(isLargeScreen: Boolean = false) {
         viewModelScope.launch {
+            val selectedVideo =
+                if (isLargeScreen) _observableSelectedVideo.value else this@DetailsViewModel.selectedVideo
             try {
                 if (selectedVideo is Movie) {
                     favoriteMoviesRepository.cacheFavorites(

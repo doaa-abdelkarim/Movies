@@ -15,7 +15,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.MoviesApp
-import com.example.movies.data.remote.apis.APIConstants.Companion.PAGE
 import com.example.movies.databinding.FragmentReviewsBinding
 import com.example.movies.domain.entities.Video
 import com.example.movies.presentation.details.parent.DetailsViewModel
@@ -102,8 +101,7 @@ class ReviewsFragment : Fragment() {
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     detailsViewModel.observableSelectedVideo.collect {
-                        reviewsViewModel.nextPage = PAGE
-                        reviewsViewModel.reviewsList.clear()
+                        reviewsViewModel.reset()
                         reviewsViewModel.getVideoReviews(selectedVideo = it, isLargeScreen = true)
                     }
                 }

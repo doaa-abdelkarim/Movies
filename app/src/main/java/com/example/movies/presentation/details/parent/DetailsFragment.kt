@@ -76,7 +76,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private fun initViews() {
         binding.buttonAddToFavorites.setOnClickListener {
-            detailsViewModel.onAddFavorite()
+            detailsViewModel.onAddToFavorite(
+                isLargeScreen = (appContext as MoviesApp).isLargeScreen
+            )
         }
     }
 

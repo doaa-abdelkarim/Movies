@@ -1,5 +1,6 @@
 package com.example.movies.presentation.details.children.clips
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,22 +13,30 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.movies.MoviesApp
 import com.example.movies.R
 import com.example.movies.databinding.FragmentClipsBinding
 import com.example.movies.domain.entities.Video
+import com.example.movies.presentation.details.parent.DetailsViewModel
 import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import com.example.movies.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class ClipsFragment : Fragment() {
+    @Inject
+    @ApplicationContext
+    lateinit var appContext: Context
 
     private var _binding: FragmentClipsBinding? = null
     private val binding
         get() = _binding!!
 
+    private val detailsViewModel: DetailsViewModel by viewModels({ requireParentFragment() })
     private val clipsViewModel: ClipsViewModel by viewModels()
 
     private lateinit var clipsAdapter: ClipsAdapter
@@ -68,6 +77,16 @@ class ClipsFragment : Fragment() {
     }
 
     private fun observeState() {
+        if ((appContext as MoviesApp).isLargeScreen) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    detailsViewModel.observableSelectedVideo.collect {
+                        clipsViewModel.getVideoClips(selectedVideo = it, isLargeScreen = true)
+                    }
+                }
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 clipsViewModel.clips.collect {

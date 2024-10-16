@@ -16,6 +16,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.movies.MoviesApp
 import com.example.movies.R
 import com.example.movies.databinding.FragmentDetailsBinding
+import com.example.movies.domain.entities.Video
 import com.example.movies.presentation.MainActivityViewModel
 import com.example.movies.presentation.details.children.clips.ClipsFragment
 import com.example.movies.presentation.details.children.info.InfoFragment
@@ -24,6 +25,7 @@ import com.example.movies.presentation.home.base.VideosViewModel
 import com.example.movies.presentation.home.children.movies.MoviesFragment
 import com.example.movies.presentation.home.children.movies.MoviesViewModel
 import com.example.movies.presentation.home.children.tvshows.TVShowsViewModel
+import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import com.example.movies.util.AppConstants.Companion.REQUEST_SHOW_FAVORITES
 import com.example.movies.util.AppConstants.Companion.RESULT_SHOW_FAVORITES
 import com.example.movies.util.ViewPagerAdapter
@@ -42,6 +44,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     private val detailsViewModel: DetailsViewModel by viewModels()
 
     private lateinit var binding: FragmentDetailsBinding
+    private var selectedVideo: Video? = null
 
     @Inject
     @ApplicationContext
@@ -49,6 +52,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        selectedVideo = arguments?.getParcelable(KEY_STATE_SELECTED_VIDEO)
 
         if ((appContext as MoviesApp).isLargeScreen)
             videosViewModel = if (parentFragment?.javaClass == MoviesFragment::class.java)
@@ -77,9 +82,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private fun initDetailsViewPager() {
         val fragmentList = arrayListOf(
-            InfoFragment.newInstance(selectedVideo = detailsViewModel.selectedVideo.value),
-            ClipsFragment.newInstance(selectedVideo = detailsViewModel.selectedVideo.value),
-            ReviewsFragment.newInstance(selectedVideo = detailsViewModel.selectedVideo.value)
+            InfoFragment.newInstance(selectedVideo),
+            ClipsFragment.newInstance(selectedVideo),
+            ReviewsFragment.newInstance(selectedVideo)
         )
 
         val tabsTitles = resources.getStringArray(R.array.tab_layout_details_titles)
@@ -112,19 +117,13 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     videosViewModel.selectedVideo.collect {
-                        detailsViewModel.updateSelectedVideo(selectedVideo = it)
+                        detailsViewModel.updateObservableSelectedVideo(selectedVideo = it)
                         binding.video = it
                     }
                 }
             }
         } else {
-            viewLifecycleOwner.lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    detailsViewModel.selectedVideo.collect {
-                        binding.video = it
-                    }
-                }
-            }
+            binding.video = selectedVideo
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     detailsViewModel.favorites.collect {

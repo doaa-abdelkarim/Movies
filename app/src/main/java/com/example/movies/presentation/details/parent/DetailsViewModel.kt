@@ -30,14 +30,20 @@ class DetailsViewModel @Inject constructor(
     @FavoriteMoviesRepo private val favoriteMoviesRepository: BaseFavoriteRepository,
     @FavoriteTVShowsRepo private val favoriteTVShowsRepository: BaseFavoriteRepository,
     @ApplicationContext context: Context,
-    state: SavedStateHandle
+    val state: SavedStateHandle
 ) : AndroidViewModel(context as Application) {
 
-    private val _selectedVideo = MutableStateFlow(state.get<Video>(KEY_STATE_SELECTED_VIDEO))
-    val selectedVideo = _selectedVideo.asStateFlow()
+    /*
+    In small devices, selectedVideo is passed as an argument because details fragment and videos
+    fragment are not nested
+     */
+    private val selectedVideo = state.get<Video>(KEY_STATE_SELECTED_VIDEO)
 
-    private val type
-        get() = _selectedVideo.value is Movie
+    /*
+    In large devices, selectedVideo is observed. because details fragment is child of videos fragment
+     */
+    private val _observableSelectedVideo = MutableStateFlow<Video?>(null)
+    val observableSelectedVideo = _observableSelectedVideo.asStateFlow()
 
     private val _favorites = MutableStateFlow<List<Video>>(emptyList())
     val favorites = _favorites.asStateFlow()
@@ -45,20 +51,20 @@ class DetailsViewModel @Inject constructor(
     private val _detailsEventFlow = MutableSharedFlow<DetailsEvent>()
     val detailsEvent = _detailsEventFlow.asSharedFlow()
 
-    fun updateSelectedVideo(selectedVideo: Video?) {
-        _selectedVideo.value = selectedVideo
+    fun updateObservableSelectedVideo(selectedVideo: Video?) {
+        _observableSelectedVideo.value = selectedVideo
     }
 
     fun onAddFavorite() {
         viewModelScope.launch {
             try {
-                if (type) {
+                if (selectedVideo is Movie) {
                     favoriteMoviesRepository.cacheFavorites(
-                        LocalFavoriteMovie(_selectedVideo.value?.id)
+                        LocalFavoriteMovie(selectedVideo.id)
                     )
                 } else {
                     favoriteTVShowsRepository.cacheFavorites(
-                        LocalFavoriteTVShow(_selectedVideo.value?.id)
+                        LocalFavoriteTVShow(selectedVideo?.id)
                     )
                 }
                 _favorites.value = favoriteMoviesRepository.getAllFavorites().plus(

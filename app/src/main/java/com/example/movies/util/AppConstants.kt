@@ -13,5 +13,6 @@ class AppConstants {
         const val RESULT_SHOW_FAVORITES = "RESULT_SHOW_FAVORITES"
 
         const val KEY_STATE_SELECTED_VIDEO="KEY_STATE_SELECTED_VIDEO"
+        const val KEY_LAST_EMITTED_VALUE="KEY_LAST_EMITTED_VALUE"
     }
 }

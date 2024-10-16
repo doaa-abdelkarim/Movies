@@ -1,5 +1,6 @@
 package com.example.movies.presentation.details.children.reviews
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -13,20 +14,27 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movies.MoviesApp
+import com.example.movies.data.remote.apis.APIConstants.Companion.PAGE
 import com.example.movies.databinding.FragmentReviewsBinding
 import com.example.movies.domain.entities.Video
 import com.example.movies.presentation.details.parent.DetailsViewModel
 import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import com.example.movies.util.EndlessRecyclerViewScrollListener
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ReviewsFragment : Fragment() {
+    @Inject
+    @ApplicationContext
+    lateinit var appContext: Context
 
     private var _binding: FragmentReviewsBinding? = null
-    private val binding get() = _binding!!
+    private val binding
+        get() = _binding!!
 
     private val detailsViewModel: DetailsViewModel by viewModels({ requireParentFragment() })
     private val reviewsViewModel: ReviewsViewModel by viewModels()
@@ -69,7 +77,16 @@ class ReviewsFragment : Fragment() {
                                 {
                                     reviewsAdapter.setLoadingProgressBarVisibility(true)
                                     reviewsViewModel.nextPage = page
-                                    reviewsViewModel.getVideoReviews()
+                                    if ((appContext as MoviesApp).isLargeScreen)
+                                        reviewsViewModel.getVideoReviews(
+                                            selectedVideo = detailsViewModel.observableSelectedVideo.value,
+                                        )
+                                    else
+                                        reviewsViewModel.getVideoReviews(
+                                            selectedVideo = arguments?.getParcelable(
+                                                KEY_STATE_SELECTED_VIDEO
+                                            )
+                                        )
                                 },
                                 500
                             )
@@ -81,12 +98,22 @@ class ReviewsFragment : Fragment() {
     }
 
     private fun observeState() {
+        if ((appContext as MoviesApp).isLargeScreen) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    detailsViewModel.observableSelectedVideo.collect {
+                        reviewsViewModel.nextPage = PAGE
+                        reviewsViewModel.reviewsList.clear()
+                        reviewsViewModel.getVideoReviews(selectedVideo = it, isLargeScreen = true)
+                    }
+                }
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 reviewsViewModel.reviews.collect {
-                    Timber.d(it.toString())
                     reviewsAdapter.submitList(it)
-                    reviewsAdapter.notifyDataSetChanged()
                 }
             }
         }

@@ -9,6 +9,7 @@ import com.example.movies.domain.entities.Clip
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseVideosRepository
+import com.example.movies.util.AppConstants.Companion.KEY_LAST_EMITTED_VALUE
 import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -23,7 +24,7 @@ import javax.inject.Inject
 class ClipsViewModel @Inject constructor(
     @MoviesRepo private val moviesRepository: BaseVideosRepository,
     @TVShowsRepo private val tvShowsRepository: BaseVideosRepository,
-    state: SavedStateHandle
+    val state: SavedStateHandle
 ) : ViewModel() {
 
     private val selectedVideo = state.get<Video>(KEY_STATE_SELECTED_VIDEO)
@@ -34,22 +35,37 @@ class ClipsViewModel @Inject constructor(
     val clipsEvent = _clipsEventFlow.asSharedFlow()
 
     init {
-        getVideoClips()
+        getVideoClips(selectedVideo)
     }
 
-    private fun getVideoClips() {
-        viewModelScope.launch {
-            if (selectedVideo != null) {
+    fun getVideoClips(selectedVideo: Video?, isLargeScreen: Boolean) {
+        // Retrieve the last emitted value from SavedStateHandle
+        val lastEmittedValue = state.get<Video?>(KEY_LAST_EMITTED_VALUE)
+        // Only send request if the current value is different from the last one stored
+        if (lastEmittedValue == null || lastEmittedValue != selectedVideo) {
+            getVideoClips(
+                selectedVideo = selectedVideo,
+                doForLargeScreen = {
+                    state[KEY_LAST_EMITTED_VALUE] = selectedVideo
+                }
+            )
+
+        }
+    }
+
+    fun getVideoClips(selectedVideo: Video?, doForLargeScreen: (() -> Unit)? = null) {
+        if (selectedVideo != null)
+            viewModelScope.launch {
                 try {
                     _clips.value = if (selectedVideo is Movie)
                         moviesRepository.getVideoClips(selectedVideo.id ?: -1)
                     else
                         tvShowsRepository.getVideoClips(selectedVideo.id ?: -1)
+                    doForLargeScreen?.invoke()
                 } catch (e: Exception) {
                     Timber.d(e.localizedMessage)
                 }
             }
-        }
     }
 
     fun onClipClicked(clip: Clip) {

@@ -20,9 +20,6 @@ class MoviesViewModel @Inject constructor(
 ) : VideosViewModel(context) {
     override val videosFlow: Flow<PagingData<Video>> = getVideos()
 
-    override fun getVideos(): Flow<PagingData<Video>> {
-        val movies = videosRepository.getVideos().cachedIn(viewModelScope)
-        initializeFirstVideoAsDefaultSelectedVideoForLargeScreen()
-        return movies
-    }
+    override fun getVideos(): Flow<PagingData<Video>> =
+        videosRepository.getVideos().cachedIn(viewModelScope)
 }

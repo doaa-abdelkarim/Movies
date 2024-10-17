@@ -11,37 +11,25 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 abstract class VideosViewModel(
     context: Context,
 ) : AndroidViewModel(context as Application) {
 
-    private val _selectedVideo = MutableStateFlow<Video?>(null)
-    val selectedVideo = _selectedVideo.asStateFlow()
+    abstract val videosFlow: Flow<PagingData<Video>>
 
-//    protected val _videos = MutableStateFlow<List<Video>>(emptyList())
-//    val videos = _videos.asStateFlow()
+    protected abstract fun getVideos(): Flow<PagingData<Video>>
 
     private val _videosEventFlow = MutableSharedFlow<VideosEvent>()
     val videosEvent = _videosEventFlow.asSharedFlow()
 
-    abstract val videosFlow: Flow<PagingData<Video>>
-    protected abstract fun getVideos(): Flow<PagingData<Video>>
-
-    fun initializeFirstVideoAsDefaultSelectedVideoForLargeScreen() {
-//        if (getApplication<MoviesApp>().isLargeScreen &&
-//            _videos.value.isNotEmpty() &&
-//            _selectedVideo.value == null
-//        )
-//            _selectedVideo.value = _videos.value[0]
-    }
+    val selectedVideo = MutableStateFlow<Video?>(null)
 
     fun onVideoClicked(video: Video) {
         viewModelScope.launch {
             if (getApplication<MoviesApp>().isLargeScreen)
-                _selectedVideo.value = video
+                selectedVideo.value = video
             else
                 _videosEventFlow.emit(VideosEvent.NavigateToDetailsScreen(video))
         }

@@ -39,16 +39,16 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
+    @Inject
+    @ApplicationContext
+    lateinit var appContext: Context
+
     private lateinit var videosViewModel: VideosViewModel
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private val detailsViewModel: DetailsViewModel by viewModels()
 
     private lateinit var binding: FragmentDetailsBinding
     private var selectedVideo: Video? = null
-
-    @Inject
-    @ApplicationContext
-    lateinit var appContext: Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,4 +1,4 @@
-package com.example.movies.data.remote.pagingsources
+package com.example.movies.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

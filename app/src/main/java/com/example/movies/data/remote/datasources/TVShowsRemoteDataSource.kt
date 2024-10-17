@@ -6,8 +6,8 @@ import androidx.paging.map
 import com.example.movies.data.remote.apis.MoviesAPI
 import com.example.movies.data.remote.models.asDomainModel
 import com.example.movies.data.remote.models.asTVShowDomainModel
-import com.example.movies.data.remote.pagingsources.ReviewPagingSource
-import com.example.movies.data.remote.pagingsources.VideosPagingSource
+import com.example.movies.data.paging.ReviewPagingSource
+import com.example.movies.data.paging.VideosPagingSource
 import com.example.movies.domain.entities.Clip
 import com.example.movies.domain.entities.Review
 import com.example.movies.domain.entities.Video

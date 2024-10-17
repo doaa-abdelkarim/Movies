@@ -3,9 +3,10 @@ package com.example.movies.presentation.details.children.reviews
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.movies.data.di.MoviesRepo
 import com.example.movies.data.di.TVShowsRepo
-import com.example.movies.data.remote.apis.APIConstants.Companion.PAGE
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Review
 import com.example.movies.domain.entities.Video
@@ -13,10 +14,7 @@ import com.example.movies.domain.repositories.BaseVideosRepository
 import com.example.movies.util.AppConstants.Companion.KEY_LAST_EMITTED_VALUE
 import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import timber.log.Timber
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,62 +25,32 @@ class ReviewsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val selectedVideo = state.get<Video>(KEY_STATE_SELECTED_VIDEO)
-    private var reviewsList = mutableListOf<Review>()
-    var nextPage = PAGE
+    val reviewsFlow = selectedVideo?.let { getVideoReviews(it) }
 
-    private val _reviews = MutableStateFlow<List<Review>>(emptyList())
-    val reviews = _reviews.asStateFlow()
-
-    init {
-        getVideoReviews(selectedVideo)
-    }
-
-    fun getVideoReviews(selectedVideo: Video?, isLargeScreen: Boolean) {
+    fun getVideoReviews(selectedVideo: Video, isLargeScreen: Boolean): Flow<PagingData<Review>>? {
         // Retrieve the last emitted value from SavedStateHandle
         val lastEmittedValue = state.get<Video?>(KEY_LAST_EMITTED_VALUE)
         // Only send request if the current value is different from the last one stored
-        if (lastEmittedValue == null || lastEmittedValue != selectedVideo) {
+        return if (lastEmittedValue == null || lastEmittedValue != selectedVideo) {
             getVideoReviews(
                 selectedVideo = selectedVideo,
                 doForLargeScreen = {
                     state[KEY_LAST_EMITTED_VALUE] = selectedVideo
                 }
             )
+        } else null
+    }
 
+    fun getVideoReviews(
+        selectedVideo: Video,
+        doForLargeScreen: (() -> Unit)? = null
+    ): Flow<PagingData<Review>> {
+        val reviews = if (selectedVideo is Movie) {
+            moviesRepository.getVideoReviews(selectedVideo.id ?: -1).cachedIn(viewModelScope)
+        } else {
+            tvShowsRepository.getVideoReviews(selectedVideo.id ?: -1).cachedIn(viewModelScope)
         }
+        doForLargeScreen?.invoke()
+        return reviews
     }
-
-    fun getVideoReviews(selectedVideo: Video?, doForLargeScreen: (() -> Unit)? = null) {
-        if (selectedVideo != null)
-            viewModelScope.launch {
-                try {
-                    if (selectedVideo is Movie) {
-                        reviewsList.addAll(
-                            moviesRepository.getVideoReviews(
-                                selectedVideo.id ?: -1,
-                                nextPage
-                            )
-                        )
-                        _reviews.value = reviewsList.toList()
-                    } else {
-                        reviewsList.addAll(
-                            tvShowsRepository.getVideoReviews(
-                                selectedVideo.id ?: -1,
-                                nextPage
-                            )
-                        )
-                        _reviews.value = reviewsList.toList()
-                    }
-                    doForLargeScreen?.invoke()
-                } catch (e: Exception) {
-                    Timber.d(e.localizedMessage)
-                }
-            }
-    }
-
-    fun reset() {
-        nextPage = PAGE
-        reviewsList.clear()
-    }
-
 }

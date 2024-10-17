@@ -81,7 +81,12 @@ class ClipsFragment : Fragment() {
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     detailsViewModel.observableSelectedVideo.collect {
-                        clipsViewModel.getVideoClips(selectedVideo = it, isLargeScreen = true)
+                        it?.let {
+                            clipsViewModel.getVideoClips(
+                                selectedVideo = it,
+                                isLargeScreen = true
+                            )
+                        }
                     }
                 }
             }

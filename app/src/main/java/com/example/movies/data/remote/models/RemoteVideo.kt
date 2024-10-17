@@ -2,7 +2,6 @@ package com.example.movies.data.remote.models
 
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.TVShow
-import com.example.movies.domain.entities.Video
 import com.google.gson.annotations.SerializedName
 
 data class RemoteVideo(
@@ -17,7 +16,7 @@ data class RemoteVideo(
     val totalPages: Int? = null,
 
     @field:SerializedName("results")
-    val results: List<Network?>? = null,
+    val results: List<com.example.movies.data.remote.models.VideosResultsItem?>? = null,
 
     @field:SerializedName("total_results")
     val totalResults: Int? = null
@@ -32,7 +31,7 @@ data class Dates(
     val minimum: String? = null
 )
 
-data class Network(
+data class VideosResultsItem(
 
     @field:SerializedName("overview")
     val overview: String? = null,
@@ -89,33 +88,23 @@ data class Network(
     val name: String? = null
 )
 
-fun RemoteVideo.asMovieDomainModel(): List<Video> {
-    return results?.asSequence()
-        ?.filterNotNull()
-        ?.map {
-            Movie(
-                it.id,
-                it.posterPath,
-                it.backdropPath,
-                it.title,
-                it.popularity
-            )
-        }?.toList()
-        ?: listOf()
-}
+fun VideosResultsItem.asMovieDomainModel(): Movie =
+    Movie(
+        id = id,
+        posterPath = posterPath,
+        backdropPath = backdropPath,
+        title = title,
+        popularity = popularity
+    )
 
-fun RemoteVideo.asTVShowDomainModel(): List<Video> {
-    return results?.asSequence()
-        ?.filterNotNull()
-        ?.map {
-            TVShow(
-                it.id,
-                it.posterPath,
-                it.backdropPath,
-                it.name,
-                it.popularity
-            )
-        }?.toList()
-        ?: listOf()
-}
+fun VideosResultsItem.asTVShowDomainModel(): TVShow =
+    TVShow(
+        id = id,
+        posterPath = posterPath,
+        backdropPath = backdropPath,
+        title = name,
+        popularity = popularity
+    )
+
+
 

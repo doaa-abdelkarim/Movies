@@ -1,20 +1,40 @@
 package com.example.movies.data.remote.datasources
 
+import androidx.paging.Pager
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.example.movies.data.remote.apis.MoviesAPI
 import com.example.movies.data.remote.models.asDomainModel
 import com.example.movies.data.remote.models.asTVShowDomainModel
+import com.example.movies.data.remote.pagingsources.ReviewPagingSource
+import com.example.movies.data.remote.pagingsources.VideosPagingSource
 import com.example.movies.domain.entities.Clip
 import com.example.movies.domain.entities.Review
 import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseVideosRepository
+import com.example.movies.util.VideoType.TVSHOW
+import com.example.movies.util.getDefaultPageConfig
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 interface BaseTVShowsRemoteDataSource : BaseVideosRepository
 
 class TVShowsRemoteDataSource(
     private val moviesAPI: MoviesAPI
 ) : BaseTVShowsRemoteDataSource {
-    override suspend fun getVideos(page: Int): List<Video> {
-        return moviesAPI.getTVShows(page).asTVShowDomainModel()
+    override fun getVideos(): Flow<PagingData<Video>> {
+//        return moviesAPI.getTVShows().asTVShowDomainModel()
+        return Pager(
+            config = getDefaultPageConfig(),
+            pagingSourceFactory = {
+                VideosPagingSource(
+                    moviesAPI = moviesAPI,
+                    videoType = TVSHOW
+                )
+            }
+        ).flow.map {
+            it.map { video -> video.asTVShowDomainModel() }
+        }
     }
 
     override suspend fun getVideoInfo(videoId: Int): Video {
@@ -25,8 +45,20 @@ class TVShowsRemoteDataSource(
         return moviesAPI.getTVShowClips(videoId).asDomainModel()
     }
 
-    override suspend fun getVideoReviews(videoId: Int, page: Int): List<Review> {
-        return moviesAPI.getTVShowReviews(videoId, page).asDomainModel()
+    override fun getVideoReviews(videoId: Int): Flow<PagingData<Review>> {
+//        return moviesAPI.getTVShowReviews(videoId).asDomainModel()
+        return Pager(
+            config = getDefaultPageConfig(),
+            pagingSourceFactory = {
+                ReviewPagingSource(
+                    moviesAPI = moviesAPI,
+                    videoType = TVSHOW,
+                    videoId = videoId
+                )
+            }
+        ).flow.map {
+            it.map { review -> review.asDomainModel(videoId = videoId) }
+        }
     }
 
     override suspend fun cacheVideos(videos: List<Video>) {

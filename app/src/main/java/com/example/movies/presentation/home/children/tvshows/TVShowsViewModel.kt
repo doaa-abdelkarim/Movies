@@ -2,13 +2,15 @@ package com.example.movies.presentation.home.children.tvshows
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.movies.data.di.TVShowsRepo
+import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseVideosRepository
 import com.example.movies.presentation.home.base.VideosViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.launch
-import timber.log.Timber
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,20 +19,12 @@ class TVShowsViewModel @Inject constructor(
     @TVShowsRepo private val videosRepository: BaseVideosRepository,
 ) : VideosViewModel(context) {
 
-    init {
-        getVideos()
-    }
+    override val videosFlow: Flow<PagingData<Video>> = getVideos()
 
-    override fun getVideos() {
-        viewModelScope.launch {
-            try {
-                videosList.addAll(videosRepository.getVideos(nextPage))
-                _videos.value = videosList
-                initializeFirstVideoAsDefaultSelectedVideoForLargeScreen()
-            } catch (e: Exception) {
-                Timber.d(e.localizedMessage)
-            }
-        }
+    override fun getVideos(): Flow<PagingData<Video>> {
+        val tvShowsFlow = videosRepository.getVideos().cachedIn(viewModelScope)
+        initializeFirstVideoAsDefaultSelectedVideoForLargeScreen()
+        return tvShowsFlow
     }
 
 }

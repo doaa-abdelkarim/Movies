@@ -3,9 +3,9 @@ package com.example.movies.presentation.details.children.clips
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import com.example.movies.base.adapter.BaseAdapter
 import com.example.movies.databinding.ItemClipBinding
 import com.example.movies.domain.entities.Clip
+import com.example.movies.presentation.adapter.BaseAdapter
 
 
 class ClipsAdapter(private val onItemClickListener: OnItemClickListener) :
@@ -15,7 +15,7 @@ class ClipsAdapter(private val onItemClickListener: OnItemClickListener) :
         return ClipsViewHolder.from(parent, onItemClickListener)
     }
 
-     class ClipsViewHolder(private val binding: ItemClipBinding) :
+    class ClipsViewHolder(private val binding: ItemClipBinding) :
         BaseViewHolder<Clip>(binding.root) {
 
         companion object {
@@ -29,19 +29,19 @@ class ClipsAdapter(private val onItemClickListener: OnItemClickListener) :
             }
         }
 
-         override fun bind(item: Clip) {
-             binding.clip = item
-         }
-     }
+        override fun bind(item: Clip) {
+            binding.clip = item
+        }
+    }
 
-    class OnItemClickListener (val listener: (clip: Clip) -> Unit) {
+    class OnItemClickListener(val listener: (clip: Clip) -> Unit) {
         fun onItemClick(clip: Clip) {
             listener(clip)
         }
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Clip>() {
-        override fun areItemsTheSame(oldItem: Clip, newItem: Clip)  =
+        override fun areItemsTheSame(oldItem: Clip, newItem: Clip) =
             oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: Clip, newItem: Clip) =

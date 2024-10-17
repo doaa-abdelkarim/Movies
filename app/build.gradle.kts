@@ -133,6 +133,9 @@ dependencies {
     //Work Manager
     val workVersion = "2.9.1"
     implementation(libs.androidx.work.runtime.ktx)
+
+    //Paging3
+    implementation(libs.androidx.paging.runtime)
 }
 
 kapt {

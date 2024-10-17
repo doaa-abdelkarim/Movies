@@ -4,18 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movies.base.adapter.BasePaginationAdapter
+import com.example.movies.presentation.adapter.BasePagingDataAdapter
 import com.example.movies.databinding.ItemVideoBinding
 import com.example.movies.domain.entities.Video
 
 class VideosAdapter(private val onItemClickListener: OnItemClickListener) :
-    BasePaginationAdapter<Video>(DiffCallback()) {
+    BasePagingDataAdapter<Video>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == TYPE_LOADING_FOOTER)
-            ListLoadingViewHolder.from(parent)
-        else
-            VideoViewHolder.from(parent, onItemClickListener)
+        return VideoViewHolder.from(parent, onItemClickListener)
     }
 
     class VideoViewHolder(private val binding: ItemVideoBinding) :
@@ -32,7 +29,7 @@ class VideosAdapter(private val onItemClickListener: OnItemClickListener) :
             }
         }
 
-        override fun bind(item: Video) {
+        override fun bind(item: Video?) {
             binding.video = item
         }
     }

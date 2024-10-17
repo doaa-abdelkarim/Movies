@@ -60,19 +60,15 @@ data class AuthorDetails(
     val username: String? = null
 )
 
-fun RemoteReviews.asDomainModel() =
-    results?.asSequence()
-        ?.filterNotNull()
-        ?.map {
-            Review(
-                this.id,
-                it.id,
-                it.authorDetails?.username,
-                it.authorDetails?.avatarPath,
-                it.content
-            )
-        }?.toList()
-        ?: listOf()
+fun ReviewsResultsItem.asDomainModel(videoId: Int): Review =
+    Review(
+        videoId = videoId,
+        id = id,
+        username = authorDetails?.username,
+        avatarPath = authorDetails?.avatarPath,
+        content = content
+    )
+
 
 
 

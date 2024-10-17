@@ -28,10 +28,10 @@ class InfoViewModel @Inject constructor(
     val info = _info.asStateFlow()
 
     init {
-        getVideoInfo(selectedVideo)
+        selectedVideo?.let { getVideoInfo(it) }
     }
 
-    fun getVideoInfo(selectedVideo: Video?, isLargeScreen: Boolean) {
+    fun getVideoInfo(selectedVideo: Video, isLargeScreen: Boolean) {
         // Retrieve the last emitted value from SavedStateHandle
         val lastEmittedValue = state.get<Video?>(KEY_LAST_EMITTED_VALUE)
         // Only send request if the current value is different from the last one stored
@@ -46,19 +46,18 @@ class InfoViewModel @Inject constructor(
         }
     }
 
-    fun getVideoInfo(selectedVideo: Video?, doForLargeScreen: (() -> Unit)? = null) {
-        if (selectedVideo != null)
-            viewModelScope.launch {
-                try {
-                    _info.value = if (selectedVideo is Movie)
-                        moviesRepository.getVideoInfo(selectedVideo.id ?: -1)
-                    else
-                        tvShowsRepository.getVideoInfo(selectedVideo.id ?: -1)
-                    doForLargeScreen?.invoke()
-                } catch (e: Exception) {
-                    Timber.d(e.localizedMessage)
-                }
+    fun getVideoInfo(selectedVideo: Video, doForLargeScreen: (() -> Unit)? = null) {
+        viewModelScope.launch {
+            try {
+                _info.value = if (selectedVideo is Movie)
+                    moviesRepository.getVideoInfo(selectedVideo.id ?: -1)
+                else
+                    tvShowsRepository.getVideoInfo(selectedVideo.id ?: -1)
+                doForLargeScreen?.invoke()
+            } catch (e: Exception) {
+                Timber.d(e.localizedMessage)
             }
+        }
     }
 }
 

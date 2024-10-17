@@ -9,10 +9,10 @@ data class RemoteClips(
     val id: Int? = null,
 
     @field:SerializedName("results")
-    val results: List<VideosResultsItem?>? = null
+    val results: List<ClipsResultsItem?>? = null
 )
 
-data class VideosResultsItem(
+data class ClipsResultsItem(
 
     @field:SerializedName("site")
     val site: String? = null,

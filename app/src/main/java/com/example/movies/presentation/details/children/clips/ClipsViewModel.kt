@@ -35,10 +35,10 @@ class ClipsViewModel @Inject constructor(
     val clipsEvent = _clipsEventFlow.asSharedFlow()
 
     init {
-        getVideoClips(selectedVideo)
+        selectedVideo?.let { getVideoClips(it) }
     }
 
-    fun getVideoClips(selectedVideo: Video?, isLargeScreen: Boolean) {
+    fun getVideoClips(selectedVideo: Video, isLargeScreen: Boolean) {
         // Retrieve the last emitted value from SavedStateHandle
         val lastEmittedValue = state.get<Video?>(KEY_LAST_EMITTED_VALUE)
         // Only send request if the current value is different from the last one stored
@@ -53,19 +53,19 @@ class ClipsViewModel @Inject constructor(
         }
     }
 
-    fun getVideoClips(selectedVideo: Video?, doForLargeScreen: (() -> Unit)? = null) {
-        if (selectedVideo != null)
-            viewModelScope.launch {
-                try {
-                    _clips.value = if (selectedVideo is Movie)
-                        moviesRepository.getVideoClips(selectedVideo.id ?: -1)
-                    else
-                        tvShowsRepository.getVideoClips(selectedVideo.id ?: -1)
-                    doForLargeScreen?.invoke()
-                } catch (e: Exception) {
-                    Timber.d(e.localizedMessage)
-                }
+    fun getVideoClips(selectedVideo: Video, doForLargeScreen: (() -> Unit)? = null) {
+        viewModelScope.launch {
+            try {
+                _clips.value = if (selectedVideo is Movie)
+                    moviesRepository.getVideoClips(selectedVideo.id ?: -1)
+                else
+                    tvShowsRepository.getVideoClips(selectedVideo.id ?: -1)
+                doForLargeScreen?.invoke()
+            } catch (e: Exception) {
+                Timber.d(e.localizedMessage)
             }
+
+        }
     }
 
     fun onClipClicked(clip: Clip) {

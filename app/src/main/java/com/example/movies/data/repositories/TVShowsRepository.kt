@@ -1,5 +1,6 @@
 package com.example.movies.data.repositories
 
+import androidx.paging.PagingData
 import com.example.movies.data.local.datasources.BaseTVShowsLocalDataSource
 import com.example.movies.data.remote.datasources.BaseTVShowsRemoteDataSource
 import com.example.movies.domain.entities.Clip
@@ -7,19 +8,20 @@ import com.example.movies.domain.entities.Review
 import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseVideosRepository
 import com.example.movies.util.NetworkHandler
+import kotlinx.coroutines.flow.Flow
 
 class TVShowsRepository(
     private val baseTVShowsRemoteDataSource: BaseTVShowsRemoteDataSource,
     private val baseTVShowsLocalDataSource: BaseTVShowsLocalDataSource,
     private val networkHandler: NetworkHandler
 ) : BaseVideosRepository {
-    override suspend fun getVideos(page: Int): List<Video> {
+    override fun getVideos(): Flow<PagingData<Video>> {
         if (networkHandler.isOnline()) {
-            val tvShows = baseTVShowsRemoteDataSource.getVideos(page)
-            baseTVShowsLocalDataSource.cacheVideos(tvShows)
+            val tvShows = baseTVShowsRemoteDataSource.getVideos()
+//            baseTVShowsLocalDataSource.cacheVideos(tvShows)
             return tvShows
         }
-        return baseTVShowsLocalDataSource.getVideos(page)
+        return baseTVShowsLocalDataSource.getVideos()
     }
 
     override suspend fun getVideoInfo(videoId: Int): Video {
@@ -40,13 +42,13 @@ class TVShowsRepository(
         return baseTVShowsLocalDataSource.getVideoClips(videoId)
     }
 
-    override suspend fun getVideoReviews(videoId: Int, page: Int): List<Review> {
+    override fun getVideoReviews(videoId: Int): Flow<PagingData<Review>> {
         if (networkHandler.isOnline()) {
-            val reviews = baseTVShowsRemoteDataSource.getVideoReviews(videoId, page)
-            baseTVShowsLocalDataSource.cacheVideoReviews(reviews)
+            val reviews = baseTVShowsRemoteDataSource.getVideoReviews(videoId)
+//            baseTVShowsLocalDataSource.cacheVideoReviews(reviews)
             return reviews
         }
-        return baseTVShowsLocalDataSource.getVideoReviews(videoId, page)
+        return baseTVShowsLocalDataSource.getVideoReviews(videoId)
     }
 
     override suspend fun cacheVideos(videos: List<Video>) {

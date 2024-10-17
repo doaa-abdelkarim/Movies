@@ -1,5 +1,6 @@
 package com.example.movies.data.local.datasources
 
+import androidx.paging.PagingData
 import com.example.movies.data.local.db.dao.MovieClipsDao
 import com.example.movies.data.local.db.dao.MovieReviewsDao
 import com.example.movies.data.local.db.dao.MoviesDao
@@ -11,6 +12,7 @@ import com.example.movies.domain.entities.asMovieClipsDatabaseModel
 import com.example.movies.domain.entities.asMovieDatabaseModel
 import com.example.movies.domain.entities.asMovieReviewsDatabaseModel
 import com.example.movies.domain.repositories.BaseVideosRepository
+import kotlinx.coroutines.flow.Flow
 
 interface BaseMoviesLocalDataSource : BaseVideosRepository
 
@@ -20,8 +22,9 @@ class MoviesLocalDataSource(
     private val movieReviewsDao: MovieReviewsDao
 ) : BaseMoviesLocalDataSource {
 
-    override suspend fun getVideos(page: Int): List<Video> {
-        return moviesDao.getAllMovies().asDomainModel()
+    override fun getVideos(): Flow<PagingData<Video>> {
+//        return moviesDao.getAllMovies().asDomainModel()
+        TODO("Not yet implemented")
     }
 
     override suspend fun getVideoInfo(videoId: Int): Video {
@@ -32,8 +35,9 @@ class MoviesLocalDataSource(
         return movieClipsDao.getAllClips(videoId).asDomainModel()
     }
 
-    override suspend fun getVideoReviews(videoId: Int, page: Int): List<Review> {
-        return movieReviewsDao.getAllReviews(videoId).asDomainModel()
+    override fun getVideoReviews(videoId: Int): Flow<PagingData<Review>> {
+//        return movieReviewsDao.getAllReviews(videoId).asDomainModel()
+        TODO("Not yet implemented")
     }
 
     override suspend fun cacheVideos(videos: List<Video>) {

@@ -44,7 +44,9 @@ class InfoFragment : Fragment(R.layout.fragment_info) {
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     detailsViewModel.observableSelectedVideo.collect {
-                        infoViewModel.getVideoInfo(selectedVideo = it, isLargeScreen = true)
+                        it?.let {
+                            infoViewModel.getVideoInfo(selectedVideo = it, isLargeScreen = true)
+                        }
                     }
                 }
             }

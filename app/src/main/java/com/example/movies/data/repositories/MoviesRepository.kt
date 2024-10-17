@@ -1,5 +1,6 @@
 package com.example.movies.data.repositories
 
+import androidx.paging.PagingData
 import com.example.movies.data.local.datasources.BaseMoviesLocalDataSource
 import com.example.movies.data.remote.datasources.BaseMoviesRemoteDataSource
 import com.example.movies.domain.entities.Clip
@@ -7,19 +8,20 @@ import com.example.movies.domain.entities.Review
 import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseVideosRepository
 import com.example.movies.util.NetworkHandler
+import kotlinx.coroutines.flow.Flow
 
 class MoviesRepository(
     private val baseMoviesRemoteDataSource: BaseMoviesRemoteDataSource,
     private val baseMoviesLocalDataSource: BaseMoviesLocalDataSource,
     private val networkHandler: NetworkHandler
 ) : BaseVideosRepository {
-    override suspend fun getVideos(page: Int): List<Video> {
+    override fun getVideos(): Flow<PagingData<Video>> {
         if (networkHandler.isOnline()) {
-            val movies = baseMoviesRemoteDataSource.getVideos(page)
-            baseMoviesLocalDataSource.cacheVideos(movies)
+            val movies = baseMoviesRemoteDataSource.getVideos()
+//            baseMoviesLocalDataSource.cacheVideos(movies)
             return movies
         }
-        return baseMoviesLocalDataSource.getVideos(page)
+        return baseMoviesLocalDataSource.getVideos()
     }
 
     override suspend fun getVideoInfo(videoId: Int): Video {
@@ -40,13 +42,13 @@ class MoviesRepository(
         return baseMoviesLocalDataSource.getVideoClips(videoId)
     }
 
-    override suspend fun getVideoReviews(videoId: Int, page: Int): List<Review> {
+    override fun getVideoReviews(videoId: Int): Flow<PagingData<Review>> {
         if (networkHandler.isOnline()) {
-            val reviews = baseMoviesRemoteDataSource.getVideoReviews(videoId, page)
-            baseMoviesLocalDataSource.cacheVideoReviews(reviews)
+            val reviews = baseMoviesRemoteDataSource.getVideoReviews(videoId)
+//            baseMoviesLocalDataSource.cacheVideoReviews(reviews)
             return reviews
         }
-        return baseMoviesLocalDataSource.getVideoReviews(videoId, page)
+        return baseMoviesLocalDataSource.getVideoReviews(videoId)
     }
 
     override suspend fun cacheVideos(videos: List<Video>) {

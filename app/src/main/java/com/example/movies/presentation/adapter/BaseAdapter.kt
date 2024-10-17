@@ -1,4 +1,5 @@
-package com.example.movies.base.adapter
+package com.example.movies.presentation.adapter
+
 //CodeReview adapters package should be under UI package
 import android.view.View
 import androidx.recyclerview.widget.DiffUtil

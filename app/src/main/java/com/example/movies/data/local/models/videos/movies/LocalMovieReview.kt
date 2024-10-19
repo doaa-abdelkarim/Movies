@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.example.movies.domain.entities.Review
 
 @Entity(
-    tableName = "movie_review_table",
+    tableName = "movie_reviews_table",
     foreignKeys = [ForeignKey(
         entity = LocalMovie::class,
         parentColumns = arrayOf("id"),
@@ -15,7 +15,7 @@ import com.example.movies.domain.entities.Review
     )]
 )
 data class LocalMovieReview(
-    val videoId: Int? = null,
+    val videoId: Int,
     @PrimaryKey
     val id: String,
     val username: String? = null,

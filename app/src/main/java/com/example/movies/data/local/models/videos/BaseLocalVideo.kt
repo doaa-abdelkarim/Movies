@@ -4,7 +4,7 @@ import android.net.Uri
 import com.example.movies.util.AppConstants.Companion.IMAGE_BASE_URL
 
 abstract class BaseLocalVideo {
-    abstract val id: Int?
+    abstract val id: Int
     abstract val posterPath: String?
     abstract val backdropPath: String?
     abstract val title: String?

@@ -13,7 +13,7 @@ interface FavoriteMoviesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(databaseFavoriteMovie: LocalFavoriteMovie)
 
-    @Query("SELECT m.id, m.posterPath, m.title  FROM movie_table m JOIN favorite_movies_table f ON m.id = f.videoId ORDER BY f.id")
+    @Query("SELECT m.id, m.posterPath, m.title  FROM movies_table m JOIN favorite_movies_table f ON m.id = f.videoId ORDER BY f.id")
     suspend fun getAllFavoritesMovie(): List<LocalMovie>
 
 }

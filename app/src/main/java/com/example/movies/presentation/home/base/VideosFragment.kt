@@ -40,21 +40,26 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
         listenToEvents()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
     private fun initRecyclerView(view: View) {
-        videosAdapter = VideosAdapter(
-            VideosAdapter.OnItemClickListener {
-                videosViewModel.onVideoClicked(it)
-            }
-        ).apply {
-            if ((appContext as MoviesApp).isLargeScreen)
-                addLoadStateListener { loadStates ->
-                    if (videosViewModel.selectedVideo.value == null &&
-                        loadStates.refresh is LoadState.NotLoading && itemCount > 0
-                    ) {
-                        videosViewModel.selectedVideo.value = peek(0)
-                    }
+        if (!::videosAdapter.isInitialized)
+            videosAdapter = VideosAdapter(
+                VideosAdapter.OnItemClickListener {
+                    videosViewModel.onVideoClicked(it)
                 }
-        }
+            ).apply {
+                if ((appContext as MoviesApp).isLargeScreen)
+                    addLoadStateListener { loadStates ->
+                        if (videosViewModel.selectedVideo.value == null &&
+                            loadStates.refresh is LoadState.NotLoading && itemCount > 0
+                        ) {
+                            videosViewModel.selectedVideo.value = peek(0)
+                        }
+                    }
+            }
 
         view.findViewById<RecyclerView>(R.id.recycler_view_videos_list).apply {
             adapter = videosAdapter

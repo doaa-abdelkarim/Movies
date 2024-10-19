@@ -12,9 +12,12 @@ interface TVShowsDao {
     @Update
     suspend fun update(localTVShow: LocalTVShow)
 
-    @Query("SELECT * FROM tv_show_table")
+    @Query("SELECT * FROM tv_shows_table")
     suspend fun getAllTVShows(): List<LocalTVShow>
 
-    @Query("SELECT * FROM tv_show_table where id = :id")
+    @Query("SELECT * FROM tv_shows_table where id = :id")
     suspend fun getTVShowById(id: Int): LocalTVShow
+
+    @Query("DELETE FROM tv_shows_table")
+    suspend fun clearTVShows()
 }

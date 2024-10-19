@@ -50,10 +50,10 @@ fun RemoteClips.asDomainModel() =
         ?.filterNotNull()
         ?.map {
             Clip(
-                this.id,
-                it.id,
-                it.name,
-                it.key
+                videoId = this.id!!,
+                id = it.id!!,
+                name = it.name,
+                key = it.key
             )
         }?.toList()
         ?: listOf()

@@ -4,8 +4,8 @@ import com.example.movies.data.local.models.videos.movies.LocalMovie
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Movie (
-    override val id: Int? = null,
+data class Movie(
+    override val id: Int,
     override val posterPath: String? = null,
     override val backdropPath: String? = null,
     override val title: String? = null,
@@ -16,17 +16,38 @@ data class Movie (
     override val releaseDate: String? = null,
     val revenue: Int? = null,
     override val originalTitle: String? = null
-): Video()
+) : Video()
 
 fun Video.asMovieDatabaseModel(): LocalMovie {
-    return LocalMovie(id, posterPath, backdropPath, title, popularity, genres,
-        originalLanguage, overview, releaseDate, (this as Movie).revenue, originalTitle)
+    return LocalMovie(
+        id = id,
+        posterPath = posterPath,
+        backdropPath = backdropPath,
+        title = title,
+        popularity = popularity,
+        genres = genres,
+        originalLanguage = originalLanguage,
+        overview = overview,
+        releaseDate = releaseDate,
+        revenue = (this as Movie).revenue,
+        originalTitle = originalTitle
+    )
 }
 
 fun List<Video>.asMovieDatabaseModel(): List<LocalMovie> {
     return map {
-            LocalMovie(it.id, it.posterPath, it.backdropPath, it.title, it.popularity, it.genres,
-                it.originalLanguage, it.overview, it.releaseDate, (it as Movie).revenue, it.originalTitle
-            )
-        }
+        LocalMovie(
+            id = it.id,
+            posterPath = it.posterPath,
+            backdropPath = it.backdropPath,
+            title = it.title,
+            popularity = it.popularity,
+            genres = it.genres,
+            originalLanguage = it.originalLanguage,
+            overview = it.overview,
+            releaseDate = it.releaseDate,
+            revenue = (it as Movie).revenue,
+            originalTitle = it.originalTitle
+        )
+    }
 }

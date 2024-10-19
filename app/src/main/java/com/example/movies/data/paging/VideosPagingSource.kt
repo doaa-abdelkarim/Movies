@@ -22,9 +22,9 @@ class VideosPagingSource(
         return try {
             val response =
                 if (videoType == VideoType.MOVIE)
-                    moviesAPI.getMovies(currentPage)
+                    moviesAPI.getMovies(page = currentPage)
                 else
-                    moviesAPI.getTVShows(currentPage)
+                    moviesAPI.getTVShows(page = currentPage)
             LoadResult.Page(
                 data = response.results as List<VideosResultsItem>,
                 prevKey = if (currentPage == DEFAULT_PAGE_INDEX) null else currentPage - 1,

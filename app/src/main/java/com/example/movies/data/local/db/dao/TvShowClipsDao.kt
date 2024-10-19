@@ -12,7 +12,7 @@ interface TvShowClipsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(clips: List<LocalTVShowClip>)
 
-    @Query("SELECT * FROM tv_show_clip_table WHERE videoId = :tvShowId")
+    @Query("SELECT * FROM tv_show_clips_table WHERE videoId = :tvShowId")
     suspend fun getAllClips(tvShowId: Int): List<LocalTVShowClip>
 
 }

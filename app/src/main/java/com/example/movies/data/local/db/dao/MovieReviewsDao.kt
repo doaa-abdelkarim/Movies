@@ -12,7 +12,10 @@ interface MovieReviewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(reviews: List<LocalMovieReview>)
 
-    @Query("SELECT * FROM movie_review_table WHERE videoId = :movieId")
+    @Query("SELECT * FROM movie_reviews_table WHERE videoId = :movieId")
     suspend fun getAllReviews(movieId: Int): List<LocalMovieReview>
+
+    @Query("DELETE FROM movie_reviews_table")
+    suspend fun clearReviews()
 
 }

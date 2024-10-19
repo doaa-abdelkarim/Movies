@@ -5,10 +5,10 @@ import androidx.room.PrimaryKey
 import com.example.movies.data.local.models.videos.BaseLocalVideo
 import com.example.movies.domain.entities.TVShow
 
-@Entity(tableName = "tv_show_table")
+@Entity(tableName = "tv_shows_table")
 data class LocalTVShow (
     @PrimaryKey
-    override val id: Int? = null,
+    override val id: Int,
     override val posterPath: String? = null,
     override val backdropPath: String? = null,
     override val title: String? = null,

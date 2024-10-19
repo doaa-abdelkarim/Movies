@@ -98,8 +98,18 @@ data class BelongsToCollection(
 )
 
 fun RemoteMovieDetails.asDomainModel() =
-    Movie(id, posterPath, backdropPath,  title, popularity, genres?.map { it?.name }?.joinToString(),
-        originalLanguage, overview, releaseDate, revenue, originalTitle
+    Movie(
+        id = id!!,
+        posterPath = posterPath,
+        backdropPath = backdropPath,
+        title = title,
+        popularity = popularity,
+        genres = genres?.map { it?.name }?.joinToString(),
+        originalLanguage = originalLanguage,
+        overview = overview,
+        releaseDate = releaseDate,
+        revenue = revenue,
+        originalTitle = originalTitle
     )
 
 

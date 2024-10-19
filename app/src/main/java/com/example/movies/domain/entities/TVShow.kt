@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class TVShow (
-    override val id: Int? = null,
+    override val id: Int,
     override val posterPath: String? = null,
     override val backdropPath: String? = null,
     override val title: String? = null,

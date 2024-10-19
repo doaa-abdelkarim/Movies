@@ -47,27 +47,24 @@ class RepositoryModule {
         baseMoviesRemoteDataSource: BaseMoviesRemoteDataSource,
         baseMoviesLocalDataSource: BaseMoviesLocalDataSource,
         networkHandler: NetworkHandler
-    ): BaseVideosRepository {
-        return MoviesRepository(
+    ): BaseVideosRepository =
+        MoviesRepository(
             baseMoviesRemoteDataSource,
             baseMoviesLocalDataSource,
             networkHandler
         )
-    }
 
     @Provides
-    fun provideMoviesRemoteDataSource(moviesAPI: MoviesAPI): BaseMoviesRemoteDataSource {
-        return MoviesRemoteDataSource(moviesAPI)
-    }
+    fun provideMoviesRemoteDataSource(moviesAPI: MoviesAPI): BaseMoviesRemoteDataSource =
+        MoviesRemoteDataSource(moviesAPI)
 
     @Provides
     fun provideMoviesLocalDataSource(
         moviesDao: MoviesDao,
         movieClipsDao: MovieClipsDao,
         movieReviewsDao: MovieReviewsDao
-    ): BaseMoviesLocalDataSource {
-        return MoviesLocalDataSource(moviesDao, movieClipsDao, movieReviewsDao)
-    }
+    ): BaseMoviesLocalDataSource =
+        MoviesLocalDataSource(moviesDao, movieClipsDao, movieReviewsDao)
 
     @Provides
     @TVShowsRepo
@@ -75,62 +72,54 @@ class RepositoryModule {
         baseTVShowsRemoteDataSource: BaseTVShowsRemoteDataSource,
         baseTVShowsLocalDataSource: BaseTVShowsLocalDataSource,
         networkHandler: NetworkHandler
-    ): BaseVideosRepository {
-        return TVShowsRepository(
+    ): BaseVideosRepository =
+        TVShowsRepository(
             baseTVShowsRemoteDataSource,
             baseTVShowsLocalDataSource,
             networkHandler
         )
-    }
 
     @Provides
-    fun provideTVShowsRemoteDataSource(moviesAPI: MoviesAPI): BaseTVShowsRemoteDataSource {
-        return TVShowsRemoteDataSource(moviesAPI)
-    }
+    fun provideTVShowsRemoteDataSource(moviesAPI: MoviesAPI): BaseTVShowsRemoteDataSource =
+        TVShowsRemoteDataSource(moviesAPI)
 
     @Provides
     fun provideTVShowsLocalDataSource(
         tvShowsDao: TVShowsDao,
         tvShowClipsDao: TvShowClipsDao,
         tvShowReviewsDao: TvShowReviewsDao
-    ): BaseTVShowsLocalDataSource {
-        return TVShowsLocalDataSource(tvShowsDao, tvShowClipsDao, tvShowReviewsDao)
-    }
+    ): BaseTVShowsLocalDataSource =
+        TVShowsLocalDataSource(tvShowsDao, tvShowClipsDao, tvShowReviewsDao)
 
     @Provides
     @FavoriteMoviesRepo
     fun provideFavoriteMoviesRepository(
         baseFavoriteMoviesLocalDataSource: BaseFavoriteMoviesLocalDataSource
-    ): BaseFavoriteRepository {
-        return FavoriteMoviesRepository(baseFavoriteMoviesLocalDataSource)
-    }
+    ): BaseFavoriteRepository =
+        FavoriteMoviesRepository(baseFavoriteMoviesLocalDataSource)
 
     @Provides
     fun provideFavoriteMoviesLocalDataSource(
         favoriteMoviesDao: FavoriteMoviesDao
-    ): BaseFavoriteMoviesLocalDataSource {
-        return FavoriteMoviesLocalDataSource(favoriteMoviesDao)
-    }
+    ): BaseFavoriteMoviesLocalDataSource =
+        FavoriteMoviesLocalDataSource(favoriteMoviesDao)
 
     @Provides
     @FavoriteTVShowsRepo
     fun provideFavoriteTVShowsRepository(
         baseFavoriteTVShowsLocalDataSource: BaseFavoriteTVShowsLocalDataSource
-    ): BaseFavoriteRepository {
-        return FavoriteTVShowsRepository(baseFavoriteTVShowsLocalDataSource)
-    }
+    ): BaseFavoriteRepository =
+        FavoriteTVShowsRepository(baseFavoriteTVShowsLocalDataSource)
 
     @Provides
     fun provideFavoriteTVShowsLocalDataSource(
         favoriteTVShowsDao: FavoriteTVShowsDao
-    ): BaseFavoriteTVShowsLocalDataSource {
-        return FavoriteTVShowsLocalDataSource(favoriteTVShowsDao)
-    }
+    ): BaseFavoriteTVShowsLocalDataSource =
+        FavoriteTVShowsLocalDataSource(favoriteTVShowsDao)
 
     @Provides
-    fun provideNetworkHandler(@ApplicationContext context: Context): NetworkHandler {
-        return NetworkHandlerImpl(context)
-    }
+    fun provideNetworkHandler(@ApplicationContext context: Context): NetworkHandler =
+        NetworkHandlerImpl(context)
 
 }
 

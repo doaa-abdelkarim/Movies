@@ -1,6 +1,5 @@
 package com.example.movies.data.di
 
-import android.util.Log
 import com.example.movies.data.remote.apis.APIConstants.Companion.API_KEY
 import com.example.movies.data.remote.apis.APIConstants.Companion.BASE_URL
 import com.example.movies.data.remote.apis.APIConstants.Companion.LANGUAGE
@@ -17,6 +16,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -34,12 +34,13 @@ class NetworkModule {
         baseUrl: String,
         gsonConverterFactory: GsonConverterFactory,
         okHttpClient: OkHttpClient
-    ) = Retrofit
-        .Builder()
-        .baseUrl(baseUrl)
-        .addConverterFactory(gsonConverterFactory)
-        .client(okHttpClient)
-        .build()
+    ): Retrofit =
+        Retrofit
+            .Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(gsonConverterFactory)
+            .client(okHttpClient)
+            .build()
 
     @Provides
     @Singleton
@@ -47,7 +48,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideConvertFactory() = GsonConverterFactory.create()
+    fun provideConvertFactory(): GsonConverterFactory =
+        GsonConverterFactory.create()
 
     @Provides
     @Singleton
@@ -55,22 +57,18 @@ class NetworkModule {
         loggingInterceptor: HttpLoggingInterceptor,
         @LangInterceptor langInterceptor: Interceptor,
         @AuthInterceptor authInterceptor: Interceptor
-    ): OkHttpClient {
-        return OkHttpClient
+    ): OkHttpClient =
+        OkHttpClient
             .Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor(langInterceptor)
             .addInterceptor(authInterceptor)
             .build()
-    }
 
     @Provides
     @Singleton
     fun provideLoggingInterceptor() = HttpLoggingInterceptor { message ->
-        Log.e(
-            TAG_OK_HTTP,
-            message
-        )
+        Timber.tag(TAG_OK_HTTP).e(message)
     }.setLevel(HttpLoggingInterceptor.Level.BODY)
 
 

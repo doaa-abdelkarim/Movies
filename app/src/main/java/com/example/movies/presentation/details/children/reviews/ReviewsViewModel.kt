@@ -2,7 +2,9 @@ package com.example.movies.presentation.details.children.reviews
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.movies.data.di.MoviesRepo
 import com.example.movies.data.di.TVShowsRepo
 import com.example.movies.domain.entities.Movie
@@ -48,13 +50,17 @@ class ReviewsViewModel @Inject constructor(
 //            moviesRepository.getVideoReviews(selectedVideo.id).cachedIn(viewModelScope)
 
             //Room is the single source of truth
-            moviesRepository.getVideoReviews(selectedVideo.id)
+//            moviesRepository.getVideoReviews(selectedVideo.id)
+            //As I see without caching it does not survive configuration change
+            moviesRepository.getVideoReviews(selectedVideo.id).cachedIn(viewModelScope)
         } else {
             //Network is the single source of truth
 //            tvShowsRepository.getVideoReviews(selectedVideo.id).cachedIn(viewModelScope)
 
             //Room is the single source of truth
-            tvShowsRepository.getVideoReviews(selectedVideo.id)
+//            tvShowsRepository.getVideoReviews(selectedVideo.id)
+            //As I see without caching it does not survive configuration change
+            tvShowsRepository.getVideoReviews(selectedVideo.id).cachedIn(viewModelScope)
         }
         doForLargeScreen?.invoke()
         return reviews

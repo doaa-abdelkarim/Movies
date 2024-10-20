@@ -26,5 +26,7 @@ class MoviesViewModel @Inject constructor(
 //        videosRepository.getVideos().cachedIn(viewModelScope)
 
         //Room is the single source of truth
-        videosRepository.getVideos()
+//        videosRepository.getVideos()
+        //As I see without caching it does not survive configuration change
+        videosRepository.getVideos().cachedIn(viewModelScope)
 }

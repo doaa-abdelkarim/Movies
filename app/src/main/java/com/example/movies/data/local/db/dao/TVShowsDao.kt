@@ -17,7 +17,12 @@ interface TVShowsDao {
     @Update
     suspend fun update(localTVShow: LocalTVShow)
 
-    @Query("SELECT * FROM tv_shows_table")
+    /*
+    I added Order by createdAt ASC to fix RemoteMediator pagination issue according to answer
+    suggested in this link until I find better solution to this issue
+    https://stackoverflow.com/a/76556967
+     */
+    @Query("SELECT * FROM tv_shows_table Order by createdAt ASC")
     fun getAllTVShows(): PagingSource<Int, LocalTVShow>
 
     @Query("SELECT * FROM tv_shows_table where id = :id")

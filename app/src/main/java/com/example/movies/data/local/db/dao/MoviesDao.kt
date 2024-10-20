@@ -13,7 +13,12 @@ interface MoviesDao {
     @Update
     suspend fun update(localMovie: LocalMovie)
 
-    @Query("SELECT * FROM movies_table")
+    /*
+    I added Order by createdAt ASC to fix RemoteMediator pagination issue according to answer
+    suggested in this link until I find better solution to this issue
+    https://stackoverflow.com/a/76556967
+     */
+    @Query("SELECT * FROM movies_table Order by createdAt ASC")
     fun getAllMovies(): PagingSource<Int, LocalMovie>
 
     @Query("SELECT * FROM movies_table where id = :id")

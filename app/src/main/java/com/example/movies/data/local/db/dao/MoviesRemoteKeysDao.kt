@@ -4,18 +4,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.movies.data.local.models.remotekeys.MovieRemoteKeys
+import com.example.movies.data.local.models.remotekeys.MoviesRemoteKeys
 
 @Dao
 interface MoviesRemoteKeysDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(remoteKeys: List<MovieRemoteKeys>)
+    suspend fun insert(remoteKeys: List<MoviesRemoteKeys>)
 
-    @Query("SELECT * FROM movie_remote_keys_table WHERE id =:id")
-    suspend fun getRemoteKeysById(id: Int): MovieRemoteKeys
+    @Query("SELECT * FROM movies_remote_keys_table WHERE id =:id")
+    suspend fun getRemoteKeysById(id: Int): MoviesRemoteKeys
 
-    @Query("DELETE FROM movie_remote_keys_table")
+    @Query("DELETE FROM movies_remote_keys_table")
     suspend fun clearRemoteKeys()
 
 }

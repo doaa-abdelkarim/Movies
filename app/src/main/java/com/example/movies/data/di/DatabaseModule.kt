@@ -52,7 +52,7 @@ object DatabaseModule {
     fun provideMoviesRemoteKeysDao(db: MoviesDB) = db.moviesRemoteKeysDao()
 
     @Provides
-    fun provideTVShowsRemoteKeysDao(db: MoviesDB) = db.tVShowsRemoteKeysDao()
+    fun provideTVShowsRemoteKeysDao(db: MoviesDB) = db.tvShowsRemoteKeysDao()
 
     @ApplicationScope
     @Provides

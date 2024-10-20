@@ -4,9 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "tv_show_remote_keys_table"
+    tableName = "movies_remote_keys_table"
 )
-data class TVShowRemoteKeys(
+data class MoviesRemoteKeys(
     @PrimaryKey
     val id: Int,
     val prevPage: Int?,

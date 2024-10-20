@@ -2,9 +2,7 @@ package com.example.movies.presentation.details.children.reviews
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.example.movies.data.di.MoviesRepo
 import com.example.movies.data.di.TVShowsRepo
 import com.example.movies.domain.entities.Movie
@@ -41,14 +39,22 @@ class ReviewsViewModel @Inject constructor(
         } else null
     }
 
-    fun getVideoReviews(
+    private fun getVideoReviews(
         selectedVideo: Video,
         doForLargeScreen: (() -> Unit)? = null
     ): Flow<PagingData<Review>> {
         val reviews = if (selectedVideo is Movie) {
-            moviesRepository.getVideoReviews(selectedVideo.id ?: -1).cachedIn(viewModelScope)
+            //Network is the single source of truth
+//            moviesRepository.getVideoReviews(selectedVideo.id).cachedIn(viewModelScope)
+
+            //Room is the single source of truth
+            moviesRepository.getVideoReviews(selectedVideo.id)
         } else {
-            tvShowsRepository.getVideoReviews(selectedVideo.id ?: -1).cachedIn(viewModelScope)
+            //Network is the single source of truth
+//            tvShowsRepository.getVideoReviews(selectedVideo.id).cachedIn(viewModelScope)
+
+            //Room is the single source of truth
+            tvShowsRepository.getVideoReviews(selectedVideo.id)
         }
         doForLargeScreen?.invoke()
         return reviews

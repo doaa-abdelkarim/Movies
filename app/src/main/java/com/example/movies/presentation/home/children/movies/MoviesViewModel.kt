@@ -1,6 +1,7 @@
 package com.example.movies.presentation.home.children.movies
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn

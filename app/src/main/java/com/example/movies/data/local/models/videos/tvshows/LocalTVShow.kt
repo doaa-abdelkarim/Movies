@@ -6,7 +6,7 @@ import com.example.movies.data.local.models.videos.BaseLocalVideo
 import com.example.movies.domain.entities.TVShow
 
 @Entity(tableName = "tv_shows_table")
-data class LocalTVShow (
+data class LocalTVShow(
     @PrimaryKey
     override val id: Int,
     override val posterPath: String? = null,
@@ -18,15 +18,35 @@ data class LocalTVShow (
     override val overview: String? = null,
     override val releaseDate: String? = null,
     override val originalTitle: String? = null
-): BaseLocalVideo()
+) : BaseLocalVideo()
 
 fun LocalTVShow.asDomainModel(): TVShow {
-    return TVShow(id, posterPath, backdropPath, title, popularity, genres,
-        originalLanguage, overview, releaseDate, originalTitle)
+    return TVShow(
+        id = id,
+        posterPath = posterPath,
+        backdropPath = backdropPath,
+        title = title,
+        popularity = popularity,
+        genres = genres,
+        originalLanguage = originalLanguage,
+        overview = overview,
+        releaseDate = releaseDate,
+        originalTitle = originalTitle
+    )
 }
 
 fun List<LocalTVShow>.asDomainModel() =
     map {
-        TVShow(it.id, it.posterPath, it.backdropPath, it.title, it.popularity, it.genres,
-            it.originalLanguage, it.overview, it.releaseDate, it.originalTitle)
+        TVShow(
+            id = it.id,
+            posterPath = it.posterPath,
+            backdropPath = it.backdropPath,
+            title = it.title,
+            popularity = it.popularity,
+            genres = it.genres,
+            originalLanguage = it.originalLanguage,
+            overview = it.overview,
+            releaseDate = it.releaseDate,
+            originalTitle = it.originalTitle
+        )
     }

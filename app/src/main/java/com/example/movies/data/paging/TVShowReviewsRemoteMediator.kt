@@ -6,29 +6,31 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.movies.data.local.db.MoviesDB
-import com.example.movies.data.local.models.remotekeys.TVShowsRemoteKeys
-import com.example.movies.data.local.models.videos.tvshows.LocalTVShow
+import com.example.movies.data.local.models.remotekeys.TVShowReviewsRemoteKeys
+import com.example.movies.data.local.models.videos.tvshows.LocalTVShowReview
+import com.example.movies.data.remote.apis.APIConstants.Companion.DEFAULT_PAGE_INDEX
 import com.example.movies.data.remote.apis.MoviesAPI
-import com.example.movies.data.remote.models.asTVShowDatabaseModel
+import com.example.movies.data.remote.models.asTVShowReviewsDatabaseModel
 
 @ExperimentalPagingApi
-class TVShowsRemoteMediator(
+class TVShowReviewsRemoteMediator(
     private val moviesAPI: MoviesAPI,
     private val moviesDB: MoviesDB,
-) : RemoteMediator<Int, LocalTVShow>() {
+    private val tvShowId: Int
+) : RemoteMediator<Int, LocalTVShowReview>() {
 
-    private val tvShowsRemoteKeysDao = moviesDB.tvShowsRemoteKeysDao()
-    private val tvShowsDao = moviesDB.tvShowsDao()
+    private val tvShowReviewsRemoteKeysDao = moviesDB.tvShowReviewsRemoteKeysDao()
+    private val tvShowReviewsDao = moviesDB.tvShowReviewsDao()
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, LocalTVShow>
+        state: PagingState<Int, LocalTVShowReview>
     ): MediatorResult {
         return try {
             val currentPage = when (loadType) {
                 LoadType.REFRESH -> {
                     val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-                    remoteKeys?.nextPage?.minus(1) ?: 1
+                    remoteKeys?.nextPage?.minus(1) ?: DEFAULT_PAGE_INDEX
                 }
 
                 LoadType.PREPEND -> {
@@ -50,33 +52,32 @@ class TVShowsRemoteMediator(
                 }
             }
 
-            val response = moviesAPI.getTVShows(page = currentPage)
+            val response = moviesAPI.getTVShowReviews(tvShowId = tvShowId, page = currentPage)
 
-            val endOfPaginationReached = response.results?.isEmpty() ?: true
+            val endOfPaginationReached = response.results.isNullOrEmpty()
 
-            val prevPage = if (currentPage == 1) null else currentPage - 1
+            val prevPage = if (currentPage == DEFAULT_PAGE_INDEX) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1
 
             moviesDB.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    tvShowsDao.clearTVShows()
-                    tvShowsRemoteKeysDao.clearRemoteKeys()
+                    tvShowReviewsDao.clearReviews()
+                    tvShowReviewsRemoteKeysDao.clearRemoteKeys()
                 }
                 val keys = response.results
                     ?.asSequence()
                     ?.filterNotNull()
                     ?.map {
-                        TVShowsRemoteKeys(
+                        TVShowReviewsRemoteKeys(
                             id = it.id!!,
                             prevPage = prevPage,
                             nextPage = nextPage
                         )
                     }
                     ?.toList() ?: emptyList()
-                tvShowsRemoteKeysDao.insert(remoteKeys = keys)
-                tvShowsDao.insert(tvShows = response.asTVShowDatabaseModel())
+                tvShowReviewsRemoteKeysDao.insert(remoteKeys = keys)
+                tvShowReviewsDao.insert(reviews = response.asTVShowReviewsDatabaseModel())
             }
-
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {
             return MediatorResult.Error(e)
@@ -84,30 +85,30 @@ class TVShowsRemoteMediator(
     }
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(
-        state: PagingState<Int, LocalTVShow>
-    ): TVShowsRemoteKeys? {
+        state: PagingState<Int, LocalTVShowReview>
+    ): TVShowReviewsRemoteKeys? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { id ->
-                tvShowsRemoteKeysDao.getRemoteKeysById(id = id)
+                tvShowReviewsRemoteKeysDao.getRemoteKeysById(id = id)
             }
         }
     }
 
     private suspend fun getRemoteKeyForFirstItem(
-        state: PagingState<Int, LocalTVShow>
-    ): TVShowsRemoteKeys? {
+        state: PagingState<Int, LocalTVShowReview>
+    ): TVShowReviewsRemoteKeys? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { localVideo ->
-                tvShowsRemoteKeysDao.getRemoteKeysById(id = localVideo.id)
+                tvShowReviewsRemoteKeysDao.getRemoteKeysById(id = localVideo.id)
             }
     }
 
     private suspend fun getRemoteKeyForLastItem(
-        state: PagingState<Int, LocalTVShow>
-    ): TVShowsRemoteKeys? {
+        state: PagingState<Int, LocalTVShowReview>
+    ): TVShowReviewsRemoteKeys? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { localVideo ->
-                tvShowsRemoteKeysDao.getRemoteKeysById(id = localVideo.id)
+                tvShowReviewsRemoteKeysDao.getRemoteKeysById(id = localVideo.id)
             }
     }
 

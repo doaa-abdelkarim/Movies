@@ -17,7 +17,8 @@ import com.example.movies.presentation.MainActivityViewModel
 import com.example.movies.presentation.home.children.favorites.FavoritesFragment
 import com.example.movies.presentation.home.children.movies.MoviesFragment
 import com.example.movies.presentation.home.children.tvshows.TVShowsFragment
-import com.example.movies.util.AppConstants
+import com.example.movies.util.AppConstants.Companion.REQUEST_SHOW_FAVORITES
+import com.example.movies.util.AppConstants.Companion.RESULT_SHOW_FAVORITES
 import com.example.movies.util.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,8 +49,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setFragmentResultListener(AppConstants.REQUEST_SHOW_FAVORITES) { _, bundle ->
-            if (!bundle.getParcelableArrayList<Video>(AppConstants.RESULT_SHOW_FAVORITES)
+        setFragmentResultListener(REQUEST_SHOW_FAVORITES) { _, bundle ->
+            if (!bundle.getParcelableArrayList<Video>(RESULT_SHOW_FAVORITES)
                     .isNullOrEmpty()
             )
                 showFavoritesFragment()

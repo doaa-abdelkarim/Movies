@@ -4,11 +4,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "movie_remote_keys_table"
+    tableName = "tv_show_reviews_remote_keys_table"
 )
-data class MovieRemoteKeys(
+data class TVShowReviewsRemoteKeys(
     @PrimaryKey
-    val id: Int,
+    val id: String,
     val prevPage: Int?,
     val nextPage: Int?
 )

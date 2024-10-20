@@ -1,19 +1,21 @@
 package com.example.movies.data.repositories
 
-import com.example.movies.data.local.datasources.BaseFavoriteMoviesLocalDataSource
+import com.example.movies.data.local.db.dao.FavoriteMoviesDao
 import com.example.movies.data.local.models.favorites.BaseLocalFavorite
+import com.example.movies.data.local.models.favorites.LocalFavoriteMovie
+import com.example.movies.data.local.models.videos.movies.asDomainModel
 import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseFavoriteRepository
 
 class FavoriteMoviesRepository(
-    private val baseFavoriteMoviesLocalDataSource: BaseFavoriteMoviesLocalDataSource
+    private val favoriteMoviesDao: FavoriteMoviesDao
 ) : BaseFavoriteRepository {
     override suspend fun cacheFavorites(baseLocalFavorite: BaseLocalFavorite) {
-        return baseFavoriteMoviesLocalDataSource.cacheFavorites(baseLocalFavorite)
+        favoriteMoviesDao.insert(baseLocalFavorite as LocalFavoriteMovie)
     }
 
     override suspend fun getAllFavorites(): List<Video> {
-        return baseFavoriteMoviesLocalDataSource.getAllFavorites()
+        return favoriteMoviesDao.getAllFavoritesMovie().asDomainModel()
     }
 }
 

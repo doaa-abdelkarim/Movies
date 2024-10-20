@@ -40,10 +40,6 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
         listenToEvents()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     private fun initRecyclerView(view: View) {
         if (!::videosAdapter.isInitialized)
             videosAdapter = VideosAdapter(
@@ -84,9 +80,11 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                videosViewModel.videosFlow.distinctUntilChanged().collectLatest {
-                    videosAdapter.submitData(it)
-                }
+                videosViewModel.videosFlow
+                    .distinctUntilChanged()
+                    .collectLatest {
+                        videosAdapter.submitData(it)
+                    }
             }
         }
     }

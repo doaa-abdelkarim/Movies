@@ -7,11 +7,15 @@ import com.example.movies.data.local.db.dao.FavoriteTVShowsDao
 import com.example.movies.data.local.db.dao.MovieClipsDao
 import com.example.movies.data.local.db.dao.MovieReviewsDao
 import com.example.movies.data.local.db.dao.MoviesDao
+import com.example.movies.data.local.db.dao.MoviesRemoteKeysDao
 import com.example.movies.data.local.db.dao.TVShowsDao
+import com.example.movies.data.local.db.dao.TVShowsRemoteKeysDao
 import com.example.movies.data.local.db.dao.TvShowClipsDao
 import com.example.movies.data.local.db.dao.TvShowReviewsDao
+import com.example.movies.data.local.models.remotekeys.MovieRemoteKeys
 import com.example.movies.data.local.models.favorites.LocalFavoriteMovie
 import com.example.movies.data.local.models.favorites.LocalFavoriteTVShow
+import com.example.movies.data.local.models.remotekeys.TVShowRemoteKeys
 import com.example.movies.data.local.models.videos.movies.LocalMovie
 import com.example.movies.data.local.models.videos.movies.LocalMovieClip
 import com.example.movies.data.local.models.videos.movies.LocalMovieReview
@@ -22,7 +26,8 @@ import com.example.movies.data.local.models.videos.tvshows.LocalTVShowReview
 @Database(
     entities = [LocalMovie::class, LocalMovieClip::class, LocalMovieReview::class,
         LocalTVShow::class, LocalTVShowClip::class, LocalTVShowReview::class,
-        LocalFavoriteMovie::class, LocalFavoriteTVShow::class], version = 1
+        LocalFavoriteMovie::class, LocalFavoriteTVShow::class,
+        MovieRemoteKeys::class, TVShowRemoteKeys::class], version = 1
 )
 abstract class MoviesDB : RoomDatabase() {
 
@@ -34,5 +39,7 @@ abstract class MoviesDB : RoomDatabase() {
     abstract fun tvShowReviewsDao(): TvShowReviewsDao
     abstract fun favoriteMoviesDao(): FavoriteMoviesDao
     abstract fun favoriteTVShowsDao(): FavoriteTVShowsDao
+    abstract fun moviesRemoteKeysDao(): MoviesRemoteKeysDao
+    abstract fun tVShowsRemoteKeysDao(): TVShowsRemoteKeysDao
 
 }

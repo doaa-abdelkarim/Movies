@@ -1,31 +1,20 @@
 package com.example.movies.data.di
 
 import android.content.Context
-import com.example.movies.data.local.datasources.BaseFavoriteMoviesLocalDataSource
-import com.example.movies.data.local.datasources.BaseFavoriteTVShowsLocalDataSource
-import com.example.movies.data.local.datasources.BaseMoviesLocalDataSource
-import com.example.movies.data.local.datasources.BaseTVShowsLocalDataSource
-import com.example.movies.data.local.datasources.FavoriteMoviesLocalDataSource
-import com.example.movies.data.local.datasources.FavoriteTVShowsLocalDataSource
-import com.example.movies.data.local.datasources.MoviesLocalDataSource
-import com.example.movies.data.local.datasources.TVShowsLocalDataSource
+import com.example.movies.data.local.db.MoviesDB
 import com.example.movies.data.local.db.dao.FavoriteMoviesDao
 import com.example.movies.data.local.db.dao.FavoriteTVShowsDao
 import com.example.movies.data.local.db.dao.MovieClipsDao
-import com.example.movies.data.local.db.dao.MovieReviewsDao
 import com.example.movies.data.local.db.dao.MoviesDao
+import com.example.movies.data.local.db.dao.MoviesRemoteKeysDao
 import com.example.movies.data.local.db.dao.TVShowsDao
+import com.example.movies.data.local.db.dao.TVShowsRemoteKeysDao
 import com.example.movies.data.local.db.dao.TvShowClipsDao
-import com.example.movies.data.local.db.dao.TvShowReviewsDao
 import com.example.movies.data.remote.apis.MoviesAPI
-import com.example.movies.data.remote.datasources.BaseMoviesRemoteDataSource
-import com.example.movies.data.remote.datasources.BaseTVShowsRemoteDataSource
-import com.example.movies.data.remote.datasources.MoviesRemoteDataSource
-import com.example.movies.data.remote.datasources.TVShowsRemoteDataSource
 import com.example.movies.data.repositories.FavoriteMoviesRepository
 import com.example.movies.data.repositories.FavoriteTVShowsRepository
-import com.example.movies.data.repositories.MoviesRepository
-import com.example.movies.data.repositories.TVShowsRepository
+import com.example.movies.data.repositories.MoviesRepository2
+import com.example.movies.data.repositories.TVShowsRepository2
 import com.example.movies.domain.repositories.BaseFavoriteRepository
 import com.example.movies.domain.repositories.BaseVideosRepository
 import com.example.movies.util.NetworkHandler
@@ -41,81 +30,77 @@ import javax.inject.Qualifier
 @Module
 class RepositoryModule {
 
-    @Provides
+    //Network is the single source of truth
+  /*  @Provides
     @MoviesRepo
     fun provideMoviesRepository(
-        baseMoviesRemoteDataSource: BaseMoviesRemoteDataSource,
-        baseMoviesLocalDataSource: BaseMoviesLocalDataSource,
-        networkHandler: NetworkHandler
+        moviesAPI: MoviesAPI,
     ): BaseVideosRepository =
-        MoviesRepository(
-            baseMoviesRemoteDataSource,
-            baseMoviesLocalDataSource,
-            networkHandler
+        MoviesRepository1(
+            moviesAPI = moviesAPI,
         )
-
-    @Provides
-    fun provideMoviesRemoteDataSource(moviesAPI: MoviesAPI): BaseMoviesRemoteDataSource =
-        MoviesRemoteDataSource(moviesAPI)
-
-    @Provides
-    fun provideMoviesLocalDataSource(
-        moviesDao: MoviesDao,
-        movieClipsDao: MovieClipsDao,
-        movieReviewsDao: MovieReviewsDao
-    ): BaseMoviesLocalDataSource =
-        MoviesLocalDataSource(moviesDao, movieClipsDao, movieReviewsDao)
 
     @Provides
     @TVShowsRepo
     fun provideTVShowsRepository(
-        baseTVShowsRemoteDataSource: BaseTVShowsRemoteDataSource,
-        baseTVShowsLocalDataSource: BaseTVShowsLocalDataSource,
-        networkHandler: NetworkHandler
+        moviesAPI: MoviesAPI,
     ): BaseVideosRepository =
-        TVShowsRepository(
-            baseTVShowsRemoteDataSource,
-            baseTVShowsLocalDataSource,
-            networkHandler
+        TVShowsRepository1(
+            moviesAPI = moviesAPI,
+        )*/
+
+    //Room is the single source of truth
+    @Provides
+    @MoviesRepo
+    fun provideMoviesRepository(
+        networkHandler: NetworkHandler,
+        moviesAPI: MoviesAPI,
+        moviesDB: MoviesDB,
+        moviesRemoteKeysDao: MoviesRemoteKeysDao,
+        moviesDao: MoviesDao,
+        movieClipsDao: MovieClipsDao,
+    ): BaseVideosRepository =
+        MoviesRepository2(
+            networkHandler = networkHandler,
+            moviesAPI = moviesAPI,
+            moviesDB = moviesDB,
+            moviesRemoteKeysDao = moviesRemoteKeysDao,
+            moviesDao = moviesDao,
+            movieClipsDao = movieClipsDao
         )
 
     @Provides
-    fun provideTVShowsRemoteDataSource(moviesAPI: MoviesAPI): BaseTVShowsRemoteDataSource =
-        TVShowsRemoteDataSource(moviesAPI)
-
-    @Provides
-    fun provideTVShowsLocalDataSource(
+    @TVShowsRepo
+    fun provideTVShowsRepository(
+        networkHandler: NetworkHandler,
+        moviesAPI: MoviesAPI,
+        moviesDB: MoviesDB,
+        tvShowsRemoteKeysDao: TVShowsRemoteKeysDao,
         tvShowsDao: TVShowsDao,
         tvShowClipsDao: TvShowClipsDao,
-        tvShowReviewsDao: TvShowReviewsDao
-    ): BaseTVShowsLocalDataSource =
-        TVShowsLocalDataSource(tvShowsDao, tvShowClipsDao, tvShowReviewsDao)
+    ): BaseVideosRepository =
+        TVShowsRepository2(
+            networkHandler = networkHandler,
+            moviesAPI = moviesAPI,
+            moviesDB = moviesDB,
+            tvShowsRemoteKeysDao = tvShowsRemoteKeysDao,
+            tvShowsDao = tvShowsDao,
+            tvShowClipsDao = tvShowClipsDao
+        )
 
     @Provides
     @FavoriteMoviesRepo
     fun provideFavoriteMoviesRepository(
-        baseFavoriteMoviesLocalDataSource: BaseFavoriteMoviesLocalDataSource
-    ): BaseFavoriteRepository =
-        FavoriteMoviesRepository(baseFavoriteMoviesLocalDataSource)
-
-    @Provides
-    fun provideFavoriteMoviesLocalDataSource(
         favoriteMoviesDao: FavoriteMoviesDao
-    ): BaseFavoriteMoviesLocalDataSource =
-        FavoriteMoviesLocalDataSource(favoriteMoviesDao)
+    ): BaseFavoriteRepository =
+        FavoriteMoviesRepository(favoriteMoviesDao)
 
     @Provides
     @FavoriteTVShowsRepo
     fun provideFavoriteTVShowsRepository(
-        baseFavoriteTVShowsLocalDataSource: BaseFavoriteTVShowsLocalDataSource
-    ): BaseFavoriteRepository =
-        FavoriteTVShowsRepository(baseFavoriteTVShowsLocalDataSource)
-
-    @Provides
-    fun provideFavoriteTVShowsLocalDataSource(
         favoriteTVShowsDao: FavoriteTVShowsDao
-    ): BaseFavoriteTVShowsLocalDataSource =
-        FavoriteTVShowsLocalDataSource(favoriteTVShowsDao)
+    ): BaseFavoriteRepository =
+        FavoriteTVShowsRepository(favoriteTVShowsDao)
 
     @Provides
     fun provideNetworkHandler(@ApplicationContext context: Context): NetworkHandler =

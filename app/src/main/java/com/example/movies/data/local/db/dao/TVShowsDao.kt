@@ -1,6 +1,11 @@
 package com.example.movies.data.local.db.dao
 
-import androidx.room.*
+import androidx.paging.PagingSource
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import com.example.movies.data.local.models.videos.tvshows.LocalTVShow
 
 @Dao
@@ -13,7 +18,7 @@ interface TVShowsDao {
     suspend fun update(localTVShow: LocalTVShow)
 
     @Query("SELECT * FROM tv_shows_table")
-    suspend fun getAllTVShows(): List<LocalTVShow>
+    fun getAllTVShows(): PagingSource<Int, LocalTVShow>
 
     @Query("SELECT * FROM tv_shows_table where id = :id")
     suspend fun getTVShowById(id: Int): LocalTVShow

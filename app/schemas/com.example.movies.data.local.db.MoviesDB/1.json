@@ -2,17 +2,17 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2959453dbc435a03a08d4dde86d163cd",
+    "identityHash": "a597f04d4180ac6d52346210d60aea0b",
     "entities": [
       {
-        "tableName": "movie_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `posterPath` TEXT, `backdropPath` TEXT, `title` TEXT, `popularity` REAL, `genres` TEXT, `originalLanguage` TEXT, `overview` TEXT, `releaseDate` TEXT, `revenue` INTEGER, `originalTitle` TEXT, PRIMARY KEY(`id`))",
+        "tableName": "movies_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `posterPath` TEXT, `backdropPath` TEXT, `title` TEXT, `popularity` REAL, `genres` TEXT, `originalLanguage` TEXT, `overview` TEXT, `releaseDate` TEXT, `revenue` INTEGER, `originalTitle` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "posterPath",
@@ -85,14 +85,14 @@
         "foreignKeys": []
       },
       {
-        "tableName": "movie_clip_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER, `id` TEXT NOT NULL, `name` TEXT, `key` TEXT, `clipUri` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`videoId`) REFERENCES `movie_table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "tableName": "movie_clips_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER NOT NULL, `id` TEXT NOT NULL, `name` TEXT, `key` TEXT, `clipUri` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`videoId`) REFERENCES `movies_table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "videoId",
             "columnName": "videoId",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "id",
@@ -128,7 +128,7 @@
         "indices": [],
         "foreignKeys": [
           {
-            "table": "movie_table",
+            "table": "movies_table",
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
@@ -141,14 +141,14 @@
         ]
       },
       {
-        "tableName": "movie_review_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER, `id` TEXT NOT NULL, `username` TEXT, `avatarPath` TEXT, `content` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`videoId`) REFERENCES `movie_table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "tableName": "movie_reviews_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER NOT NULL, `id` TEXT NOT NULL, `username` TEXT, `avatarPath` TEXT, `content` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`videoId`) REFERENCES `movies_table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "videoId",
             "columnName": "videoId",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "id",
@@ -184,7 +184,7 @@
         "indices": [],
         "foreignKeys": [
           {
-            "table": "movie_table",
+            "table": "movies_table",
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
@@ -197,14 +197,14 @@
         ]
       },
       {
-        "tableName": "tv_show_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `posterPath` TEXT, `backdropPath` TEXT, `title` TEXT, `popularity` REAL, `genres` TEXT, `originalLanguage` TEXT, `overview` TEXT, `releaseDate` TEXT, `originalTitle` TEXT, PRIMARY KEY(`id`))",
+        "tableName": "tv_shows_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `posterPath` TEXT, `backdropPath` TEXT, `title` TEXT, `popularity` REAL, `genres` TEXT, `originalLanguage` TEXT, `overview` TEXT, `releaseDate` TEXT, `originalTitle` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "posterPath",
@@ -271,14 +271,14 @@
         "foreignKeys": []
       },
       {
-        "tableName": "tv_show_clip_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER, `id` TEXT NOT NULL, `name` TEXT, `key` TEXT, `clipUri` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`videoId`) REFERENCES `tv_show_table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "tableName": "tv_show_clips_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER NOT NULL, `id` TEXT NOT NULL, `name` TEXT, `key` TEXT, `clipUri` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`videoId`) REFERENCES `tv_shows_table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "videoId",
             "columnName": "videoId",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "id",
@@ -314,7 +314,7 @@
         "indices": [],
         "foreignKeys": [
           {
-            "table": "tv_show_table",
+            "table": "tv_shows_table",
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
@@ -327,14 +327,14 @@
         ]
       },
       {
-        "tableName": "tv_show_review_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER, `id` TEXT NOT NULL, `username` TEXT, `avatarPath` TEXT, `content` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`videoId`) REFERENCES `tv_show_table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "tableName": "tv_show_reviews_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER NOT NULL, `id` TEXT NOT NULL, `username` TEXT, `avatarPath` TEXT, `content` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`videoId`) REFERENCES `tv_shows_table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "videoId",
             "columnName": "videoId",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "id",
@@ -370,7 +370,7 @@
         "indices": [],
         "foreignKeys": [
           {
-            "table": "tv_show_table",
+            "table": "tv_shows_table",
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
@@ -384,7 +384,7 @@
       },
       {
         "tableName": "favorite_movies_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`videoId`) REFERENCES `movie_table`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`videoId`) REFERENCES `movies_table`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "videoId",
@@ -418,7 +418,7 @@
         ],
         "foreignKeys": [
           {
-            "table": "movie_table",
+            "table": "movies_table",
             "onDelete": "NO ACTION",
             "onUpdate": "NO ACTION",
             "columns": [
@@ -432,7 +432,7 @@
       },
       {
         "tableName": "favorite_tv_shows_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`videoId`) REFERENCES `tv_show_table`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`videoId`) REFERENCES `tv_shows_table`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "videoId",
@@ -466,7 +466,7 @@
         ],
         "foreignKeys": [
           {
-            "table": "tv_show_table",
+            "table": "tv_shows_table",
             "onDelete": "NO ACTION",
             "onUpdate": "NO ACTION",
             "columns": [
@@ -477,12 +477,76 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "movie_remote_keys_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prevPage",
+            "columnName": "prevPage",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nextPage",
+            "columnName": "nextPage",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "tv_show_remote_keys_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prevPage",
+            "columnName": "prevPage",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nextPage",
+            "columnName": "nextPage",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2959453dbc435a03a08d4dde86d163cd')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a597f04d4180ac6d52346210d60aea0b')"
     ]
   }
 }

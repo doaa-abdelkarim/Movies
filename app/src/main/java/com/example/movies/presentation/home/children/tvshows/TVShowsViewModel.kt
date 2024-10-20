@@ -22,6 +22,10 @@ class TVShowsViewModel @Inject constructor(
     override val videosFlow: Flow<PagingData<Video>> = getVideos()
 
     override fun getVideos(): Flow<PagingData<Video>> =
-        videosRepository.getVideos().cachedIn(viewModelScope)
+        //Network is the single source of truth
+    //        videosRepository.getVideos().cachedIn(viewModelScope)
+
+        //Room is the single source of truth
+        videosRepository.getVideos()
 
 }

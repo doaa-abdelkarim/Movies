@@ -11,8 +11,4 @@ interface BaseVideosRepository {
     suspend fun getVideoInfo(videoId: Int): Video
     suspend fun getVideoClips(videoId: Int): List<Clip>
     fun getVideoReviews(videoId: Int): Flow<PagingData<Review>>
-    suspend fun cacheVideos(videos: List<Video>)
-    suspend fun cacheVideoDetails(video: Video)
-    suspend fun cacheVideoClips(clips: List<Clip>)
-    suspend fun cacheVideoReviews(reviews: List<Review>)
 }

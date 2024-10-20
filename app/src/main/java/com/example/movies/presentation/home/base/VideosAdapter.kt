@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movies.presentation.adapter.BasePagingDataAdapter
 import com.example.movies.databinding.ItemVideoBinding
 import com.example.movies.domain.entities.Video
+import com.example.movies.presentation.adapter.BasePagingDataAdapter
 
 class VideosAdapter(private val onItemClickListener: OnItemClickListener) :
     BasePagingDataAdapter<Video>(DiffCallback()) {
@@ -45,7 +45,8 @@ class VideosAdapter(private val onItemClickListener: OnItemClickListener) :
             oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: Video, newItem: Video) =
-            oldItem.equals(newItem)
+//            oldItem.equals(newItem)
+            oldItem.id == newItem.id
     }
 
 }

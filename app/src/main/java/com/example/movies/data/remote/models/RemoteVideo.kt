@@ -1,7 +1,10 @@
 package com.example.movies.data.remote.models
 
+import com.example.movies.data.local.models.videos.movies.LocalMovie
+import com.example.movies.data.local.models.videos.tvshows.LocalTVShow
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.TVShow
+import com.example.movies.domain.entities.Video
 import com.google.gson.annotations.SerializedName
 
 data class RemoteVideo(
@@ -88,18 +91,79 @@ data class VideosResultsItem(
     val name: String? = null
 )
 
-fun VideosResultsItem.asMovieDomainModel(): Movie =
+fun RemoteVideo.asMovieDomainModel(): List<Video> =
+    results
+        ?.asSequence()
+        ?.filterNotNull()
+        ?.map {
+            Movie(
+                id = it.id!!,
+                posterPath = it.posterPath,
+                backdropPath = it.backdropPath,
+                title = it.title,
+                popularity = it.popularity
+            )
+        }
+        ?.toList() ?: emptyList()
+
+fun RemoteVideo.asTVShowDomainModel(): List<Video> =
+    results
+        ?.asSequence()
+        ?.filterNotNull()
+        ?.map {
+            TVShow(
+                id = it.id!!,
+                posterPath = it.posterPath,
+                backdropPath = it.backdropPath,
+                title = it.name,
+                popularity = it.popularity
+            )
+        }?.toList() ?: emptyList()
+
+fun RemoteVideo.asMovieDatabaseModel(): List<LocalMovie> {
+    return results
+        ?.asSequence()
+        ?.filterNotNull()
+        ?.map {
+            LocalMovie(
+                id = it.id!!,
+                posterPath = it.posterPath,
+                backdropPath = it.backdropPath,
+                title = it.title,
+                popularity = it.popularity,
+            )
+        }
+        ?.toList() ?: emptyList()
+}
+
+fun RemoteVideo.asTVShowDatabaseModel(): List<LocalTVShow> {
+    return results
+        ?.asSequence()
+        ?.filterNotNull()
+        ?.map {
+            LocalTVShow(
+                id = it.id!!,
+                posterPath = it.posterPath,
+                backdropPath = it.backdropPath,
+                title = it.title,
+                popularity = it.popularity,
+            )
+        }
+        ?.toList() ?: emptyList()
+}
+
+fun VideosResultsItem.asMovieDomainModel(): Video =
     Movie(
-        id = id,
+        id = id!!,
         posterPath = posterPath,
         backdropPath = backdropPath,
         title = title,
         popularity = popularity
     )
 
-fun VideosResultsItem.asTVShowDomainModel(): TVShow =
+fun VideosResultsItem.asTVShowDomainModel(): Video =
     TVShow(
-        id = id,
+        id = id!!,
         posterPath = posterPath,
         backdropPath = backdropPath,
         title = name,

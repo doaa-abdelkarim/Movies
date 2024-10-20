@@ -1,5 +1,6 @@
 package com.example.movies.data.local.db.dao
 
+import androidx.paging.PagingSource
 import androidx.room.*
 import com.example.movies.data.local.models.videos.movies.LocalMovie
 
@@ -13,7 +14,7 @@ interface MoviesDao {
     suspend fun update(localMovie: LocalMovie)
 
     @Query("SELECT * FROM movies_table")
-    suspend fun getAllMovies(): List<LocalMovie>
+    fun getAllMovies(): PagingSource<Int, LocalMovie>
 
     @Query("SELECT * FROM movies_table where id = :id")
     suspend fun getMovieById(id: Int): LocalMovie

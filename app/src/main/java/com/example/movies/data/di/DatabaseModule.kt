@@ -48,6 +48,12 @@ object DatabaseModule {
     @Provides
     fun provideFavoriteTVShowsDao(db: MoviesDB) = db.favoriteTVShowsDao()
 
+    @Provides
+    fun provideMoviesRemoteKeysDao(db: MoviesDB) = db.moviesRemoteKeysDao()
+
+    @Provides
+    fun provideTVShowsRemoteKeysDao(db: MoviesDB) = db.tVShowsRemoteKeysDao()
+
     @ApplicationScope
     @Provides
     @Singleton

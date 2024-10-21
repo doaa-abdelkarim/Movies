@@ -2,21 +2,28 @@ package com.example.movies.presentation.home.base
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.databinding.ItemVideoBinding
+import com.example.movies.domain.entities.Movie
+import com.example.movies.domain.entities.TVShow
 import com.example.movies.domain.entities.Video
-import com.example.movies.presentation.adapter.BasePagingDataAdapter
+import com.example.movies.presentation.home.base.VideosAdapter.VideoViewHolder
 
 class VideosAdapter(private val onItemClickListener: OnItemClickListener) :
-    BasePagingDataAdapter<Video>(DiffCallback()) {
+    PagingDataAdapter<Video, VideoViewHolder>(DiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
         return VideoViewHolder.from(parent, onItemClickListener)
     }
 
+    override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
     class VideoViewHolder(private val binding: ItemVideoBinding) :
-        BaseViewHolder<Video>(binding.root) {
+        RecyclerView.ViewHolder(binding.root) {
 
         companion object {
             fun from(parent: ViewGroup, onItemClickListener: OnItemClickListener): VideoViewHolder {
@@ -29,7 +36,7 @@ class VideosAdapter(private val onItemClickListener: OnItemClickListener) :
             }
         }
 
-        override fun bind(item: Video?) {
+        fun bind(item: Video?) {
             binding.video = item
         }
     }
@@ -46,7 +53,10 @@ class VideosAdapter(private val onItemClickListener: OnItemClickListener) :
 
         override fun areContentsTheSame(oldItem: Video, newItem: Video) =
 //            oldItem.equals(newItem)
-            oldItem.id == newItem.id
+            if (newItem is Movie)
+                (oldItem as Movie) == newItem
+            else
+                (oldItem as TVShow) == (newItem as TVShow)
     }
 
 }

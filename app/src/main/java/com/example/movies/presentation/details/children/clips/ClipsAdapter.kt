@@ -3,23 +3,32 @@ package com.example.movies.presentation.details.children.clips
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.databinding.ItemClipBinding
 import com.example.movies.domain.entities.Clip
-import com.example.movies.presentation.adapter.BaseAdapter
+import com.example.movies.presentation.details.children.clips.ClipsAdapter.ClipsViewHolder
 
 
 class ClipsAdapter(private val onItemClickListener: OnItemClickListener) :
-    BaseAdapter<Clip>(DiffCallback()) {
+    ListAdapter<Clip, ClipsViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClipsViewHolder {
         return ClipsViewHolder.from(parent, onItemClickListener)
     }
 
+    override fun onBindViewHolder(holder: ClipsViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
     class ClipsViewHolder(private val binding: ItemClipBinding) :
-        BaseViewHolder<Clip>(binding.root) {
+        RecyclerView.ViewHolder(binding.root) {
 
         companion object {
-            fun from(parent: ViewGroup, onItemClickListener: OnItemClickListener): ClipsViewHolder {
+            fun from(
+                parent: ViewGroup,
+                onItemClickListener: OnItemClickListener
+            ): ClipsViewHolder {
                 val binding =
                     ItemClipBinding.inflate(
                         LayoutInflater.from(parent.context), parent, false
@@ -29,7 +38,7 @@ class ClipsAdapter(private val onItemClickListener: OnItemClickListener) :
             }
         }
 
-        override fun bind(item: Clip) {
+        fun bind(item: Clip) {
             binding.clip = item
         }
     }

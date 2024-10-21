@@ -20,8 +20,8 @@ data class LocalMovie(
     val revenue: Int? = null,
     override val originalTitle: String? = null,
     /*
-    I added this field to fix RemoteMediator pagination issue according to answer suggested in
-    this link until I find better solution to this issue
+    I added this field to fix "RemoteMediator calls API again and again" issue according to answer
+    suggested in this link until I find better solution to this issue
     https://stackoverflow.com/a/76556967
      */
     val createdAt: Long? = System.currentTimeMillis()

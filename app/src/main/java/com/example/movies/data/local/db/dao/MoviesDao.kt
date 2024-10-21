@@ -14,7 +14,7 @@ interface MoviesDao {
     suspend fun update(localMovie: LocalMovie)
 
     /*
-    I added Order by createdAt ASC to fix RemoteMediator pagination issue according to answer
+    I added this field to fix "RemoteMediator calls API again and again" issue according to answer
     suggested in this link until I find better solution to this issue
     https://stackoverflow.com/a/76556967
      */

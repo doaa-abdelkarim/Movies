@@ -2,21 +2,26 @@ package com.example.movies.presentation.details.children.reviews
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movies.presentation.adapter.BasePagingDataAdapter
 import com.example.movies.databinding.ItemReviewBinding
 import com.example.movies.domain.entities.Review
+import com.example.movies.presentation.details.children.reviews.ReviewsAdapter.ReviewsViewHolder
 
 
-class ReviewsAdapter : BasePagingDataAdapter<Review>(DiffCallback()) {
+class ReviewsAdapter : PagingDataAdapter<Review, ReviewsViewHolder>(DiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewsViewHolder {
         return ReviewsViewHolder.from(parent)
     }
 
+    override fun onBindViewHolder(holder: ReviewsViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
     class ReviewsViewHolder(private val binding: ItemReviewBinding) :
-        BaseViewHolder<Review>(binding.root) {
+        RecyclerView.ViewHolder(binding.root) {
 
         companion object {
             fun from(parent: ViewGroup): ReviewsViewHolder {
@@ -28,7 +33,7 @@ class ReviewsAdapter : BasePagingDataAdapter<Review>(DiffCallback()) {
             }
         }
 
-        override fun bind(item: Review?) {
+        fun bind(item: Review?) {
             binding.review = item
         }
 

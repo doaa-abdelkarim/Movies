@@ -17,7 +17,7 @@ import com.example.movies.util.getDefaultPageConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-//Network is the single source of truth
+//Use it if network is the single source of truth
 class MoviesRepository1(
     private val moviesAPI: MoviesAPI
 ) : BaseVideosRepository {

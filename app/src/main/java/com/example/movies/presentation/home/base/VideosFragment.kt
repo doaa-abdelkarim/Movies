@@ -35,7 +35,7 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView(view)
-//        initFragmentContainerView(view)
+//        initFragmentContainerView(view, savedInstanceState)
         observeState()
         listenToEvents()
     }
@@ -64,18 +64,15 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
         }
     }
 
-    /*
-    I found that the its viewmodel is recreated with it after configuration change so I added it
-    statically in XML file for now. I will search for another solution later
-     */
-//    private fun initFragmentContainerView(view: View) {
-//        view.findViewById<FragmentContainerView>(R.id.fragment_details)
-//            ?.let {
-//                childFragmentManager.beginTransaction()
-//                    .add(R.id.fragment_details, DetailsFragment.newInstance())
-//                    .commit()
-//            }
-//    }
+    /*    private fun initFragmentContainerView(view: View, savedInstanceState: Bundle?) {
+            if (savedInstanceState == null)
+                view.findViewById<FragmentContainerView>(R.id.fragment_details)
+                    ?.let {
+                        childFragmentManager.beginTransaction()
+                            .add(R.id.fragment_details, DetailsFragment.newInstance())
+                            .commit()
+                    }
+        }*/
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {

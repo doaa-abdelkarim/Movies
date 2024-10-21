@@ -22,10 +22,10 @@ class TVShowsViewModel @Inject constructor(
     override val videosFlow: Flow<PagingData<Video>> = getVideos()
 
     override fun getVideos(): Flow<PagingData<Video>> =
-    //Network is the single source of truth
+    //Use the next code if network is the single source of truth
     //        videosRepository.getVideos().cachedIn(viewModelScope)
 
-    //Room is the single source of truth
+    //Use the next code if Room is the single source of truth
 //        videosRepository.getVideos()
         //As I see without caching it does not survive configuration change
         videosRepository.getVideos().cachedIn(viewModelScope)

@@ -24,7 +24,7 @@ import javax.inject.Qualifier
 @Module
 class RepositoryModule {
 
-    //Network is the single source of truth
+    //Use the next code if network is the single source of truth
     /*  @Provides
       @MoviesRepo
       fun provideMoviesRepository(
@@ -43,7 +43,7 @@ class RepositoryModule {
               moviesAPI = moviesAPI,
           )*/
 
-    //Room is the single source of truth
+    //Use the next code if Room is the single source of truth
     @Provides
     @MoviesRepo
     fun provideMoviesRepository(

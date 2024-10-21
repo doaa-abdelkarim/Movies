@@ -46,18 +46,18 @@ class ReviewsViewModel @Inject constructor(
         doForLargeScreen: (() -> Unit)? = null
     ): Flow<PagingData<Review>> {
         val reviews = if (selectedVideo is Movie) {
-            //Network is the single source of truth
+            //Use the next code if network is the single source of truth
 //            moviesRepository.getVideoReviews(selectedVideo.id).cachedIn(viewModelScope)
 
-            //Room is the single source of truth
+            //Use the next code if Room is the single source of truth
 //            moviesRepository.getVideoReviews(selectedVideo.id)
             //As I see without caching it does not survive configuration change
             moviesRepository.getVideoReviews(selectedVideo.id).cachedIn(viewModelScope)
         } else {
-            //Network is the single source of truth
+            //Use the next code if network is the single source of truth
 //            tvShowsRepository.getVideoReviews(selectedVideo.id).cachedIn(viewModelScope)
 
-            //Room is the single source of truth
+            //Use the next code if Room is the single source of truth
 //            tvShowsRepository.getVideoReviews(selectedVideo.id)
             //As I see without caching it does not survive configuration change
             tvShowsRepository.getVideoReviews(selectedVideo.id).cachedIn(viewModelScope)

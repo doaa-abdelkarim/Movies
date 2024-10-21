@@ -15,6 +15,8 @@ import com.example.movies.MoviesApp
 import com.example.movies.R
 import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import com.example.movies.util.exhaustive
+import com.example.movies.presentation.common.LoaderStateAdapter
+import com.example.movies.presentation.common.VideosAdapter
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -30,6 +32,7 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
     lateinit var appContext: Context
 
     private lateinit var videosAdapter: VideosAdapter
+    private lateinit var loaderStateAdapter: LoaderStateAdapter
     abstract val videosViewModel: VM
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,7 +44,7 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
     }
 
     private fun initRecyclerView(view: View) {
-        if (!::videosAdapter.isInitialized)
+        if (!::videosAdapter.isInitialized) {
             videosAdapter = VideosAdapter(
                 VideosAdapter.OnItemClickListener {
                     videosViewModel.onVideoClicked(it)
@@ -56,9 +59,11 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
                         }
                     }
             }
+            loaderStateAdapter = LoaderStateAdapter { videosAdapter.retry() }
+        }
 
         view.findViewById<RecyclerView>(R.id.recycler_view_videos_list).apply {
-            adapter = videosAdapter
+            adapter = videosAdapter.withLoadStateFooter(loaderStateAdapter)
             layoutManager = GridLayoutManager(requireContext(), 4)
             setHasFixedSize(true)
         }

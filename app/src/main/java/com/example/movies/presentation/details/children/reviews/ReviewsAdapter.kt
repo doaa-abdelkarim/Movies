@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movies.databinding.ItemReviewBinding
+import com.example.movies.databinding.CellReviewBinding
 import com.example.movies.domain.entities.Review
 import com.example.movies.presentation.details.children.reviews.ReviewsAdapter.ReviewsViewHolder
 
@@ -20,13 +20,13 @@ class ReviewsAdapter : PagingDataAdapter<Review, ReviewsViewHolder>(DiffCallback
         holder.bind(getItem(position))
     }
 
-    class ReviewsViewHolder(private val binding: ItemReviewBinding) :
+    class ReviewsViewHolder(private val binding: CellReviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         companion object {
             fun from(parent: ViewGroup): ReviewsViewHolder {
                 val binding =
-                    ItemReviewBinding.inflate(
+                    CellReviewBinding.inflate(
                         LayoutInflater.from(parent.context), parent, false
                     )
                 return ReviewsViewHolder(binding)

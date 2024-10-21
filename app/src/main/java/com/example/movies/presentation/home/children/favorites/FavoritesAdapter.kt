@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movies.databinding.ItemFavoriteBinding
+import com.example.movies.databinding.CellFavoriteBinding
 import com.example.movies.domain.entities.Video
 
 
@@ -20,7 +20,7 @@ class FavoritesAdapter :
         holder.bind(getItem(position))
     }
 
-    class FavoritesViewHolder(private val binding: ItemFavoriteBinding) :
+    class FavoritesViewHolder(private val binding: CellFavoriteBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(video: Video) {
@@ -32,7 +32,7 @@ class FavoritesAdapter :
                 parent: ViewGroup
             ): FavoritesViewHolder {
                 val binding =
-                    ItemFavoriteBinding.inflate(
+                    CellFavoriteBinding.inflate(
                         LayoutInflater.from(parent.context), parent, false
                     )
                 return FavoritesViewHolder(binding)

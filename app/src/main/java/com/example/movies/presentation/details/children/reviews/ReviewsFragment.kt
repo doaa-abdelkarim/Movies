@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.MoviesApp
 import com.example.movies.databinding.FragmentReviewsBinding
 import com.example.movies.domain.entities.Video
+import com.example.movies.presentation.common.LoaderStateAdapter
 import com.example.movies.presentation.details.parent.DetailsViewModel
 import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,6 +37,7 @@ class ReviewsFragment : Fragment() {
     private val reviewsViewModel: ReviewsViewModel by viewModels()
 
     private lateinit var reviewsAdapter: ReviewsAdapter
+    private lateinit var loaderStateAdapter: LoaderStateAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,9 +62,10 @@ class ReviewsFragment : Fragment() {
 
     private fun initRecyclerView() {
         reviewsAdapter = ReviewsAdapter()
+        loaderStateAdapter = LoaderStateAdapter { reviewsAdapter.retry() }
         binding.apply {
             recyclerViewReviewsList.apply {
-                adapter = reviewsAdapter
+                adapter = reviewsAdapter.withLoadStateFooter(loaderStateAdapter)
                 layoutManager = LinearLayoutManager(requireContext())
                 setHasFixedSize(true)
             }

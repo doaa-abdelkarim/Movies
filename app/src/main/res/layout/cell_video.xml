@@ -11,7 +11,7 @@
 
         <variable
             name="onItemClickListener"
-            type="com.example.movies.presentation.home.base.VideosAdapter.OnItemClickListener" />
+            type="com.example.movies.presentation.common.VideosAdapter" />
 
     </data>
 

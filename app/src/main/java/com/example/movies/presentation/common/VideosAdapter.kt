@@ -1,15 +1,15 @@
-package com.example.movies.presentation.home.base
+package com.example.movies.presentation.common
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movies.databinding.ItemVideoBinding
+import com.example.movies.databinding.CellVideoBinding
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.TVShow
 import com.example.movies.domain.entities.Video
-import com.example.movies.presentation.home.base.VideosAdapter.VideoViewHolder
+import com.example.movies.presentation.common.VideosAdapter.VideoViewHolder
 
 class VideosAdapter(private val onItemClickListener: OnItemClickListener) :
     PagingDataAdapter<Video, VideoViewHolder>(DiffCallback()) {
@@ -22,13 +22,13 @@ class VideosAdapter(private val onItemClickListener: OnItemClickListener) :
         holder.bind(getItem(position))
     }
 
-    class VideoViewHolder(private val binding: ItemVideoBinding) :
+    class VideoViewHolder(private val binding: CellVideoBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         companion object {
             fun from(parent: ViewGroup, onItemClickListener: OnItemClickListener): VideoViewHolder {
                 val binding =
-                    ItemVideoBinding.inflate(
+                    CellVideoBinding.inflate(
                         LayoutInflater.from(parent.context), parent, false
                     )
                 binding.onItemClickListener = onItemClickListener

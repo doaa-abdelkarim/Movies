@@ -16,6 +16,8 @@
     <string name="button_text_add_to_favorites">Add to Favorites</string>
     <string name="app_logo">App logo</string>
     <string name="saved">Saved</string>
+    <string name="button_retry">Retry</string>
+    <string name="label_error">Something went wrong, Please try again</string>
 
     <string-array name="tab_layout_home_titles">
         <item>Movies</item>

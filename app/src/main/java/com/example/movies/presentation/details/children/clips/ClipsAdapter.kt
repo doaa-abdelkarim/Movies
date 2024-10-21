@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movies.databinding.ItemClipBinding
+import com.example.movies.databinding.CellClipBinding
 import com.example.movies.domain.entities.Clip
 import com.example.movies.presentation.details.children.clips.ClipsAdapter.ClipsViewHolder
 
@@ -21,7 +21,7 @@ class ClipsAdapter(private val onItemClickListener: OnItemClickListener) :
         holder.bind(getItem(position))
     }
 
-    class ClipsViewHolder(private val binding: ItemClipBinding) :
+    class ClipsViewHolder(private val binding: CellClipBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         companion object {
@@ -30,7 +30,7 @@ class ClipsAdapter(private val onItemClickListener: OnItemClickListener) :
                 onItemClickListener: OnItemClickListener
             ): ClipsViewHolder {
                 val binding =
-                    ItemClipBinding.inflate(
+                    CellClipBinding.inflate(
                         LayoutInflater.from(parent.context), parent, false
                     )
                 binding.onItemClickListener = onItemClickListener

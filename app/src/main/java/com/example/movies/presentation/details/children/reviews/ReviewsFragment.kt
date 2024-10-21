@@ -19,7 +19,6 @@ import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -79,9 +78,7 @@ class ReviewsFragment : Fragment() {
                             reviewsViewModel.getVideoReviews(
                                 selectedVideo = it,
                                 isLargeScreen = true
-                            )?.distinctUntilChanged()?.collectLatest {
-                                reviewsAdapter.submitData(it)
-                            }
+                            )
                         }
                     }
                 }
@@ -90,9 +87,10 @@ class ReviewsFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                reviewsViewModel.reviewsFlow?.distinctUntilChanged()?.collectLatest {
-                    reviewsAdapter.submitData(it)
-                }
+                reviewsViewModel.reviews
+                    .collectLatest {
+                        reviewsAdapter.submitData(it)
+                    }
             }
         }
     }

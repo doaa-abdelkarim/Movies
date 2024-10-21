@@ -46,13 +46,16 @@ class InfoViewModel @Inject constructor(
         }
     }
 
-    fun getVideoInfo(selectedVideo: Video, doForLargeScreen: (() -> Unit)? = null) {
+    private fun getVideoInfo(
+        selectedVideo: Video,
+        doForLargeScreen: (() -> Unit)? = null
+    ) {
         viewModelScope.launch {
             try {
                 _info.value = if (selectedVideo is Movie)
-                    moviesRepository.getVideoInfo(selectedVideo.id ?: -1)
+                    moviesRepository.getVideoInfo(selectedVideo.id)
                 else
-                    tvShowsRepository.getVideoInfo(selectedVideo.id ?: -1)
+                    tvShowsRepository.getVideoInfo(selectedVideo.id)
                 doForLargeScreen?.invoke()
             } catch (e: Exception) {
                 Timber.d(e.localizedMessage)

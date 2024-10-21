@@ -53,13 +53,16 @@ class ClipsViewModel @Inject constructor(
         }
     }
 
-    fun getVideoClips(selectedVideo: Video, doForLargeScreen: (() -> Unit)? = null) {
+    private fun getVideoClips(
+        selectedVideo: Video,
+        doForLargeScreen: (() -> Unit)? = null
+    ) {
         viewModelScope.launch {
             try {
                 _clips.value = if (selectedVideo is Movie)
-                    moviesRepository.getVideoClips(selectedVideo.id ?: -1)
+                    moviesRepository.getVideoClips(selectedVideo.id)
                 else
-                    tvShowsRepository.getVideoClips(selectedVideo.id ?: -1)
+                    tvShowsRepository.getVideoClips(selectedVideo.id)
                 doForLargeScreen?.invoke()
             } catch (e: Exception) {
                 Timber.d(e.localizedMessage)

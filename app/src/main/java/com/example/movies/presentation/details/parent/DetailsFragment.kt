@@ -131,7 +131,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     detailsViewModel.favorites.collect {
                         setFragmentResult(
                             REQUEST_SHOW_FAVORITES,
-                            bundleOf(RESULT_SHOW_FAVORITES to it)
+                            bundleOf(RESULT_SHOW_FAVORITES to ArrayList(it))
                         )
                     }
                 }

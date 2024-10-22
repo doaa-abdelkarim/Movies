@@ -23,7 +23,12 @@
                 android:background="?attr/colorPrimary"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:layout_constraintTop_toTopOf="parent"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="khhj"/>
+            </androidx.appcompat.widget.Toolbar>
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/nav_host_fragment"
@@ -44,7 +49,7 @@
             android:layout_gravity="start"
             android:background="@color/gray_700"
             app:headerLayout="@layout/nav_header"
-            app:itemIconTint="@color/navigation_view_item_color"
+            app:itemIconTint="@color/vivid_yellow"
             app:itemTextColor="@color/white"
             app:menu="@menu/drawer_menu" />
 

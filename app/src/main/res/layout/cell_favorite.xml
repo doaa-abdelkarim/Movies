@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/spacing_small"
         android:background="@color/gray_700"
         android:orientation="vertical"
         android:padding="@dimen/spacing_normal">
@@ -28,7 +28,7 @@
             android:contentDescription="@string/clip_thumbnail"
             android:cropToPadding="false"
             android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="@dimen/favorite_vido_poster_ratio"
+            app:layout_constraintDimensionRatio="@dimen/ratio_1point3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.35"
@@ -36,7 +36,7 @@
 
         <TextView
             android:id="@+id/text_view_title"
-            style="@style/clipTitle"
+            style="@style/Size16White"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"

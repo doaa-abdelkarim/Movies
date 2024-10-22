@@ -7,11 +7,11 @@
     <color name="teal_700">#A52036</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>tabTextColor">
-    <color name="tab_text_color">#9E9C9C</color>
+    <color name="dark_grayish_red">#9E9C9C</color>
     <color name="gray_light">#D1CFCF</color>
     <color name="darker_gray">#080708</color>
-    <color name="text_info_title_color">#717171</color>
-    <color name="text_info_value_color">#C2C2C2</color>
-    <color name="button_add_to_favorite_background">#D60B41</color>
-    <color name="navigation_view_item_color">#FFF803</color>
+    <color name="very_dark_gray">#717171</color>
+    <color name="light_gray">#C2C2C2</color>
+    <color name="strong_pink">#D60B41</color>
+    <color name="vivid_yellow">#FFF803</color>
 </resources>

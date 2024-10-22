@@ -18,7 +18,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/spacing_small"
         android:background="@color/gray_700"
         android:onClick="@{() -> onItemClickListener.onItemClick(clip)}"
         android:orientation="vertical"
@@ -41,10 +41,12 @@
 
         <TextView
             android:id="@+id/text_view_title"
-            style="@style/clipTitle"
-            android:layout_width="wrap_content"
+            style="@style/Size16White"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="@{clip.name}"
             app:layout_constraintBottom_toBottomOf="@id/image_view_clip_thumbnail"
             app:layout_constraintEnd_toEndOf="parent"

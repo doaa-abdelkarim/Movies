@@ -56,7 +56,7 @@
             imageURL="@{video.posterUri}"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="@dimen/spacing_large"
             android:adjustViewBounds="false"
             android:contentDescription="@string/video_poster"
             android:cropToPadding="false"
@@ -69,11 +69,11 @@
 
         <TextView
             android:id="@+id/text_view_title"
-            style="@style/videoTitle"
+            style="@style/Size18White"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginTop="@dimen/spacing_small"
             android:text="@{video.title}"
             app:layout_constraintBottom_toTopOf="@id/guide_line_horizontal_50"
             app:layout_constraintStart_toEndOf="@id/image_view_video_poster"
@@ -82,7 +82,7 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout_details"
-            style="@style/tabLayout"
+            style="@style/MainTabLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/guide_line_horizontal_50" />
@@ -99,10 +99,10 @@
             android:id="@+id/button_add_to_favorites"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:backgroundTint="@color/button_add_to_favorite_background"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:backgroundTint="@color/strong_pink"
             android:text="@string/button_text_add_to_favorites"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

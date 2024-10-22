@@ -4,7 +4,11 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
-import androidx.work.*
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.movies.data.di.ApplicationScope
 import com.example.movies.worker.RefreshDataWorker
 import dagger.hilt.android.HiltAndroidApp
@@ -46,7 +50,9 @@ class MoviesApp : Application() {
     }
 
     private fun checkScreenSize() {
-        if ((resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE
+        if (
+            (resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK) >=
+            Configuration.SCREENLAYOUT_SIZE_LARGE
         )
             isLargeScreen = true
     }

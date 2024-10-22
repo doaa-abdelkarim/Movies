@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="favorite_video_title">32sp</dimen>
+    <!--    Margins and Paddings-->
     <dimen name="spacing_small">16dp</dimen>
     <dimen name="spacing_normal">32dp</dimen>
     <dimen name="spacing_large">48dp</dimen>
-    <dimen name="favorite_vido_poster_ratio">2</dimen>
+
+    <!--    Text size-->
+    <dimen name="favorite_video_title">32sp</dimen>
+
+    <!--    View size-->
+    <dimen name="ratio_1point3">2</dimen>
+
 </resources>

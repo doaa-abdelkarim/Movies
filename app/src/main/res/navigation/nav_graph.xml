@@ -33,18 +33,13 @@
     <fragment
         android:id="@+id/videoPlayerFragment"
         android:name="com.example.movies.presentation.videoplayer.VideoPlayerFragment"
-        android:label="{clipName}"
+        android:label=""
         tools:layout="@layout/fragment_video_player">
         <argument
             android:name="clipKey"
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
-        <argument
-            android:name="clipName"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
     </fragment>
 <!--    <fragment-->
 <!--        android:id="@+id/moviesFragment"-->

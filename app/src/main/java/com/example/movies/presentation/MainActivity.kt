@@ -13,8 +13,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.transition.Visibility
 import com.example.movies.MoviesApp
 import com.example.movies.R
 import com.example.movies.databinding.ActivityMainBinding
@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ManActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     @Inject
     @ApplicationContext
     lateinit var appContext: Context
@@ -47,6 +47,7 @@ class ManActivity : AppCompatActivity() {
         else
             initPhoneFlavor()
         observeState()
+
         /*        binding.navView?.let {
                     changeStartDestination()
                     initToolBar()
@@ -60,24 +61,24 @@ class ManActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.findNavController()
+    }
+
+    private fun initPhoneFlavor() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.detailsFragment)
+            if (destination.id == R.id.detailsFragment || destination.id == R.id.videoPlayerFragment)
                 binding.toolbar.visibility = View.VISIBLE
             else
                 binding.toolbar.visibility = View.GONE
         }
-    }
-
-    private fun initPhoneFlavor() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
+
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
     private fun initTabletFlavor() {
-        lookUpFavoritesItem()
     }
 
-    /*    private fun changeStartDestination() {
+       private fun changeStartDestination() {
             val navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             navController = navHostFragment.findNavController()
@@ -86,11 +87,13 @@ class ManActivity : AppCompatActivity() {
             graph.setStartDestination(R.id.moviesFragment)
             navHostFragment.navController.graph = graph
         }
+        /*
 
         private fun initToolBar() {
             appBarConfiguration = AppBarConfiguration(
                 setOf(R.id.moviesFragment, R.id.tvShowsFragment),
                 binding.drawerLayout
+
             )
             setSupportActionBar(binding.toolbar)
             setupActionBarWithNavController(navController, appBarConfiguration)

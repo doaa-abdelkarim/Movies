@@ -107,12 +107,10 @@ class ClipsFragment : Fragment() {
                 clipsViewModel.clipsEvent.collect {
                     when (it) {
                         is ClipsEvent.EventNavigateToVideoPlayerScreen -> {
-
                             findNavController().navigate(
                                 R.id.videoPlayerFragment,
                                 bundleOf(
                                     "clipKey" to it.clipKey,
-                                    "clipName" to it.clipName
                                 )
                             )
                         }

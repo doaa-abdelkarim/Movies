@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
             if (!bundle.getParcelableArrayList<Video>(RESULT_SHOW_FAVORITES)
                     .isNullOrEmpty()
             )
-                showFavoritesFragment()
+                addFavoritesFragmentToViewPager()
         }
 
         observeState()
@@ -91,13 +91,13 @@ class HomeFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mainActivityViewModel.favorites.collect {
                     if (it.isNotEmpty() && fragmentList.size < 3)
-                        showFavoritesFragment()
+                        addFavoritesFragmentToViewPager()
                 }
             }
         }
     }
 
-    private fun showFavoritesFragment() {
+    private fun addFavoritesFragmentToViewPager() {
         viewPagerAdapter.fragmentList = fragmentList.apply { add(FavoritesFragment()) }
         viewPagerAdapter.notifyDataSetChanged()
         binding.tabLayoutHome.newTab().apply {

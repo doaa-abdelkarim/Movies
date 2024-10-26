@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="video"
-            type="com.example.movies.domain.entities.BaseVideo" />
+            name="favorite"
+            type="com.example.movies.domain.entities.Favorite" />
 
     </data>
 
@@ -21,7 +21,7 @@
 
         <ImageView
             android:id="@+id/image_view_clip_thumbnail"
-            imageURL="@{video.posterUri}"
+            imageURL="@{favorite.posterUri}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:adjustViewBounds="false"
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
-            android:text="@{video.title}"
+            android:text="@{favorite.title}"
             android:textSize="@dimen/favorite_video_title"
             app:layout_constraintBottom_toBottomOf="@id/image_view_clip_thumbnail"
             app:layout_constraintEnd_toEndOf="parent"

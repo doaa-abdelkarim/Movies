@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.databinding.CellFavoriteBinding
-import com.example.movies.domain.entities.BaseVideo
+import com.example.movies.domain.entities.Favorite
 
 
 class FavoritesAdapter :
-    ListAdapter<BaseVideo, FavoritesAdapter.FavoritesViewHolder>(DiffCallback()) {
+    ListAdapter<Favorite, FavoritesAdapter.FavoritesViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesViewHolder {
         return FavoritesViewHolder.from(parent)
@@ -23,8 +23,8 @@ class FavoritesAdapter :
     class FavoritesViewHolder(private val binding: CellFavoriteBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(video: BaseVideo) {
-            binding.video = video
+        fun bind(favorite: Favorite) {
+            binding.favorite = favorite
         }
 
         companion object {
@@ -40,12 +40,12 @@ class FavoritesAdapter :
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<BaseVideo>() {
-        override fun areItemsTheSame(oldItem: BaseVideo, newItem: BaseVideo) =
-            oldItem.id == newItem.id
+    class DiffCallback : DiffUtil.ItemCallback<Favorite>() {
+        override fun areItemsTheSame(oldItem: Favorite, newItem: Favorite) =
+            oldItem.videoId == newItem.videoId
 
-        override fun areContentsTheSame(oldItem: BaseVideo, newItem: BaseVideo) =
-            oldItem.equals(newItem)
+        override fun areContentsTheSame(oldItem: Favorite, newItem: Favorite) =
+            oldItem == newItem
 
     }
 

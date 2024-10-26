@@ -7,13 +7,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.movies.MoviesApp
 import com.example.movies.R
-import com.example.movies.data.di.FavoriteMoviesRepo
-import com.example.movies.data.di.FavoriteTVShowsRepo
-import com.example.movies.data.local.models.favorites.LocalFavoriteMovie
-import com.example.movies.data.local.models.favorites.LocalFavoriteTVShow
-import com.example.movies.domain.entities.Movie
+import com.example.movies.data.local.models.favorites.LocalFavorite
 import com.example.movies.domain.entities.BaseVideo
-import com.example.movies.domain.repositories.BaseFavoriteRepository
+import com.example.movies.domain.entities.Favorite
+import com.example.movies.domain.repositories.BaseFavoritesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -26,8 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
-    @FavoriteMoviesRepo private val favoriteMoviesRepository: BaseFavoriteRepository,
-    @FavoriteTVShowsRepo private val favoriteTVShowsRepository: BaseFavoriteRepository,
+    private val favoritesRepository: BaseFavoritesRepository,
     @ApplicationContext context: Context,
     savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(context as Application) {
@@ -44,7 +40,7 @@ class DetailsViewModel @Inject constructor(
     private val _observableSelectedVideo = MutableStateFlow<BaseVideo?>(null)
     val observableSelectedVideo = _observableSelectedVideo.asStateFlow()
 
-    private val _favorites = MutableStateFlow<List<BaseVideo>>(emptyList())
+    private val _favorites = MutableStateFlow<List<Favorite>>(emptyList())
     val favorites = _favorites.asStateFlow()
 
     private val _detailsEventFlow = MutableSharedFlow<DetailsEvent>()
@@ -59,25 +55,24 @@ class DetailsViewModel @Inject constructor(
             val selectedVideo =
                 if (isLargeScreen) _observableSelectedVideo.value else this@DetailsViewModel.selectedVideo
             try {
-                if (selectedVideo is Movie) {
-                    favoriteMoviesRepository.cacheFavorites(
-                        LocalFavoriteMovie(selectedVideo.id)
-                    )
-                } else {
-                    favoriteTVShowsRepository.cacheFavorites(
-                        LocalFavoriteTVShow(selectedVideo?.id)
-                    )
-                }
-                _favorites.value = favoriteMoviesRepository.getAllFavorites().plus(
-                    favoriteTVShowsRepository.getAllFavorites()
-                )
-                _detailsEventFlow.emit(
-                    DetailsEvent.ShowSavedMessage(
-                        getApplication<MoviesApp>().getString(
-                            R.string.saved
+                selectedVideo?.let {
+                    favoritesRepository.cacheFavorite(
+                        LocalFavorite(
+                            videoId = it.id,
+                            posterPath = it.posterPath,
+                            backdropPath = it.backdropPath,
+                            title = it.title,
                         )
                     )
-                )
+                    _favorites.value = favoritesRepository.getAllFavorites()
+                    _detailsEventFlow.emit(
+                        DetailsEvent.ShowSavedMessage(
+                            getApplication<MoviesApp>().getString(
+                                R.string.saved
+                            )
+                        )
+                    )
+                }
             } catch (e: Exception) {
                 Timber.d(e.localizedMessage)
             }

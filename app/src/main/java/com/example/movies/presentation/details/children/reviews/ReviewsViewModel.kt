@@ -7,9 +7,9 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.movies.data.di.MoviesRepo
 import com.example.movies.data.di.TVShowsRepo
+import com.example.movies.domain.entities.BaseVideo
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Review
-import com.example.movies.domain.entities.BaseVideo
 import com.example.movies.domain.repositories.BaseVideosRepository
 import com.example.movies.util.AppConstants.Companion.KEY_LAST_EMITTED_VALUE
 import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
@@ -55,32 +55,18 @@ class ReviewsViewModel @Inject constructor(
         doForLargeScreen: (() -> Unit)? = null
     ) {
         viewModelScope.launch {
-            if (selectedVideo is Movie) {
-                //Use the next code if network is the single source of truth
-//            moviesRepository.getVideoReviews(selectedVideo.id).cachedIn(viewModelScope)
-
-                //Use the next code if Room is the single source of truth
-//            moviesRepository.getVideoReviews(selectedVideo.id)
-                //As I see without caching it does not survive configuration change
+            val reviews = if (selectedVideo is Movie) {
+                //As I see without caching it does not survive configuration even if we cache in Room
                 moviesRepository.getVideoReviews(selectedVideo.id).cachedIn(viewModelScope)
-                    .distinctUntilChanged()
-                    .collectLatest {
-                        _reviews.value = it
-                    }
             } else {
-                //Use the next code if network is the single source of truth
-//            tvShowsRepository.getVideoReviews(selectedVideo.id).cachedIn(viewModelScope)
-
-                //Use the next code if Room is the single source of truth
-//            tvShowsRepository.getVideoReviews(selectedVideo.id)
-                //As I see without caching it does not survive configuration change
+                //As I see without caching it does not survive configuration even if we cache in Room
                 tvShowsRepository.getVideoReviews(selectedVideo.id).cachedIn(viewModelScope)
-                    .distinctUntilChanged()
-                    .collectLatest {
-                        _reviews.value = it
-                    }
             }
-            doForLargeScreen?.invoke()
+            reviews.distinctUntilChanged()
+                .collectLatest {
+                    _reviews.value = it
+                    doForLargeScreen?.invoke()
+                }
         }
     }
 }

@@ -2,14 +2,12 @@ package com.example.movies.data.di
 
 import android.content.Context
 import com.example.movies.data.local.db.MoviesDB
-import com.example.movies.data.local.db.dao.FavoriteMoviesDao
-import com.example.movies.data.local.db.dao.FavoriteTVShowsDao
+import com.example.movies.data.local.db.dao.FavoritesDao
 import com.example.movies.data.remote.apis.MoviesAPI
-import com.example.movies.data.repositories.FavoriteMoviesRepository
-import com.example.movies.data.repositories.FavoriteTVShowsRepository
+import com.example.movies.data.repositories.FavoritesRepository
 import com.example.movies.data.repositories.MoviesRepository2
 import com.example.movies.data.repositories.TVShowsRepository2
-import com.example.movies.domain.repositories.BaseFavoriteRepository
+import com.example.movies.domain.repositories.BaseFavoritesRepository
 import com.example.movies.domain.repositories.BaseVideosRepository
 import com.example.movies.util.NetworkHandler
 import com.example.movies.util.NetworkHandlerImpl
@@ -71,18 +69,10 @@ class RepositoryModule {
         )
 
     @Provides
-    @FavoriteMoviesRepo
-    fun provideFavoriteMoviesRepository(
-        favoriteMoviesDao: FavoriteMoviesDao
-    ): BaseFavoriteRepository =
-        FavoriteMoviesRepository(favoriteMoviesDao)
-
-    @Provides
-    @FavoriteTVShowsRepo
-    fun provideFavoriteTVShowsRepository(
-        favoriteTVShowsDao: FavoriteTVShowsDao
-    ): BaseFavoriteRepository =
-        FavoriteTVShowsRepository(favoriteTVShowsDao)
+    fun provideFavoritesRepository(
+        favoritesDao: FavoritesDao
+    ): BaseFavoritesRepository =
+        FavoritesRepository(favoritesDao)
 
     @Provides
     fun provideNetworkHandler(@ApplicationContext context: Context): NetworkHandler =
@@ -97,11 +87,3 @@ annotation class MoviesRepo
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class TVShowsRepo
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class FavoriteMoviesRepo
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class FavoriteTVShowsRepo

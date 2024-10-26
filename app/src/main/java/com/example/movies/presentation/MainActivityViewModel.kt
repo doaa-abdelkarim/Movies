@@ -2,10 +2,8 @@ package com.example.movies.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movies.data.di.FavoriteMoviesRepo
-import com.example.movies.data.di.FavoriteTVShowsRepo
-import com.example.movies.domain.entities.BaseVideo
-import com.example.movies.domain.repositories.BaseFavoriteRepository
+import com.example.movies.domain.entities.Favorite
+import com.example.movies.domain.repositories.BaseFavoritesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -14,11 +12,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    @FavoriteMoviesRepo private val favoriteMoviesRepository: BaseFavoriteRepository,
-    @FavoriteTVShowsRepo private val favoriteTVShowsRepository: BaseFavoriteRepository
+    private val favoritesRepository: BaseFavoritesRepository,
 ) : ViewModel() {
 
-    val favorites = MutableStateFlow<List<BaseVideo>>(emptyList())
+    val favorites = MutableStateFlow<List<Favorite>>(emptyList())
 
     init {
         getAllFavorites()
@@ -27,9 +24,7 @@ class MainActivityViewModel @Inject constructor(
     private fun getAllFavorites() =
         viewModelScope.launch {
             try {
-                favorites.value = favoriteMoviesRepository.getAllFavorites().plus(
-                    favoriteTVShowsRepository.getAllFavorites()
-                )
+                favorites.value = favoritesRepository.getAllFavorites()
             } catch (e: Exception) {
                 Timber.d(e.localizedMessage)
             }

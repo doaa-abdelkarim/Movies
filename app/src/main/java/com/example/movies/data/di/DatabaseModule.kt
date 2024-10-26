@@ -43,10 +43,7 @@ object DatabaseModule {
     fun provideTVShowReviewsDao(db: MoviesDB) = db.tvShowReviewsDao()
 
     @Provides
-    fun provideFavoriteMoviesDao(db: MoviesDB) = db.favoriteMoviesDao()
-
-    @Provides
-    fun provideFavoriteTVShowsDao(db: MoviesDB) = db.favoriteTVShowsDao()
+    fun provideFavoritesDao(db: MoviesDB) = db.favoritesDao()
 
     @Provides
     fun provideMoviesRemoteKeysDao(db: MoviesDB) = db.moviesRemoteKeysDao()

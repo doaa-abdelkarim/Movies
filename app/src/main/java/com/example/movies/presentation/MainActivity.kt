@@ -11,9 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.movies.MoviesApp
 import com.example.movies.R
@@ -47,14 +45,6 @@ class MainActivity : AppCompatActivity() {
         else
             initPhoneFlavor()
         observeState()
-
-        /*        binding.navView?.let {
-                    changeStartDestination()
-                    initToolBar()
-                    initNavigationView()
-                    lookUpFavoritesItem()
-                    observeState()
-                }*/
     }
 
     private fun initNavController() {
@@ -82,41 +72,18 @@ class MainActivity : AppCompatActivity() {
             setOf(R.id.moviesFragment, R.id.tvShowsFragment),
             binding.drawerLayout
         )
-//        setSupportActionBar(binding.toolbar)
-//        setupActionBarWithNavController(navController, appBarConfiguration)
-//        binding.navView?.setupWithNavController(navController)
-
-//        appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
         binding.navView?.setupWithNavController(navController)
 
         lookUpFavoritesItem()
     }
 
-       private fun changeStartDestination() {
-//            val navHostFragment =
-//                supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-//            navController = navHostFragment.findNavController()
-            val inflater = /*navHostFragment.*/navController.navInflater
-            val graph = inflater.inflate(R.navigation.nav_graph)
-            graph.setStartDestination(R.id.moviesFragment)
-            /*navHostFragment.*/navController.graph = graph
-        }
-        /*
-
-        private fun initToolBar() {
-            appBarConfiguration = AppBarConfiguration(
-                setOf(R.id.moviesFragment, R.id.tvShowsFragment),
-                binding.drawerLayout
-
-            )
-            setSupportActionBar(binding.toolbar)
-            setupActionBarWithNavController(navController, appBarConfiguration)
-        }
-
-        private fun initNavigationView() {
-            binding.navView?.setupWithNavController(navController)
-        }*/
+    private fun changeStartDestination() {
+        val inflater = navController.navInflater
+        val graph = inflater.inflate(R.navigation.nav_graph)
+        graph.setStartDestination(R.id.moviesFragment)
+        navController.graph = graph
+    }
 
     private fun lookUpFavoritesItem() {
         binding.navView?.let {

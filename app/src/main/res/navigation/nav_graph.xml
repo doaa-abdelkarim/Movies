@@ -20,6 +20,7 @@
         android:label="">
         <argument
             android:name="video"
+            android:defaultValue="@null"
             app:argType="com.example.movies.domain.entities.Video"
             app:nullable="true" />
         <action
@@ -40,11 +41,19 @@
     <fragment
         android:id="@+id/moviesFragment"
         android:name="com.example.movies.presentation.home.children.movies.MoviesFragment"
-        android:label="MoviesFragment" />
+        android:label="MoviesFragment" >
+        <action
+            android:id="@+id/action_moviesFragment_to_videoPlayerFragment"
+            app:destination="@id/videoPlayerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/tvShowsFragment"
         android:name="com.example.movies.presentation.home.children.tvshows.TVShowsFragment"
-        android:label="TVShowsFragment" />
+        android:label="TVShowsFragment" >
+        <action
+            android:id="@+id/action_tvShowsFragment_to_videoPlayerFragment"
+            app:destination="@id/videoPlayerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.example.movies.presentation.home.children.favorites.FavoritesFragment"

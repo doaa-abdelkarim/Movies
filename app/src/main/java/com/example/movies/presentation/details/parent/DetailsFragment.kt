@@ -54,13 +54,13 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        selectedVideo = args.video
-
         if ((appContext as MoviesApp).isLargeScreen)
             videosViewModel = if (parentFragment?.javaClass == MoviesFragment::class.java)
                 ViewModelProvider(requireParentFragment())[MoviesViewModel::class.java]
             else
                 ViewModelProvider(requireParentFragment())[TVShowsViewModel::class.java]
+        else
+            selectedVideo = args.video
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

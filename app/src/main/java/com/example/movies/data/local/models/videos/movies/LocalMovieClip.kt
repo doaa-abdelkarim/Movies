@@ -11,6 +11,7 @@ import com.example.movies.domain.entities.Clip
         entity = LocalMovie::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("videoId"),
+        onUpdate = ForeignKey.CASCADE,
         onDelete = ForeignKey.CASCADE
     )]
 )

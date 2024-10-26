@@ -11,6 +11,7 @@ import com.example.movies.domain.entities.Review
         entity = LocalTVShow::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("videoId"),
+        onUpdate = ForeignKey.CASCADE,
         onDelete = ForeignKey.CASCADE
     )]
 )

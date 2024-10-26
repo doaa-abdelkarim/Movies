@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2a0ff4c9b5aab10f6851ccd18b273885",
+    "identityHash": "c44068ee91d433ab5b8973957e968b6b",
     "entities": [
       {
         "tableName": "movies_table",
@@ -92,7 +92,7 @@
       },
       {
         "tableName": "movie_clips_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER NOT NULL, `id` TEXT NOT NULL, `name` TEXT, `key` TEXT, `clipUri` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`videoId`) REFERENCES `movies_table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER NOT NULL, `id` TEXT NOT NULL, `name` TEXT, `key` TEXT, `clipUri` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`videoId`) REFERENCES `movies_table`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "videoId",
@@ -136,7 +136,7 @@
           {
             "table": "movies_table",
             "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
+            "onUpdate": "CASCADE",
             "columns": [
               "videoId"
             ],
@@ -148,7 +148,7 @@
       },
       {
         "tableName": "movie_reviews_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER NOT NULL, `id` TEXT NOT NULL, `username` TEXT, `avatarPath` TEXT, `content` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`videoId`) REFERENCES `movies_table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER NOT NULL, `id` TEXT NOT NULL, `username` TEXT, `avatarPath` TEXT, `content` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`videoId`) REFERENCES `movies_table`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "videoId",
@@ -192,7 +192,7 @@
           {
             "table": "movies_table",
             "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
+            "onUpdate": "CASCADE",
             "columns": [
               "videoId"
             ],
@@ -284,7 +284,7 @@
       },
       {
         "tableName": "tv_show_clips_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER NOT NULL, `id` TEXT NOT NULL, `name` TEXT, `key` TEXT, `clipUri` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`videoId`) REFERENCES `tv_shows_table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER NOT NULL, `id` TEXT NOT NULL, `name` TEXT, `key` TEXT, `clipUri` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`videoId`) REFERENCES `tv_shows_table`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "videoId",
@@ -328,7 +328,7 @@
           {
             "table": "tv_shows_table",
             "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
+            "onUpdate": "CASCADE",
             "columns": [
               "videoId"
             ],
@@ -340,7 +340,7 @@
       },
       {
         "tableName": "tv_show_reviews_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER NOT NULL, `id` TEXT NOT NULL, `username` TEXT, `avatarPath` TEXT, `content` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`videoId`) REFERENCES `tv_shows_table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER NOT NULL, `id` TEXT NOT NULL, `username` TEXT, `avatarPath` TEXT, `content` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`videoId`) REFERENCES `tv_shows_table`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "videoId",
@@ -384,7 +384,7 @@
           {
             "table": "tv_shows_table",
             "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
+            "onUpdate": "CASCADE",
             "columns": [
               "videoId"
             ],
@@ -622,7 +622,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2a0ff4c9b5aab10f6851ccd18b273885')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c44068ee91d433ab5b8973957e968b6b')"
     ]
   }
 }

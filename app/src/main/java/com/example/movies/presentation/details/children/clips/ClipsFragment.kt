@@ -13,10 +13,13 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.MoviesApp
+import com.example.movies.R
 import com.example.movies.databinding.FragmentClipsBinding
 import com.example.movies.domain.entities.Video
 import com.example.movies.presentation.details.parent.DetailsFragmentDirections
 import com.example.movies.presentation.details.parent.DetailsViewModel
+import com.example.movies.presentation.home.children.movies.MoviesFragmentDirections
+import com.example.movies.presentation.home.children.tvshows.TVShowsFragmentDirections
 import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import com.example.movies.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
@@ -106,11 +109,25 @@ class ClipsFragment : Fragment() {
                 clipsViewModel.clipsEvent.collect {
                     when (it) {
                         is ClipsEvent.EventNavigateToVideoPlayerScreen -> {
-                            findNavController().navigate(
-                                DetailsFragmentDirections.actionDetailsFragmentToVideoPlayerFragment(
-                                    it.clipKey
+                            if ((appContext as MoviesApp).isLargeScreen)
+                                if (findNavController().currentDestination?.id == R.id.moviesFragment)
+                                    findNavController().navigate(
+                                        MoviesFragmentDirections.actionMoviesFragmentToVideoPlayerFragment(
+                                            it.clipKey
+                                        )
+                                    )
+                                else
+                                    findNavController().navigate(
+                                        TVShowsFragmentDirections.actionTvShowsFragmentToVideoPlayerFragment(
+                                            it.clipKey
+                                        )
+                                    )
+                            else
+                                findNavController().navigate(
+                                    DetailsFragmentDirections.actionDetailsFragmentToVideoPlayerFragment(
+                                        it.clipKey
+                                    )
                                 )
-                            )
                         }
                     }.exhaustive
                 }

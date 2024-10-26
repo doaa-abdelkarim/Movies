@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.example.movies.databinding.FragmentVideoPlayerBinding
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -16,15 +16,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class VideoPlayerFragment : Fragment() {
 
-    private val videoPlayerViewModel: VideoPlayerViewModel by viewModels()
     private var _binding: FragmentVideoPlayerBinding? = null
     private val binding get() = _binding!!
-    private var clipKey: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        clipKey = videoPlayerViewModel.clipKeyArg
-    }
+    private val args: VideoPlayerFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,7 +59,7 @@ class VideoPlayerFragment : Fragment() {
             .addYouTubePlayerListener(object :
                 AbstractYouTubePlayerListener() {
                 override fun onReady(youTubePlayer: YouTubePlayer) {
-                    youTubePlayer.loadVideo(clipKey ?: "", 0f)
+                    youTubePlayer.loadVideo(args.clipKey ?: "", 0f)
                 }
             })
     }

@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
     private fun initNavController() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.findNavController()
+        navController = navHostFragment.navController
     }
 
     private fun initPhoneFlavor() {
@@ -76,16 +76,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initTabletFlavor() {
+        changeStartDestination()
+
+        appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.moviesFragment, R.id.tvShowsFragment),
+            binding.drawerLayout
+        )
+//        setSupportActionBar(binding.toolbar)
+//        setupActionBarWithNavController(navController, appBarConfiguration)
+//        binding.navView?.setupWithNavController(navController)
+
+//        appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+        binding.navView?.setupWithNavController(navController)
+
+        lookUpFavoritesItem()
     }
 
        private fun changeStartDestination() {
-            val navHostFragment =
-                supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-            navController = navHostFragment.findNavController()
-            val inflater = navHostFragment.navController.navInflater
+//            val navHostFragment =
+//                supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+//            navController = navHostFragment.findNavController()
+            val inflater = /*navHostFragment.*/navController.navInflater
             val graph = inflater.inflate(R.navigation.nav_graph)
             graph.setStartDestination(R.id.moviesFragment)
-            navHostFragment.navController.graph = graph
+            /*navHostFragment.*/navController.graph = graph
         }
         /*
 

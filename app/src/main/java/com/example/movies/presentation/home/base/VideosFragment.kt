@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.MoviesApp
 import com.example.movies.R
-import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
-import com.example.movies.util.exhaustive
 import com.example.movies.presentation.common.LoaderStateAdapter
 import com.example.movies.presentation.common.VideosAdapter
+import com.example.movies.presentation.home.parent.HomeFragmentDirections
+import com.example.movies.util.exhaustive
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -98,10 +98,7 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
                     when (it) {
                         is VideosEvent.NavigateToDetailsScreen ->
                             findNavController().navigate(
-                                R.id.detailsFragment,
-                                Bundle().apply {
-                                    putParcelable(KEY_STATE_SELECTED_VIDEO, it.video)
-                                }
+                                HomeFragmentDirections.actionHomeFragmentToDetailsFragment(it.video)
                             )
                     }.exhaustive
                 }

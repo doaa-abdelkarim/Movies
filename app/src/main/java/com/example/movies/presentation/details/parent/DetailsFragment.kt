@@ -13,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import com.example.movies.MoviesApp
 import com.example.movies.R
 import com.example.movies.databinding.FragmentDetailsBinding
@@ -25,7 +26,6 @@ import com.example.movies.presentation.home.base.VideosViewModel
 import com.example.movies.presentation.home.children.movies.MoviesFragment
 import com.example.movies.presentation.home.children.movies.MoviesViewModel
 import com.example.movies.presentation.home.children.tvshows.TVShowsViewModel
-import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import com.example.movies.util.AppConstants.Companion.REQUEST_SHOW_FAVORITES
 import com.example.movies.util.AppConstants.Companion.RESULT_SHOW_FAVORITES
 import com.example.movies.util.ViewPagerAdapter
@@ -48,12 +48,13 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     private val detailsViewModel: DetailsViewModel by viewModels()
 
     private lateinit var binding: FragmentDetailsBinding
+    private val args: DetailsFragmentArgs by navArgs()
     private var selectedVideo: Video? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        selectedVideo = arguments?.getParcelable(KEY_STATE_SELECTED_VIDEO)
+        selectedVideo = args.video
 
         if ((appContext as MoviesApp).isLargeScreen)
             videosViewModel = if (parentFragment?.javaClass == MoviesFragment::class.java)
@@ -107,14 +108,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
 
     private fun observeState() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                detailsViewModel.favorites.collect {
-                    mainActivityViewModel.favorites.value = it
-                }
-            }
-        }
-
         if ((appContext as MoviesApp).isLargeScreen) {
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -134,6 +127,15 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                             bundleOf(RESULT_SHOW_FAVORITES to ArrayList(it))
                         )
                     }
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                detailsViewModel.favorites.collect {
+                    if (it.isNotEmpty())
+                        mainActivityViewModel.favorites.value = it
                 }
             }
         }

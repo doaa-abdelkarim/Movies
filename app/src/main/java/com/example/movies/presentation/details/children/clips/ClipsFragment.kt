@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -14,9 +13,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.MoviesApp
-import com.example.movies.R
 import com.example.movies.databinding.FragmentClipsBinding
 import com.example.movies.domain.entities.Video
+import com.example.movies.presentation.details.parent.DetailsFragmentDirections
 import com.example.movies.presentation.details.parent.DetailsViewModel
 import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import com.example.movies.util.exhaustive
@@ -108,9 +107,8 @@ class ClipsFragment : Fragment() {
                     when (it) {
                         is ClipsEvent.EventNavigateToVideoPlayerScreen -> {
                             findNavController().navigate(
-                                R.id.videoPlayerFragment,
-                                bundleOf(
-                                    "clipKey" to it.clipKey,
+                                DetailsFragmentDirections.actionDetailsFragmentToVideoPlayerFragment(
+                                    it.clipKey
                                 )
                             )
                         }

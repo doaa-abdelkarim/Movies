@@ -25,34 +25,3 @@ data class LocalTVShow(
      */
     val createdAt: Long? = System.currentTimeMillis()
 ) : BaseLocalVideo()
-
-fun LocalTVShow.asDomainModel(): TVShow {
-    return TVShow(
-        id = id,
-        posterPath = posterPath,
-        backdropPath = backdropPath,
-        title = title,
-        popularity = popularity,
-        genres = genres,
-        originalLanguage = originalLanguage,
-        overview = overview,
-        releaseDate = releaseDate,
-        originalTitle = originalTitle
-    )
-}
-
-fun List<LocalTVShow>.asDomainModel() =
-    map {
-        TVShow(
-            id = it.id,
-            posterPath = it.posterPath,
-            backdropPath = it.backdropPath,
-            title = it.title,
-            popularity = it.popularity,
-            genres = it.genres,
-            originalLanguage = it.originalLanguage,
-            overview = it.overview,
-            releaseDate = it.releaseDate,
-            originalTitle = it.originalTitle
-        )
-    }

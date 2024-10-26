@@ -26,36 +26,3 @@ data class LocalMovie(
      */
     val createdAt: Long? = System.currentTimeMillis()
 ) : BaseLocalVideo()
-
-fun LocalMovie.asDomainModel(): Movie {
-    return Movie(
-        id = id,
-        posterPath = posterPath,
-        backdropPath = backdropPath,
-        title = title,
-        popularity = popularity,
-        genres = genres,
-        originalLanguage = originalLanguage,
-        overview = overview,
-        releaseDate = releaseDate,
-        revenue = revenue,
-        originalTitle = originalTitle
-    )
-}
-
-fun List<LocalMovie>.asDomainModel(): List<Movie> =
-    map {
-        Movie(
-            id = it.id,
-            posterPath = it.posterPath,
-            backdropPath = it.backdropPath,
-            title = it.title,
-            popularity = it.popularity,
-            genres = it.genres,
-            originalLanguage = it.originalLanguage,
-            overview = it.overview,
-            releaseDate = it.releaseDate,
-            revenue = it.revenue,
-            originalTitle = it.originalTitle
-        )
-    }

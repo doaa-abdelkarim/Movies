@@ -14,7 +14,6 @@ import com.example.movies.data.local.models.favorites.LocalFavoriteTVShow
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Video
 import com.example.movies.domain.repositories.BaseFavoriteRepository
-import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -30,14 +29,14 @@ class DetailsViewModel @Inject constructor(
     @FavoriteMoviesRepo private val favoriteMoviesRepository: BaseFavoriteRepository,
     @FavoriteTVShowsRepo private val favoriteTVShowsRepository: BaseFavoriteRepository,
     @ApplicationContext context: Context,
-    val state: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(context as Application) {
 
     /*
     In small devices, selectedVideo is passed as an argument because details fragment and videos
     fragment are not nested
      */
-    private val selectedVideo = state.get<Video>(KEY_STATE_SELECTED_VIDEO)
+    private val selectedVideo = savedStateHandle.get<Video>("video")
 
     /*
     In large devices, selectedVideo is observed. because details fragment is child of videos fragment

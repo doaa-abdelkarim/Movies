@@ -21,9 +21,9 @@ import javax.inject.Inject
 class InfoViewModel @Inject constructor(
     @MoviesRepo private val moviesRepository: BaseVideosRepository,
     @TVShowsRepo private val tvShowsRepository: BaseVideosRepository,
-    val state: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val selectedVideo = state.get<Video>(KEY_STATE_SELECTED_VIDEO)
+    private val selectedVideo = savedStateHandle.get<Video>(KEY_STATE_SELECTED_VIDEO)
     private val _info = MutableStateFlow<Video?>(null)
     val info = _info.asStateFlow()
 
@@ -33,13 +33,13 @@ class InfoViewModel @Inject constructor(
 
     fun getVideoInfo(selectedVideo: Video, isLargeScreen: Boolean) {
         // Retrieve the last emitted value from SavedStateHandle
-        val lastEmittedValue = state.get<Video?>(KEY_LAST_EMITTED_VALUE)
+        val lastEmittedValue = savedStateHandle.get<Video?>(KEY_LAST_EMITTED_VALUE)
         // Only send request if the current value is different from the last one stored
         if (lastEmittedValue == null || lastEmittedValue != selectedVideo) {
             getVideoInfo(
                 selectedVideo = selectedVideo,
                 doForLargeScreen = {
-                    state[KEY_LAST_EMITTED_VALUE] = selectedVideo
+                    savedStateHandle[KEY_LAST_EMITTED_VALUE] = selectedVideo
                 }
             )
 

@@ -25,10 +25,10 @@ import javax.inject.Inject
 class ReviewsViewModel @Inject constructor(
     @MoviesRepo private val moviesRepository: BaseVideosRepository,
     @TVShowsRepo private val tvShowsRepository: BaseVideosRepository,
-    val state: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val selectedVideo = state.get<Video>(KEY_STATE_SELECTED_VIDEO)
+    private val selectedVideo = savedStateHandle.get<Video>(KEY_STATE_SELECTED_VIDEO)
     private val _reviews = MutableStateFlow<PagingData<Review>>(PagingData.empty())
     val reviews = _reviews.asStateFlow()
 
@@ -38,13 +38,13 @@ class ReviewsViewModel @Inject constructor(
 
     fun getVideoReviews(selectedVideo: Video, isLargeScreen: Boolean) {
         // Retrieve the last emitted value from SavedStateHandle
-        val lastEmittedValue = state.get<Video?>(KEY_LAST_EMITTED_VALUE)
+        val lastEmittedValue = savedStateHandle.get<Video?>(KEY_LAST_EMITTED_VALUE)
         // Only send request if the current value is different from the last one stored
         if (lastEmittedValue == null || lastEmittedValue != selectedVideo) {
             getVideoReviews(
                 selectedVideo = selectedVideo,
                 doForLargeScreen = {
-                    state[KEY_LAST_EMITTED_VALUE] = selectedVideo
+                    savedStateHandle[KEY_LAST_EMITTED_VALUE] = selectedVideo
                 }
             )
         }

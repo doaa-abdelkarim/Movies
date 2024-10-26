@@ -108,8 +108,8 @@ fun RemoteMovieDetails.asDomainModel() =
         originalLanguage = originalLanguage,
         overview = overview,
         releaseDate = releaseDate,
-        revenue = revenue,
-        originalTitle = originalTitle
+        originalTitle = originalTitle,
+        revenue = revenue
     )
 
 

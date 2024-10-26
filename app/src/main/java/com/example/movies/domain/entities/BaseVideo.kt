@@ -45,8 +45,8 @@ fun BaseVideo.asDatabaseModel(): BaseLocalVideo {
             originalLanguage = originalLanguage,
             overview = overview,
             releaseDate = releaseDate,
-            revenue = revenue,
-            originalTitle = originalTitle
+            originalTitle = originalTitle,
+            revenue = revenue
         ) else
         LocalTVShow(
             id = id,

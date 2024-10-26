@@ -1,9 +1,9 @@
 package com.example.movies.data.local.models.videos
 
 import com.example.movies.data.local.models.videos.movies.LocalMovie
+import com.example.movies.domain.entities.BaseVideo
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.TVShow
-import com.example.movies.domain.entities.BaseVideo
 
 abstract class BaseLocalVideo {
     abstract val id: Int
@@ -16,6 +16,13 @@ abstract class BaseLocalVideo {
     abstract val overview: String?
     abstract val releaseDate: String?
     abstract val originalTitle: String?
+
+    /*
+    I added this field to fix "RemoteMediator calls API again and again" issue according to answer
+    suggested in this link until I find better solution to this issue
+    https://stackoverflow.com/a/76556967
+    */
+    var createdAt: Long = System.currentTimeMillis()
 }
 
 fun BaseLocalVideo.asDomainModel(): BaseVideo {
@@ -30,8 +37,8 @@ fun BaseLocalVideo.asDomainModel(): BaseVideo {
             originalLanguage = originalLanguage,
             overview = overview,
             releaseDate = releaseDate,
-            revenue = revenue,
-            originalTitle = originalTitle
+            originalTitle = originalTitle,
+            revenue = revenue
         ) else
         TVShow(
             id = id,
@@ -61,8 +68,8 @@ fun List<BaseLocalVideo>.asDomainModel(): List<BaseVideo> =
                     originalLanguage = it.originalLanguage,
                     overview = it.overview,
                     releaseDate = it.releaseDate,
-                    revenue = (it as LocalMovie).revenue,
-                    originalTitle = it.originalTitle
+                    originalTitle = it.originalTitle,
+                    revenue = (it as LocalMovie).revenue
                 )
             }
         else

@@ -3,7 +3,6 @@ package com.example.movies.data.local.models.videos.tvshows
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.movies.data.local.models.videos.BaseLocalVideo
-import com.example.movies.domain.entities.TVShow
 
 @Entity(tableName = "tv_shows_table")
 data class LocalTVShow(
@@ -17,11 +16,5 @@ data class LocalTVShow(
     override val originalLanguage: String? = null,
     override val overview: String? = null,
     override val releaseDate: String? = null,
-    override val originalTitle: String? = null,
-    /*
-    I added this field to fix "RemoteMediator calls API again and again" issue according to answer
-    suggested in this link until I find better solution to this issue
-    https://stackoverflow.com/a/76556967
-     */
-    val createdAt: Long? = System.currentTimeMillis()
+    override val originalTitle: String? = null
 ) : BaseLocalVideo()

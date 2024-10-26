@@ -13,6 +13,6 @@ data class Movie(
     override val originalLanguage: String? = null,
     override val overview: String? = null,
     override val releaseDate: String? = null,
-    val revenue: Int? = null,
-    override val originalTitle: String? = null
+    override val originalTitle: String? = null,
+    val revenue: Int? = null
 ) : BaseVideo()

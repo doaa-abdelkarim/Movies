@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "941175b287c52bfaae6b61403d3b7ed8",
+    "identityHash": "30d7f4e4827b8245e76614a37f4ee39b",
     "entities": [
       {
         "tableName": "movies_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `posterPath` TEXT, `backdropPath` TEXT, `title` TEXT, `popularity` REAL, `genres` TEXT, `originalLanguage` TEXT, `overview` TEXT, `releaseDate` TEXT, `revenue` INTEGER, `originalTitle` TEXT, `createdAt` INTEGER, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `posterPath` TEXT, `backdropPath` TEXT, `title` TEXT, `popularity` REAL, `genres` TEXT, `originalLanguage` TEXT, `overview` TEXT, `releaseDate` TEXT, `originalTitle` TEXT, `revenue` INTEGER, `createdAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -63,22 +63,22 @@
             "notNull": false
           },
           {
-            "fieldPath": "revenue",
-            "columnName": "revenue",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
             "fieldPath": "originalTitle",
             "columnName": "originalTitle",
             "affinity": "TEXT",
             "notNull": false
           },
           {
+            "fieldPath": "revenue",
+            "columnName": "revenue",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
             "fieldPath": "createdAt",
             "columnName": "createdAt",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -204,7 +204,7 @@
       },
       {
         "tableName": "tv_shows_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `posterPath` TEXT, `backdropPath` TEXT, `title` TEXT, `popularity` REAL, `genres` TEXT, `originalLanguage` TEXT, `overview` TEXT, `releaseDate` TEXT, `originalTitle` TEXT, `createdAt` INTEGER, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `posterPath` TEXT, `backdropPath` TEXT, `title` TEXT, `popularity` REAL, `genres` TEXT, `originalLanguage` TEXT, `overview` TEXT, `releaseDate` TEXT, `originalTitle` TEXT, `createdAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -270,7 +270,7 @@
             "fieldPath": "createdAt",
             "columnName": "createdAt",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -564,7 +564,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '941175b287c52bfaae6b61403d3b7ed8')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '30d7f4e4827b8245e76614a37f4ee39b')"
     ]
   }
 }

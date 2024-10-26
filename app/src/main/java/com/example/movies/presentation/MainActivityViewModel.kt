@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movies.data.di.FavoriteMoviesRepo
 import com.example.movies.data.di.FavoriteTVShowsRepo
-import com.example.movies.domain.entities.Video
+import com.example.movies.domain.entities.BaseVideo
 import com.example.movies.domain.repositories.BaseFavoriteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +18,7 @@ class MainActivityViewModel @Inject constructor(
     @FavoriteTVShowsRepo private val favoriteTVShowsRepository: BaseFavoriteRepository
 ) : ViewModel() {
 
-    val favorites = MutableStateFlow<List<Video>>(emptyList())
+    val favorites = MutableStateFlow<List<BaseVideo>>(emptyList())
 
     init {
         getAllFavorites()

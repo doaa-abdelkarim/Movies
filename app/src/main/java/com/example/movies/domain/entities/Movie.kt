@@ -15,4 +15,4 @@ data class Movie(
     override val releaseDate: String? = null,
     val revenue: Int? = null,
     override val originalTitle: String? = null
-) : Video()
+) : BaseVideo()

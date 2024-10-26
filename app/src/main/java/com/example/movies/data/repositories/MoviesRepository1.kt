@@ -10,7 +10,7 @@ import com.example.movies.data.remote.models.asDomainModel
 import com.example.movies.data.remote.models.asMovieDomainModel
 import com.example.movies.domain.entities.Clip
 import com.example.movies.domain.entities.Review
-import com.example.movies.domain.entities.Video
+import com.example.movies.domain.entities.BaseVideo
 import com.example.movies.domain.repositories.BaseVideosRepository
 import com.example.movies.util.VideoType.MOVIE
 import com.example.movies.util.getDefaultPageConfig
@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.map
 class MoviesRepository1(
     private val moviesAPI: MoviesAPI
 ) : BaseVideosRepository {
-    override fun getVideos(): Flow<PagingData<Video>> {
+    override fun getVideos(): Flow<PagingData<BaseVideo>> {
         return Pager(
             config = getDefaultPageConfig(),
             pagingSourceFactory = {
@@ -35,7 +35,7 @@ class MoviesRepository1(
         }
     }
 
-    override suspend fun getVideoInfo(videoId: Int): Video {
+    override suspend fun getVideoInfo(videoId: Int): BaseVideo {
         return moviesAPI.getMovieInfo(videoId).asDomainModel()
     }
 

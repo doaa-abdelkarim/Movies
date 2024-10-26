@@ -14,4 +14,4 @@ data class TVShow (
     override val overview: String? = null,
     override val releaseDate: String? = null,
     override val originalTitle: String? = null
-): Video()
+): BaseVideo()

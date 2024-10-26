@@ -4,7 +4,7 @@ import com.example.movies.data.local.models.videos.movies.LocalMovie
 import com.example.movies.data.local.models.videos.tvshows.LocalTVShow
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.TVShow
-import com.example.movies.domain.entities.Video
+import com.example.movies.domain.entities.BaseVideo
 import com.google.gson.annotations.SerializedName
 
 data class RemoteVideo(
@@ -91,7 +91,7 @@ data class VideosResultsItem(
     val name: String? = null
 )
 
-fun RemoteVideo.asMovieDomainModel(): List<Video> =
+fun RemoteVideo.asMovieDomainModel(): List<BaseVideo> =
     results
         ?.asSequence()
         ?.filterNotNull()
@@ -106,7 +106,7 @@ fun RemoteVideo.asMovieDomainModel(): List<Video> =
         }
         ?.toList() ?: emptyList()
 
-fun RemoteVideo.asTVShowDomainModel(): List<Video> =
+fun RemoteVideo.asTVShowDomainModel(): List<BaseVideo> =
     results
         ?.asSequence()
         ?.filterNotNull()
@@ -152,7 +152,7 @@ fun RemoteVideo.asTVShowDatabaseModel(): List<LocalTVShow> {
         ?.toList() ?: emptyList()
 }
 
-fun VideosResultsItem.asMovieDomainModel(): Video =
+fun VideosResultsItem.asMovieDomainModel(): BaseVideo =
     Movie(
         id = id!!,
         posterPath = posterPath,
@@ -161,7 +161,7 @@ fun VideosResultsItem.asMovieDomainModel(): Video =
         popularity = popularity
     )
 
-fun VideosResultsItem.asTVShowDomainModel(): Video =
+fun VideosResultsItem.asTVShowDomainModel(): BaseVideo =
     TVShow(
         id = id!!,
         posterPath = posterPath,

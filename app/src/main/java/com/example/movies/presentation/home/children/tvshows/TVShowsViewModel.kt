@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.movies.data.di.TVShowsRepo
-import com.example.movies.domain.entities.Video
+import com.example.movies.domain.entities.BaseVideo
 import com.example.movies.domain.repositories.BaseVideosRepository
 import com.example.movies.presentation.home.base.VideosViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,9 +19,9 @@ class TVShowsViewModel @Inject constructor(
     @TVShowsRepo private val videosRepository: BaseVideosRepository,
 ) : VideosViewModel(context) {
 
-    override val videosFlow: Flow<PagingData<Video>> = getVideos()
+    override val videosFlow: Flow<PagingData<BaseVideo>> = getVideos()
 
-    override fun getVideos(): Flow<PagingData<Video>> =
+    override fun getVideos(): Flow<PagingData<BaseVideo>> =
     //Use the next code if network is the single source of truth
     //        videosRepository.getVideos().cachedIn(viewModelScope)
 

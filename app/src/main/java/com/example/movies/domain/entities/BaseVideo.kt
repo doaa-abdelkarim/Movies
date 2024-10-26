@@ -7,7 +7,7 @@ import com.example.movies.data.local.models.videos.movies.LocalMovie
 import com.example.movies.data.local.models.videos.tvshows.LocalTVShow
 import com.example.movies.util.AppConstants.Companion.IMAGE_BASE_URL
 
-abstract class Video : Parcelable {
+abstract class BaseVideo : Parcelable {
     abstract val id: Int
     abstract val posterPath: String?
     abstract val backdropPath: String?
@@ -33,7 +33,7 @@ abstract class Video : Parcelable {
 
 }
 
-fun Video.asDatabaseModel(): BaseLocalVideo {
+fun BaseVideo.asDatabaseModel(): BaseLocalVideo {
     return if (this is Movie)
         LocalMovie(
             id = id,

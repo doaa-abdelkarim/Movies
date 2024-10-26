@@ -14,7 +14,7 @@ import com.example.movies.data.remote.apis.MoviesAPI
 import com.example.movies.data.remote.models.asDomainModel
 import com.example.movies.domain.entities.Clip
 import com.example.movies.domain.entities.Review
-import com.example.movies.domain.entities.Video
+import com.example.movies.domain.entities.BaseVideo
 import com.example.movies.domain.entities.asTVShowClipsDatabaseModel
 import com.example.movies.domain.entities.asDatabaseModel
 import com.example.movies.domain.repositories.BaseVideosRepository
@@ -30,7 +30,7 @@ class TVShowsRepository2(
     private val moviesDB: MoviesDB,
     private val networkHandler: NetworkHandler
 ) : BaseVideosRepository {
-    override fun getVideos(): Flow<PagingData<Video>> {
+    override fun getVideos(): Flow<PagingData<BaseVideo>> {
         return Pager(
             config = getDefaultPageConfig(),
             remoteMediator = TVShowsRemoteMediator(
@@ -43,7 +43,7 @@ class TVShowsRepository2(
         }
     }
 
-    override suspend fun getVideoInfo(videoId: Int): Video {
+    override suspend fun getVideoInfo(videoId: Int): BaseVideo {
         val tvShowsDao = moviesDB.tvShowsDao()
         if (networkHandler.isOnline()) {
             val tvShow = moviesAPI.getTVShowInfo(videoId).asDomainModel()

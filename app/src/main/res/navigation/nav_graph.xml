@@ -21,7 +21,7 @@
         <argument
             android:name="video"
             android:defaultValue="@null"
-            app:argType="com.example.movies.domain.entities.Video"
+            app:argType="com.example.movies.domain.entities.BaseVideo"
             app:nullable="true" />
         <action
             android:id="@+id/action_detailsFragment_to_videoPlayerFragment"

@@ -3,7 +3,7 @@ package com.example.movies.data.local.models.videos
 import com.example.movies.data.local.models.videos.movies.LocalMovie
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.TVShow
-import com.example.movies.domain.entities.Video
+import com.example.movies.domain.entities.BaseVideo
 
 abstract class BaseLocalVideo {
     abstract val id: Int
@@ -18,7 +18,7 @@ abstract class BaseLocalVideo {
     abstract val originalTitle: String?
 }
 
-fun BaseLocalVideo.asDomainModel(): Video {
+fun BaseLocalVideo.asDomainModel(): BaseVideo {
     return if (this is LocalMovie)
         Movie(
             id = id,
@@ -47,7 +47,7 @@ fun BaseLocalVideo.asDomainModel(): Video {
         )
 }
 
-fun List<BaseLocalVideo>.asDomainModel(): List<Video> =
+fun List<BaseLocalVideo>.asDomainModel(): List<BaseVideo> =
     if (this.isNotEmpty())
         if (this[0] is LocalMovie)
             map {

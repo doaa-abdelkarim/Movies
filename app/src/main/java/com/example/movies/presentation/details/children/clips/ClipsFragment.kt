@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.MoviesApp
 import com.example.movies.R
 import com.example.movies.databinding.FragmentClipsBinding
-import com.example.movies.domain.entities.Video
+import com.example.movies.domain.entities.BaseVideo
 import com.example.movies.presentation.details.parent.DetailsFragmentDirections
 import com.example.movies.presentation.details.parent.DetailsViewModel
 import com.example.movies.presentation.home.children.movies.MoviesFragmentDirections
@@ -136,7 +136,7 @@ class ClipsFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(selectedVideo: Video?) =
+        fun newInstance(selectedVideo: BaseVideo?) =
             ClipsFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(KEY_STATE_SELECTED_VIDEO, selectedVideo)

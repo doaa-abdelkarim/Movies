@@ -7,7 +7,7 @@ import com.example.movies.data.di.MoviesRepo
 import com.example.movies.data.di.TVShowsRepo
 import com.example.movies.domain.entities.Clip
 import com.example.movies.domain.entities.Movie
-import com.example.movies.domain.entities.Video
+import com.example.movies.domain.entities.BaseVideo
 import com.example.movies.domain.repositories.BaseVideosRepository
 import com.example.movies.util.AppConstants.Companion.KEY_LAST_EMITTED_VALUE
 import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
@@ -27,7 +27,7 @@ class ClipsViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val selectedVideo = savedStateHandle.get<Video>(KEY_STATE_SELECTED_VIDEO)
+    private val selectedVideo = savedStateHandle.get<BaseVideo>(KEY_STATE_SELECTED_VIDEO)
     private val _clips = MutableStateFlow<List<Clip>>(emptyList())
     val clips = _clips.asStateFlow()
 
@@ -38,9 +38,9 @@ class ClipsViewModel @Inject constructor(
         selectedVideo?.let { getVideoClips(it) }
     }
 
-    fun getVideoClips(selectedVideo: Video, isLargeScreen: Boolean) {
+    fun getVideoClips(selectedVideo: BaseVideo, isLargeScreen: Boolean) {
         // Retrieve the last emitted value from SavedStateHandle
-        val lastEmittedValue = savedStateHandle.get<Video?>(KEY_LAST_EMITTED_VALUE)
+        val lastEmittedValue = savedStateHandle.get<BaseVideo?>(KEY_LAST_EMITTED_VALUE)
         // Only send request if the current value is different from the last one stored
         if (lastEmittedValue == null || lastEmittedValue != selectedVideo) {
             getVideoClips(
@@ -54,7 +54,7 @@ class ClipsViewModel @Inject constructor(
     }
 
     private fun getVideoClips(
-        selectedVideo: Video,
+        selectedVideo: BaseVideo,
         doForLargeScreen: (() -> Unit)? = null
     ) {
         viewModelScope.launch {

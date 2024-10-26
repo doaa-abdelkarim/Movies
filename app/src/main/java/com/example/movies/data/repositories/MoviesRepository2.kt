@@ -14,7 +14,7 @@ import com.example.movies.data.remote.apis.MoviesAPI
 import com.example.movies.data.remote.models.asDomainModel
 import com.example.movies.domain.entities.Clip
 import com.example.movies.domain.entities.Review
-import com.example.movies.domain.entities.Video
+import com.example.movies.domain.entities.BaseVideo
 import com.example.movies.domain.entities.asMovieClipsDatabaseModel
 import com.example.movies.domain.entities.asDatabaseModel
 import com.example.movies.domain.repositories.BaseVideosRepository
@@ -30,7 +30,7 @@ class MoviesRepository2(
     private val moviesDB: MoviesDB,
     private val networkHandler: NetworkHandler
 ) : BaseVideosRepository {
-    override fun getVideos(): Flow<PagingData<Video>> {
+    override fun getVideos(): Flow<PagingData<BaseVideo>> {
         val pagingSourceFactory = { moviesDB.moviesDao().getAllMovies() }
         return Pager(
             config = getDefaultPageConfig(),
@@ -44,7 +44,7 @@ class MoviesRepository2(
         }
     }
 
-    override suspend fun getVideoInfo(videoId: Int): Video {
+    override suspend fun getVideoInfo(videoId: Int): BaseVideo {
         val moviesDao = moviesDB.moviesDao()
         if (networkHandler.isOnline()) {
             val movie = moviesAPI.getMovieInfo(videoId).asDomainModel()

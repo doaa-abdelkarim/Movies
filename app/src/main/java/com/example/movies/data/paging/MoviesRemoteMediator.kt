@@ -10,7 +10,7 @@ import com.example.movies.data.local.models.remotekeys.MoviesRemoteKeys
 import com.example.movies.data.local.models.videos.movies.LocalMovie
 import com.example.movies.data.remote.apis.APIConstants.Companion.DEFAULT_PAGE_INDEX
 import com.example.movies.data.remote.apis.MoviesAPI
-import com.example.movies.data.remote.models.asMovieDatabaseModel
+import com.example.movies.data.remote.models.asDatabaseModel
 
 @ExperimentalPagingApi
 class MoviesRemoteMediator(
@@ -75,7 +75,7 @@ class MoviesRemoteMediator(
                     }
                     ?.toList() ?: emptyList()
                 moviesRemoteKeysDao.insert(remoteKeys = keys)
-                moviesDao.insert(movies = response.asMovieDatabaseModel())
+                moviesDao.insert(movies = response.asDatabaseModel())
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {

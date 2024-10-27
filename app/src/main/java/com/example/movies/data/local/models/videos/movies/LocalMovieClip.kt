@@ -24,8 +24,13 @@ data class LocalMovieClip(
     val clipUri: String
 )
 
-fun List<LocalMovieClip>.asDomainModel() =
+fun List<LocalMovieClip>.asDomainModel(): List<Clip> =
     map {
-        Clip(it.videoId, it.clipId, it.name, it.key).apply { clipUri }
+        Clip(
+            videoId = it.videoId,
+            clipId = it.clipId,
+            name = it.name,
+            key = it.key
+        ).apply { clipUri }
     }
 

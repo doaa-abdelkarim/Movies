@@ -2,12 +2,10 @@ package com.example.movies.domain.entities
 
 import android.net.Uri
 import android.os.Parcelable
-import com.example.movies.data.local.models.videos.BaseLocalVideo
-import com.example.movies.data.local.models.videos.movies.LocalMovie
-import com.example.movies.data.local.models.videos.tvshows.LocalTVShow
 import com.example.movies.util.AppConstants.Companion.IMAGE_BASE_URL
 
 abstract class BaseVideo : Parcelable {
+    abstract val pk: Int?
     abstract val id: Int
     abstract val posterPath: String?
     abstract val backdropPath: String?
@@ -31,33 +29,4 @@ abstract class BaseVideo : Parcelable {
             .appendPath(backdropPath)
             .build()
 
-}
-
-fun BaseVideo.asDatabaseModel(): BaseLocalVideo {
-    return if (this is Movie)
-        LocalMovie(
-            id = id,
-            posterPath = posterPath,
-            backdropPath = backdropPath,
-            title = title,
-            popularity = popularity,
-            genres = genres,
-            originalLanguage = originalLanguage,
-            overview = overview,
-            releaseDate = releaseDate,
-            originalTitle = originalTitle,
-            revenue = revenue
-        ) else
-        LocalTVShow(
-            id = id,
-            posterPath = posterPath,
-            backdropPath = backdropPath,
-            title = title,
-            popularity = popularity,
-            genres = genres,
-            originalLanguage = originalLanguage,
-            overview = overview,
-            releaseDate = releaseDate,
-            originalTitle = originalTitle
-        )
 }

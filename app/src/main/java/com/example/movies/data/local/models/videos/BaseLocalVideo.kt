@@ -6,6 +6,13 @@ import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.TVShow
 
 abstract class BaseLocalVideo {
+    /*
+    I added this field to fix "RemoteMediator calls API again and again"
+    A unique Int key which autoIncrements by 1 with every insert.
+    I need this immutable key to maintain consistent item ordering so that the UI
+    does not scroll out of order when new video are appended and inserted into this db.
+     */
+    abstract val pk: Int
     abstract val id: Int
     abstract val posterPath: String?
     abstract val backdropPath: String?
@@ -16,18 +23,12 @@ abstract class BaseLocalVideo {
     abstract val overview: String?
     abstract val releaseDate: String?
     abstract val originalTitle: String?
-
-    /*
-    I added this field to fix "RemoteMediator calls API again and again" issue according to answer
-    suggested in this link until I find better solution to this issue
-    https://stackoverflow.com/a/76556967
-    */
-    var createdAt: Long = System.currentTimeMillis()
 }
 
 fun BaseLocalVideo.asDomainModel(): BaseVideo {
     return if (this is LocalMovie)
         Movie(
+            pk = pk,
             id = id,
             posterPath = posterPath,
             backdropPath = backdropPath,
@@ -41,6 +42,7 @@ fun BaseLocalVideo.asDomainModel(): BaseVideo {
             revenue = revenue
         ) else
         TVShow(
+            pk = pk,
             id = id,
             posterPath = posterPath,
             backdropPath = backdropPath,
@@ -53,39 +55,3 @@ fun BaseLocalVideo.asDomainModel(): BaseVideo {
             originalTitle = originalTitle
         )
 }
-
-fun List<BaseLocalVideo>.asDomainModel(): List<BaseVideo> =
-    if (this.isNotEmpty())
-        if (this[0] is LocalMovie)
-            map {
-                Movie(
-                    id = it.id,
-                    posterPath = it.posterPath,
-                    backdropPath = it.backdropPath,
-                    title = it.title,
-                    popularity = it.popularity,
-                    genres = it.genres,
-                    originalLanguage = it.originalLanguage,
-                    overview = it.overview,
-                    releaseDate = it.releaseDate,
-                    originalTitle = it.originalTitle,
-                    revenue = (it as LocalMovie).revenue
-                )
-            }
-        else
-            map {
-                TVShow(
-                    id = it.id,
-                    posterPath = it.posterPath,
-                    backdropPath = it.backdropPath,
-                    title = it.title,
-                    popularity = it.popularity,
-                    genres = it.genres,
-                    originalLanguage = it.originalLanguage,
-                    overview = it.overview,
-                    releaseDate = it.releaseDate,
-                    originalTitle = it.originalTitle
-                )
-            }
-    else
-        emptyList()

@@ -49,14 +49,15 @@ class VideosAdapter(private val onItemClickListener: OnItemClickListener) :
 
     class DiffCallback : DiffUtil.ItemCallback<BaseVideo>() {
         override fun areItemsTheSame(oldItem: BaseVideo, newItem: BaseVideo) =
-            oldItem.id == newItem.id
+            oldItem.pk == newItem.pk
 
         override fun areContentsTheSame(oldItem: BaseVideo, newItem: BaseVideo) =
 //            oldItem.equals(newItem)
-            if (newItem is Movie)
-                (oldItem as Movie) == newItem
-            else
-                (oldItem as TVShow) == (newItem as TVShow)
+//            if (newItem is Movie)
+//                (oldItem as Movie) == newItem
+//            else
+//                (oldItem as TVShow) == (newItem as TVShow)
+            oldItem.pk == newItem.pk
     }
 
 }

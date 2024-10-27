@@ -27,20 +27,9 @@ data class LocalTVShowReview(
 fun LocalTVShowReview.asDomainModel(): Review {
     return Review(
         videoId = videoId,
-        id = reviewId,
+        reviewId = reviewId,
         username = username,
         avatarPath = avatarPath,
         content = content
     )
 }
-
-fun List<LocalTVShowReview>.asDomainModel(): List<Review> =
-    map {
-        Review(
-            videoId = it.videoId,
-            id = it.reviewId,
-            username = it.username,
-            avatarPath = it.avatarPath,
-            content = it.content
-        )
-    }

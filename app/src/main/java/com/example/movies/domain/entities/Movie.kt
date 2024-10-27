@@ -4,6 +4,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Movie(
+    override val pk: Int? = null,
     override val id: Int,
     override val posterPath: String? = null,
     override val backdropPath: String? = null,

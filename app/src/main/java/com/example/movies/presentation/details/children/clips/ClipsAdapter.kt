@@ -51,7 +51,7 @@ class ClipsAdapter(private val onItemClickListener: OnItemClickListener) :
 
     class DiffCallback : DiffUtil.ItemCallback<Clip>() {
         override fun areItemsTheSame(oldItem: Clip, newItem: Clip) =
-            oldItem.id == newItem.id
+            oldItem.clipId == newItem.clipId
 
         override fun areContentsTheSame(oldItem: Clip, newItem: Clip) =
             oldItem == newItem

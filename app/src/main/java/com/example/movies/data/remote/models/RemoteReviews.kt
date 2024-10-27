@@ -65,7 +65,7 @@ data class AuthorDetails(
 fun ReviewsResultsItem.asDomainModel(videoId: Int): Review =
     Review(
         videoId = videoId,
-        id = id!!,
+        reviewId = id!!,
         username = authorDetails?.username,
         avatarPath = authorDetails?.avatarPath,
         content = content

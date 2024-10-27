@@ -91,36 +91,25 @@ data class VideosResultsItem(
     val name: String? = null
 )
 
-fun RemoteVideo.asMovieDomainModel(): List<BaseVideo> =
-    results
-        ?.asSequence()
-        ?.filterNotNull()
-        ?.map {
-            Movie(
-                id = it.id!!,
-                posterPath = it.posterPath,
-                backdropPath = it.backdropPath,
-                title = it.title,
-                popularity = it.popularity
-            )
-        }
-        ?.toList() ?: emptyList()
+fun VideosResultsItem.asMovieDomainModel(): BaseVideo =
+    Movie(
+        id = id!!,
+        posterPath = posterPath,
+        backdropPath = backdropPath,
+        title = title,
+        popularity = popularity
+    )
 
-fun RemoteVideo.asTVShowDomainModel(): List<BaseVideo> =
-    results
-        ?.asSequence()
-        ?.filterNotNull()
-        ?.map {
-            TVShow(
-                id = it.id!!,
-                posterPath = it.posterPath,
-                backdropPath = it.backdropPath,
-                title = it.name,
-                popularity = it.popularity
-            )
-        }?.toList() ?: emptyList()
+fun VideosResultsItem.asTVShowDomainModel(): BaseVideo =
+    TVShow(
+        id = id!!,
+        posterPath = posterPath,
+        backdropPath = backdropPath,
+        title = name,
+        popularity = popularity
+    )
 
-fun RemoteVideo.asMovieDatabaseModel(): List<LocalMovie> {
+fun RemoteVideo.asDatabaseModel(): List<LocalMovie> {
     return results
         ?.asSequence()
         ?.filterNotNull()
@@ -145,30 +134,12 @@ fun RemoteVideo.asTVShowDatabaseModel(): List<LocalTVShow> {
                 id = it.id!!,
                 posterPath = it.posterPath,
                 backdropPath = it.backdropPath,
-                title = it.title,
+                title = it.name,
                 popularity = it.popularity,
             )
         }
         ?.toList() ?: emptyList()
 }
-
-fun VideosResultsItem.asMovieDomainModel(): BaseVideo =
-    Movie(
-        id = id!!,
-        posterPath = posterPath,
-        backdropPath = backdropPath,
-        title = title,
-        popularity = popularity
-    )
-
-fun VideosResultsItem.asTVShowDomainModel(): BaseVideo =
-    TVShow(
-        id = id!!,
-        posterPath = posterPath,
-        backdropPath = backdropPath,
-        title = name,
-        popularity = popularity
-    )
 
 
 

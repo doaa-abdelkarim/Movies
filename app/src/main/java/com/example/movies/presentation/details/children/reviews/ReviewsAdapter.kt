@@ -42,7 +42,7 @@ class ReviewsAdapter : PagingDataAdapter<Review, ReviewsViewHolder>(DiffCallback
     class DiffCallback : DiffUtil.ItemCallback<Review>() {
 
         override fun areItemsTheSame(oldItem: Review, newItem: Review) =
-            oldItem.id == newItem.id
+            oldItem.reviewId == newItem.reviewId
 
         override fun areContentsTheSame(oldItem: Review, newItem: Review) =
             oldItem == newItem

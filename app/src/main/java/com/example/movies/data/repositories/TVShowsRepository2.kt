@@ -6,17 +6,15 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.movies.data.local.db.MoviesDB
 import com.example.movies.data.local.models.videos.asDomainModel
-import com.example.movies.data.local.models.videos.tvshows.LocalTVShow
 import com.example.movies.data.local.models.videos.tvshows.asDomainModel
 import com.example.movies.data.paging.TVShowReviewsRemoteMediator
 import com.example.movies.data.paging.TVShowsRemoteMediator
 import com.example.movies.data.remote.apis.MoviesAPI
-import com.example.movies.data.remote.models.asDomainModel
+import com.example.movies.data.remote.models.asDatabaseModel
+import com.example.movies.data.remote.models.asTVShowClipsDatabaseModel
+import com.example.movies.domain.entities.BaseVideo
 import com.example.movies.domain.entities.Clip
 import com.example.movies.domain.entities.Review
-import com.example.movies.domain.entities.BaseVideo
-import com.example.movies.domain.entities.asTVShowClipsDatabaseModel
-import com.example.movies.domain.entities.asDatabaseModel
 import com.example.movies.domain.repositories.BaseVideosRepository
 import com.example.movies.util.NetworkHandler
 import com.example.movies.util.getDefaultPageConfig
@@ -46,9 +44,9 @@ class TVShowsRepository2(
     override suspend fun getVideoInfo(videoId: Int): BaseVideo {
         val tvShowsDao = moviesDB.tvShowsDao()
         if (networkHandler.isOnline()) {
-            val tvShow = moviesAPI.getTVShowInfo(videoId).asDomainModel()
-            tvShowsDao.update(tvShow.asDatabaseModel() as LocalTVShow)
-
+            val tvShow = moviesAPI.getTVShowInfo(videoId)
+            val pk = tvShowsDao.getTVShowById(videoId).pk
+            tvShowsDao.update(tvShow.asDatabaseModel().copy(pk = pk))
         }
         return tvShowsDao.getTVShowById(videoId).asDomainModel()
     }
@@ -56,7 +54,7 @@ class TVShowsRepository2(
     override suspend fun getVideoClips(videoId: Int): List<Clip> {
         val tvShowClipsDao = moviesDB.tvShowClipsDao()
         if (networkHandler.isOnline()) {
-            val clips = moviesAPI.getTVShowClips(videoId).asDomainModel()
+            val clips = moviesAPI.getTVShowClips(videoId)
             tvShowClipsDao.insert(clips.asTVShowClipsDatabaseModel())
         }
         return tvShowClipsDao.getClips(videoId).asDomainModel()

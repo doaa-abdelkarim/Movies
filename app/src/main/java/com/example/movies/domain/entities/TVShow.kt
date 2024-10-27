@@ -3,7 +3,8 @@ package com.example.movies.domain.entities
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class TVShow (
+data class TVShow(
+    override val pk: Int? = null,
     override val id: Int,
     override val posterPath: String? = null,
     override val backdropPath: String? = null,
@@ -14,4 +15,4 @@ data class TVShow (
     override val overview: String? = null,
     override val releaseDate: String? = null,
     override val originalTitle: String? = null
-): BaseVideo()
+) : BaseVideo()

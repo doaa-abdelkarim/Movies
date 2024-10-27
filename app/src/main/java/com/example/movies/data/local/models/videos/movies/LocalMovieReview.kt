@@ -24,23 +24,11 @@ data class LocalMovieReview(
     val content: String? = null
 )
 
-fun LocalMovieReview.asDomainModel(): Review {
-    return Review(
+fun LocalMovieReview.asDomainModel(): Review =
+    Review(
         videoId = videoId,
-        id = reviewId,
+        reviewId = reviewId,
         username = username,
         avatarPath = avatarPath,
         content = content
     )
-}
-
-fun List<LocalMovieReview>.asDomainModel(): List<Review> =
-    map {
-        Review(
-            videoId = it.videoId,
-            id = it.reviewId,
-            username = it.username,
-            avatarPath = it.avatarPath,
-            content = it.content
-        )
-    }

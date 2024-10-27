@@ -1,6 +1,11 @@
 package com.example.movies.data.remote.models
 
+import android.net.Uri
+import com.example.movies.data.local.models.videos.movies.LocalMovieClip
+import com.example.movies.data.local.models.videos.tvshows.LocalTVShowClip
 import com.example.movies.domain.entities.Clip
+import com.example.movies.util.AppConstants.Companion.YOUTUBE_IMAGE_BASE_URL
+import com.example.movies.util.AppConstants.Companion.YOUTUBE_IMAGE_HIGH_QUALITY
 import com.google.gson.annotations.SerializedName
 
 data class RemoteClips(
@@ -46,16 +51,56 @@ data class ClipsResultsItem(
 )
 
 fun RemoteClips.asDomainModel() =
-    results?.asSequence()
+    results
+        ?.asSequence()
         ?.filterNotNull()
         ?.map {
             Clip(
                 videoId = this.id!!,
-                id = it.id!!,
+                clipId = it.id!!,
                 name = it.name,
                 key = it.key
             )
-        }?.toList()
-        ?: listOf()
+        }?.toList() ?: listOf()
+
+fun RemoteClips.asMovieClipsDatabaseModel(): List<LocalMovieClip> {
+    return results
+        ?.asSequence()
+        ?.filterNotNull()
+        ?.map {
+            LocalMovieClip(
+                videoId = this.id!!,
+                clipId = it.id!!,
+                name = it.name,
+                key = it.key,
+                clipUri = Uri.parse(YOUTUBE_IMAGE_BASE_URL)
+                    .buildUpon()
+                    .appendPath(it.key)
+                    .appendPath(YOUTUBE_IMAGE_HIGH_QUALITY)
+                    .build()
+                    .toString()
+            )
+        }?.toList() ?: listOf()
+}
+
+fun RemoteClips.asTVShowClipsDatabaseModel(): List<LocalTVShowClip> {
+    return results
+        ?.asSequence()
+        ?.filterNotNull()
+        ?.map {
+            LocalTVShowClip(
+                videoId = this.id!!,
+                clipId = it.id!!,
+                name = it.name,
+                key = it.key,
+                clipUri = Uri.parse(YOUTUBE_IMAGE_BASE_URL)
+                    .buildUpon()
+                    .appendPath(it.key)
+                    .appendPath(YOUTUBE_IMAGE_HIGH_QUALITY)
+                    .build()
+                    .toString()
+            )
+        }?.toList() ?: listOf()
+}
 
 

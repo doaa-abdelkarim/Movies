@@ -17,12 +17,7 @@ interface TVShowsDao {
     @Update
     suspend fun update(localTVShow: LocalTVShow)
 
-    /*
-    I added this field to fix "RemoteMediator calls API again and again" issue according to answer
-    suggested in this link until I find better solution to this issue
-    https://stackoverflow.com/a/76556967
-     */
-    @Query("SELECT * FROM tv_shows_table Order by createdAt ASC")
+    @Query("SELECT * FROM tv_shows_table Order by pk ASC")
     fun getAllTVShows(): PagingSource<Int, LocalTVShow>
 
     @Query("SELECT * FROM tv_shows_table where id = :id")

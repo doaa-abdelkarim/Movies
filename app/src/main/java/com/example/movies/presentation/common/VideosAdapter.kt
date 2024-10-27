@@ -6,9 +6,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.databinding.CellVideoBinding
+import com.example.movies.domain.entities.BaseVideo
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.TVShow
-import com.example.movies.domain.entities.BaseVideo
 import com.example.movies.presentation.common.VideosAdapter.VideoViewHolder
 
 class VideosAdapter(private val onItemClickListener: OnItemClickListener) :
@@ -49,15 +49,13 @@ class VideosAdapter(private val onItemClickListener: OnItemClickListener) :
 
     class DiffCallback : DiffUtil.ItemCallback<BaseVideo>() {
         override fun areItemsTheSame(oldItem: BaseVideo, newItem: BaseVideo) =
-            oldItem.pk == newItem.pk
+            oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: BaseVideo, newItem: BaseVideo) =
-//            oldItem.equals(newItem)
-//            if (newItem is Movie)
-//                (oldItem as Movie) == newItem
-//            else
-//                (oldItem as TVShow) == (newItem as TVShow)
-            oldItem.pk == newItem.pk
+            if (newItem is Movie)
+                (oldItem as Movie) == newItem
+            else
+                (oldItem as TVShow) == (newItem as TVShow)
     }
 
 }

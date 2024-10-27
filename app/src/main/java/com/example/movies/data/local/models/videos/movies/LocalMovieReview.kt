@@ -18,7 +18,7 @@ import com.example.movies.domain.entities.Review
 data class LocalMovieReview(
     val videoId: Int,
     @PrimaryKey
-    val id: String,
+    val reviewId: String,
     val username: String? = null,
     val avatarPath: String? = null,
     val content: String? = null
@@ -27,7 +27,7 @@ data class LocalMovieReview(
 fun LocalMovieReview.asDomainModel(): Review {
     return Review(
         videoId = videoId,
-        id = id,
+        id = reviewId,
         username = username,
         avatarPath = avatarPath,
         content = content
@@ -38,7 +38,7 @@ fun List<LocalMovieReview>.asDomainModel(): List<Review> =
     map {
         Review(
             videoId = it.videoId,
-            id = it.id,
+            id = it.reviewId,
             username = it.username,
             avatarPath = it.avatarPath,
             content = it.content

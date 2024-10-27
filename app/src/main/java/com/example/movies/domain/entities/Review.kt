@@ -15,7 +15,7 @@ fun List<Review>.asMovieReviewsDatabaseModel(): List<LocalMovieReview> {
     return map {
         LocalMovieReview(
             videoId = it.videoId,
-            id = it.id,
+            reviewId = it.id,
             username = it.username,
             avatarPath = it.avatarPath,
             content = it.content
@@ -27,7 +27,7 @@ fun List<Review>.asTVShowReviewsDatabaseModel(): List<LocalTVShowReview> {
     return map {
         LocalTVShowReview(
             videoId = it.videoId,
-            id = it.id,
+            reviewId = it.id,
             username = it.username,
             avatarPath = it.avatarPath,
             content = it.content

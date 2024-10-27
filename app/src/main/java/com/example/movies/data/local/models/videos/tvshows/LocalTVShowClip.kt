@@ -18,7 +18,7 @@ import com.example.movies.domain.entities.Clip
 data class LocalTVShowClip(
     val videoId: Int,
     @PrimaryKey
-    val id: String,
+    val clipId: String,
     val name: String? = null,
     val key: String? = null,
     val clipUri: String
@@ -26,5 +26,5 @@ data class LocalTVShowClip(
 
 fun List<LocalTVShowClip>.asDomainModel() =
     map {
-        Clip(it.videoId, it.id, it.name, it.key).apply { clipUri }
+        Clip(it.videoId, it.clipId, it.name, it.key).apply { clipUri }
     }

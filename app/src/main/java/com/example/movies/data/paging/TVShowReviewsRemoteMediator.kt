@@ -88,7 +88,7 @@ class TVShowReviewsRemoteMediator(
         state: PagingState<Int, LocalTVShowReview>
     ): TVShowReviewsRemoteKeys? {
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { id ->
+            state.closestItemToPosition(position)?.reviewId?.let { id ->
                 tvShowReviewsRemoteKeysDao.getRemoteKeysById(id = id)
             }
         }
@@ -99,7 +99,7 @@ class TVShowReviewsRemoteMediator(
     ): TVShowReviewsRemoteKeys? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { localVideo ->
-                tvShowReviewsRemoteKeysDao.getRemoteKeysById(id = localVideo.id)
+                tvShowReviewsRemoteKeysDao.getRemoteKeysById(id = localVideo.reviewId)
             }
     }
 
@@ -108,7 +108,7 @@ class TVShowReviewsRemoteMediator(
     ): TVShowReviewsRemoteKeys? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { localVideo ->
-                tvShowReviewsRemoteKeysDao.getRemoteKeysById(id = localVideo.id)
+                tvShowReviewsRemoteKeysDao.getRemoteKeysById(id = localVideo.reviewId)
             }
     }
 

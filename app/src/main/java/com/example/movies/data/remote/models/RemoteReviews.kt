@@ -78,7 +78,7 @@ fun RemoteReviews.asMovieReviewsDatabaseModel(): List<LocalMovieReview> {
         ?.map {
             LocalMovieReview(
                 videoId = this.id!!,
-                id = it.id!!,
+                reviewId = it.id!!,
                 username = it.authorDetails?.username,
                 avatarPath = it.authorDetails?.avatarPath,
                 content = it.content,
@@ -94,7 +94,7 @@ fun RemoteReviews.asTVShowReviewsDatabaseModel(): List<LocalTVShowReview> {
         ?.map {
             LocalTVShowReview(
                 videoId = this.id!!,
-                id = it.id!!,
+                reviewId = it.id!!,
                 username = it.authorDetails?.username,
                 avatarPath = it.authorDetails?.avatarPath,
                 content = it.content,

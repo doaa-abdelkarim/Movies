@@ -24,7 +24,7 @@ fun List<Clip>.asMovieClipsDatabaseModel(): List<LocalMovieClip> {
     return map {
         LocalMovieClip(
             videoId = it.videoId,
-            id = it.id,
+            clipId = it.id,
             name = it.name,
             key = it.key,
             clipUri = it.clipUri.toString()
@@ -36,7 +36,7 @@ fun List<Clip>.asTVShowClipsDatabaseModel(): List<LocalTVShowClip> {
     return map {
         LocalTVShowClip(
             videoId = it.videoId,
-            id = it.id,
+            clipId = it.id,
             name = it.name,
             key = it.key,
             clipUri = it.clipUri.toString()

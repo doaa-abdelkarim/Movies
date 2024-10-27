@@ -88,7 +88,7 @@ class MovieReviewsRemoteMediator(
         state: PagingState<Int, LocalMovieReview>
     ): MovieReviewsRemoteKeys? {
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { id ->
+            state.closestItemToPosition(position)?.reviewId?.let { id ->
                 movieReviewsRemoteKeysDao.getRemoteKeysById(id = id)
             }
         }
@@ -99,7 +99,7 @@ class MovieReviewsRemoteMediator(
     ): MovieReviewsRemoteKeys? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { localVideo ->
-                movieReviewsRemoteKeysDao.getRemoteKeysById(id = localVideo.id)
+                movieReviewsRemoteKeysDao.getRemoteKeysById(id = localVideo.reviewId)
             }
     }
 
@@ -108,7 +108,7 @@ class MovieReviewsRemoteMediator(
     ): MovieReviewsRemoteKeys? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { localVideo ->
-                movieReviewsRemoteKeysDao.getRemoteKeysById(id = localVideo.id)
+                movieReviewsRemoteKeysDao.getRemoteKeysById(id = localVideo.reviewId)
             }
     }
 

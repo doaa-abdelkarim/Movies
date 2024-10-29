@@ -7,7 +7,7 @@
 
         <variable
             name="video"
-            type="com.example.movies.domain.entities.BaseVideo" />
+            type="com.example.movies.domain.entities.Movie" />
 
         <variable
             name="onItemClickListener"

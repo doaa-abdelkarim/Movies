@@ -1,19 +1,35 @@
 package com.example.movies.domain.entities
 
+import android.net.Uri
+import android.os.Parcelable
+import com.example.movies.util.AppConstants.Companion.IMAGE_BASE_URL
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Movie(
-    override val pk: Int? = null,
-    override val id: Int,
-    override val posterPath: String? = null,
-    override val backdropPath: String? = null,
-    override val title: String? = null,
-    override val popularity: Double? = null,
-    override val genres: String? = null,
-    override val originalLanguage: String? = null,
-    override val overview: String? = null,
-    override val releaseDate: String? = null,
-    override val originalTitle: String? = null,
-    val revenue: Int? = null
-) : BaseVideo()
+    val pk: Int? = null,
+    val id: Int,
+    val posterPath: String? = null,
+    val backdropPath: String? = null,
+    val title: String? = null,
+    val popularity: Double? = null,
+    val genres: String? = null,
+    val originalLanguage: String? = null,
+    val overview: String? = null,
+    val releaseDate: String? = null,
+    val originalTitle: String? = null,
+    val revenue: Int? = null,
+    val isMovie: Boolean
+):Parcelable {
+    val posterUri: Uri
+        get() = Uri.parse(IMAGE_BASE_URL)
+            .buildUpon()
+            .appendPath(posterPath)
+            .build()
+
+    val backdropUri: Uri
+        get() = Uri.parse(IMAGE_BASE_URL)
+            .buildUpon()
+            .appendPath(backdropPath)
+            .build()
+}

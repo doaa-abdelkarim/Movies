@@ -5,17 +5,17 @@ import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.movies.data.local.db.MoviesDB
-import com.example.movies.data.local.models.videos.asDomainModel
-import com.example.movies.data.local.models.videos.movies.asDomainModel
+import com.example.movies.data.local.models.asDomainModel
 import com.example.movies.data.paging.MovieReviewsRemoteMediator
 import com.example.movies.data.paging.MoviesRemoteMediator
+import com.example.movies.data.paging.TVShowReviewsRemoteMediator
+import com.example.movies.data.paging.TVShowsRemoteMediator
 import com.example.movies.data.remote.apis.MoviesAPI
 import com.example.movies.data.remote.models.asDatabaseModel
-import com.example.movies.data.remote.models.asMovieClipsDatabaseModel
-import com.example.movies.domain.entities.BaseVideo
 import com.example.movies.domain.entities.Clip
+import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Review
-import com.example.movies.domain.repositories.BaseVideosRepository
+import com.example.movies.domain.repositories.BaseMoviesRepository
 import com.example.movies.util.NetworkHandler
 import com.example.movies.util.getDefaultPageConfig
 import kotlinx.coroutines.flow.Flow
@@ -27,8 +27,8 @@ class MoviesRepository2(
     private val moviesAPI: MoviesAPI,
     private val moviesDB: MoviesDB,
     private val networkHandler: NetworkHandler
-) : BaseVideosRepository {
-    override fun getVideos(): Flow<PagingData<BaseVideo>> {
+) : BaseMoviesRepository {
+    override fun getMovies(): Flow<PagingData<Movie>> {
         val pagingSourceFactory = { moviesDB.moviesDao().getAllMovies() }
         return Pager(
             config = getDefaultPageConfig(),
@@ -42,33 +42,81 @@ class MoviesRepository2(
         }
     }
 
-    override suspend fun getVideoInfo(videoId: Int): BaseVideo {
+    override fun getTVShows(): Flow<PagingData<Movie>> {
+        val pagingSourceFactory = { moviesDB.moviesDao().getAllTVShows() }
+        return Pager(
+            config = getDefaultPageConfig(),
+            remoteMediator = TVShowsRemoteMediator(
+                moviesAPI = moviesAPI,
+                moviesDB = moviesDB,
+            ),
+            pagingSourceFactory = pagingSourceFactory
+        ).flow.map {
+            it.map { video -> video.asDomainModel() }
+        }
+    }
+
+    override suspend fun getMovieInfo(id: Int): Movie {
         val moviesDao = moviesDB.moviesDao()
         if (networkHandler.isOnline()) {
-            val movie = moviesAPI.getMovieInfo(videoId)
-            val pk = moviesDao.getMovieById(videoId).pk
+            val movie = moviesAPI.getMovieInfo(id)
+            val pk = moviesDao.getMovieById(id).pk
             moviesDao.update((movie.asDatabaseModel()).copy(pk = pk))
         }
-        return moviesDao.getMovieById(videoId).asDomainModel()
+        return moviesDao.getMovieById(id).asDomainModel()
     }
 
-    override suspend fun getVideoClips(videoId: Int): List<Clip> {
-        val movieClipsDao = moviesDB.movieClipsDao()
+    override suspend fun getTVShowInfo(id: Int): Movie {
+        val moviesDao = moviesDB.moviesDao()
         if (networkHandler.isOnline()) {
-            val clips = moviesAPI.getMovieClips(videoId)
-            movieClipsDao.insert(clips.asMovieClipsDatabaseModel())
+            val movie = moviesAPI.getTVShowInfo(id)
+            val pk = moviesDao.getMovieById(id).pk
+            moviesDao.update((movie.asDatabaseModel()).copy(pk = pk))
         }
-        return movieClipsDao.getClips(videoId).asDomainModel()
+        return moviesDao.getMovieById(id).asDomainModel()
     }
 
-    override fun getVideoReviews(videoId: Int): Flow<PagingData<Review>> {
-        val pagingSourceFactory = { moviesDB.movieReviewsDao().getReviews(movieId = videoId) }
+    override suspend fun getMovieClips(id: Int): List<Clip> {
+        val movieClipsDao = moviesDB.clipsDao()
+        if (networkHandler.isOnline()) {
+            val clips = moviesAPI.getMovieClips(id)
+            movieClipsDao.insert(clips.asDatabaseModel())
+        }
+        return movieClipsDao.getClips(id = id).asDomainModel()
+    }
+
+    override suspend fun getTVShowClips(id: Int): List<Clip> {
+        val movieClipsDao = moviesDB.clipsDao()
+        if (networkHandler.isOnline()) {
+            val clips = moviesAPI.getTVShowClips(id)
+            movieClipsDao.insert(clips.asDatabaseModel())
+        }
+        return movieClipsDao.getClips(id = id).asDomainModel()
+    }
+
+    override fun getMovieReviews(id: Int): Flow<PagingData<Review>> {
+        val pagingSourceFactory = { moviesDB.reviewsDao().getReviews(id = id) }
         return Pager(
             config = getDefaultPageConfig(),
             remoteMediator = MovieReviewsRemoteMediator(
                 moviesAPI = moviesAPI,
                 moviesDB = moviesDB,
-                movieId = videoId
+                id = id
+            ),
+            pagingSourceFactory = pagingSourceFactory
+        ).flow.map {
+            it.map { review -> review.asDomainModel() }
+        }
+    }
+
+    override fun getTVShowReviews(id: Int): Flow<PagingData<Review>> {
+        val pagingSourceFactory = { moviesDB.reviewsDao().getReviews(id = id) }
+        return Pager(
+            config = getDefaultPageConfig(),
+            remoteMediator = TVShowReviewsRemoteMediator(
+                moviesAPI = moviesAPI,
+                moviesDB = moviesDB,
+                id = id
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow.map {

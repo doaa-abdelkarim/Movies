@@ -1,7 +1,6 @@
 package com.example.movies.data.remote.models
 
-import com.example.movies.data.local.models.videos.movies.LocalMovie
-import com.example.movies.domain.entities.BaseVideo
+import com.example.movies.data.local.models.LocalMovie
 import com.example.movies.domain.entities.Movie
 import com.google.gson.annotations.SerializedName
 
@@ -99,7 +98,7 @@ data class BelongsToCollection(
     val posterPath: String? = null
 )
 
-fun RemoteMovieDetails.asDomainModel(): BaseVideo =
+fun RemoteMovieDetails.asDomainModel(): Movie =
     Movie(
         id = id!!,
         posterPath = posterPath,
@@ -111,7 +110,8 @@ fun RemoteMovieDetails.asDomainModel(): BaseVideo =
         overview = overview,
         releaseDate = releaseDate,
         originalTitle = originalTitle,
-        revenue = revenue
+        revenue = revenue,
+        isMovie = true
     )
 
 fun RemoteMovieDetails.asDatabaseModel(): LocalMovie =
@@ -126,7 +126,8 @@ fun RemoteMovieDetails.asDatabaseModel(): LocalMovie =
         overview = overview,
         releaseDate = releaseDate,
         originalTitle = originalTitle,
-        revenue = revenue
+        revenue = revenue,
+        isMovie = true
     )
 
 

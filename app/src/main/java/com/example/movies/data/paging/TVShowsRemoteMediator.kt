@@ -7,22 +7,22 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.movies.data.local.db.MoviesDB
 import com.example.movies.data.local.models.remotekeys.TVShowsRemoteKeys
-import com.example.movies.data.local.models.videos.tvshows.LocalTVShow
+import com.example.movies.data.local.models.LocalMovie
 import com.example.movies.data.remote.apis.MoviesAPI
-import com.example.movies.data.remote.models.asTVShowDatabaseModel
+import com.example.movies.data.remote.models.asDatabaseModel
 
 @ExperimentalPagingApi
 class TVShowsRemoteMediator(
     private val moviesAPI: MoviesAPI,
     private val moviesDB: MoviesDB,
-) : RemoteMediator<Int, LocalTVShow>() {
+) : RemoteMediator<Int, LocalMovie>() {
 
     private val tvShowsRemoteKeysDao = moviesDB.tvShowsRemoteKeysDao()
-    private val tvShowsDao = moviesDB.tvShowsDao()
+    private val moviesDao = moviesDB.moviesDao()
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, LocalTVShow>
+        state: PagingState<Int, LocalMovie>
     ): MediatorResult {
         return try {
             val currentPage = when (loadType) {
@@ -59,7 +59,7 @@ class TVShowsRemoteMediator(
 
             moviesDB.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    tvShowsDao.clearTVShows()
+                    moviesDao.clearTVShows()
                     tvShowsRemoteKeysDao.clearRemoteKeys()
                 }
                 val keys = response.results
@@ -74,7 +74,7 @@ class TVShowsRemoteMediator(
                     }
                     ?.toList() ?: emptyList()
                 tvShowsRemoteKeysDao.insert(remoteKeys = keys)
-                tvShowsDao.insert(tvShows = response.asTVShowDatabaseModel())
+                moviesDao.insert(movies = response.asDatabaseModel(false))
             }
 
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
@@ -84,7 +84,7 @@ class TVShowsRemoteMediator(
     }
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(
-        state: PagingState<Int, LocalTVShow>
+        state: PagingState<Int, LocalMovie>
     ): TVShowsRemoteKeys? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { id ->
@@ -94,7 +94,7 @@ class TVShowsRemoteMediator(
     }
 
     private suspend fun getRemoteKeyForFirstItem(
-        state: PagingState<Int, LocalTVShow>
+        state: PagingState<Int, LocalMovie>
     ): TVShowsRemoteKeys? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { localVideo ->
@@ -103,7 +103,7 @@ class TVShowsRemoteMediator(
     }
 
     private suspend fun getRemoteKeyForLastItem(
-        state: PagingState<Int, LocalTVShow>
+        state: PagingState<Int, LocalMovie>
     ): TVShowsRemoteKeys? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { localVideo ->

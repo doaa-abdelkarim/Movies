@@ -1,10 +1,7 @@
 package com.example.movies.data.remote.models
 
-import com.example.movies.data.local.models.videos.movies.LocalMovie
-import com.example.movies.data.local.models.videos.tvshows.LocalTVShow
+import com.example.movies.data.local.models.LocalMovie
 import com.example.movies.domain.entities.Movie
-import com.example.movies.domain.entities.TVShow
-import com.example.movies.domain.entities.BaseVideo
 import com.google.gson.annotations.SerializedName
 
 data class RemoteVideo(
@@ -91,26 +88,18 @@ data class VideosResultsItem(
     val name: String? = null
 )
 
-fun VideosResultsItem.asMovieDomainModel(): BaseVideo =
+fun VideosResultsItem.asDomainModel(isMovie: Boolean): Movie =
     Movie(
         id = id!!,
         posterPath = posterPath,
         backdropPath = backdropPath,
-        title = title,
-        popularity = popularity
+        title = if (isMovie) title else name,
+        popularity = popularity,
+        isMovie = isMovie
     )
 
-fun VideosResultsItem.asTVShowDomainModel(): BaseVideo =
-    TVShow(
-        id = id!!,
-        posterPath = posterPath,
-        backdropPath = backdropPath,
-        title = name,
-        popularity = popularity
-    )
-
-fun RemoteVideo.asDatabaseModel(): List<LocalMovie> {
-    return results
+fun RemoteVideo.asDatabaseModel(isMovie: Boolean): List<LocalMovie> =
+    results
         ?.asSequence()
         ?.filterNotNull()
         ?.map {
@@ -118,28 +107,12 @@ fun RemoteVideo.asDatabaseModel(): List<LocalMovie> {
                 id = it.id!!,
                 posterPath = it.posterPath,
                 backdropPath = it.backdropPath,
-                title = it.title,
+                title = if (isMovie) it.title else it.name,
                 popularity = it.popularity,
+                isMovie = isMovie
             )
         }
         ?.toList() ?: emptyList()
-}
-
-fun RemoteVideo.asTVShowDatabaseModel(): List<LocalTVShow> {
-    return results
-        ?.asSequence()
-        ?.filterNotNull()
-        ?.map {
-            LocalTVShow(
-                id = it.id!!,
-                posterPath = it.posterPath,
-                backdropPath = it.backdropPath,
-                title = it.name,
-                popularity = it.popularity,
-            )
-        }
-        ?.toList() ?: emptyList()
-}
 
 
 

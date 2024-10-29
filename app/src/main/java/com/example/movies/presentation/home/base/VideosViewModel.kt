@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import com.example.movies.MoviesApp
-import com.example.movies.domain.entities.BaseVideo
+import com.example.movies.domain.entities.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,16 +17,16 @@ abstract class VideosViewModel(
     context: Context,
 ) : AndroidViewModel(context as Application) {
 
-    abstract val videosFlow: Flow<PagingData<BaseVideo>>
+    abstract val videosFlow: Flow<PagingData<Movie>>
 
-    protected abstract fun getVideos(): Flow<PagingData<BaseVideo>>
+    protected abstract fun getVideos(): Flow<PagingData<Movie>>
 
     private val _videosEventFlow = MutableSharedFlow<VideosEvent>()
     val videosEvent = _videosEventFlow.asSharedFlow()
 
-    val selectedVideo = MutableStateFlow<BaseVideo?>(null)
+    val selectedVideo = MutableStateFlow<Movie?>(null)
 
-    fun onVideoClicked(video: BaseVideo) {
+    fun onVideoClicked(video: Movie) {
         viewModelScope.launch {
             if (getApplication<MoviesApp>().isLargeScreen)
                 selectedVideo.value = video
@@ -38,6 +38,6 @@ abstract class VideosViewModel(
 }
 
 sealed class VideosEvent {
-    data class NavigateToDetailsScreen(val video: BaseVideo) : VideosEvent()
+    data class NavigateToDetailsScreen(val video: Movie) : VideosEvent()
 }
 

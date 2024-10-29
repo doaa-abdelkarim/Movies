@@ -1,7 +1,6 @@
 package com.example.movies.data.remote.models
 
-import com.example.movies.data.local.models.videos.movies.LocalMovieReview
-import com.example.movies.data.local.models.videos.tvshows.LocalTVShowReview
+import com.example.movies.data.local.models.LocalReview
 import com.example.movies.domain.entities.Review
 import com.google.gson.annotations.SerializedName
 
@@ -71,13 +70,13 @@ fun ReviewsResultsItem.asDomainModel(videoId: Int): Review =
         content = content
     )
 
-fun RemoteReviews.asMovieReviewsDatabaseModel(): List<LocalMovieReview> {
-    return results
+fun RemoteReviews.asDatabaseModel(): List<LocalReview> =
+    results
         ?.asSequence()
         ?.filterNotNull()
         ?.map {
-            LocalMovieReview(
-                videoId = this.id!!,
+            LocalReview(
+                movieId = this.id!!,
                 reviewId = it.id!!,
                 username = it.authorDetails?.username,
                 avatarPath = it.authorDetails?.avatarPath,
@@ -85,23 +84,6 @@ fun RemoteReviews.asMovieReviewsDatabaseModel(): List<LocalMovieReview> {
             )
         }
         ?.toList() ?: emptyList()
-}
-
-fun RemoteReviews.asTVShowReviewsDatabaseModel(): List<LocalTVShowReview> {
-    return results
-        ?.asSequence()
-        ?.filterNotNull()
-        ?.map {
-            LocalTVShowReview(
-                videoId = this.id!!,
-                reviewId = it.id!!,
-                username = it.authorDetails?.username,
-                avatarPath = it.authorDetails?.avatarPath,
-                content = it.content,
-            )
-        }
-        ?.toList() ?: emptyList()
-}
 
 
 

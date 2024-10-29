@@ -28,19 +28,10 @@ object DatabaseModule {
     fun provideMoviesDao(db: MoviesDB) = db.moviesDao()
 
     @Provides
-    fun provideMovieClipsDao(db: MoviesDB) = db.movieClipsDao()
+    fun provideMovieClipsDao(db: MoviesDB) = db.clipsDao()
 
     @Provides
-    fun provideMovieReviewsDao(db: MoviesDB) = db.movieReviewsDao()
-
-    @Provides
-    fun provideTVShowsDao(db: MoviesDB) = db.tvShowsDao()
-
-    @Provides
-    fun provideTVShowClipsDao(db: MoviesDB) = db.tvShowClipsDao()
-
-    @Provides
-    fun provideTVShowReviewsDao(db: MoviesDB) = db.tvShowReviewsDao()
+    fun provideMovieReviewsDao(db: MoviesDB) = db.reviewsDao()
 
     @Provides
     fun provideFavoritesDao(db: MoviesDB) = db.favoritesDao()

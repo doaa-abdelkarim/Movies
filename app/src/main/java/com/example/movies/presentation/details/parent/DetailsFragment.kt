@@ -17,7 +17,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.movies.MoviesApp
 import com.example.movies.R
 import com.example.movies.databinding.FragmentDetailsBinding
-import com.example.movies.domain.entities.BaseVideo
+import com.example.movies.domain.entities.Movie
 import com.example.movies.presentation.MainActivityViewModel
 import com.example.movies.presentation.details.children.clips.ClipsFragment
 import com.example.movies.presentation.details.children.info.InfoFragment
@@ -49,7 +49,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private lateinit var binding: FragmentDetailsBinding
     private val args: DetailsFragmentArgs by navArgs()
-    private var selectedVideo: BaseVideo? = null
+    private var selectedVideo: Movie? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

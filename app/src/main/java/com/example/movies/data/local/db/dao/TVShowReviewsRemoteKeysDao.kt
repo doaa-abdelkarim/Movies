@@ -15,7 +15,7 @@ interface TVShowReviewsRemoteKeysDao {
     @Query("SELECT * FROM tv_show_reviews_remote_keys_table WHERE id =:id")
     suspend fun getRemoteKeysById(id: String): TVShowReviewsRemoteKeys
 
-    @Query("DELETE FROM tv_show_reviews_remote_keys_table")
-    suspend fun clearRemoteKeys()
+    @Query("DELETE FROM tv_show_reviews_remote_keys_table  WHERE id = :id")
+    suspend fun clearRemoteKeys(id: Int)
 
 }

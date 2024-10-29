@@ -1,7 +1,7 @@
 package com.example.movies.data.remote.models
 
-import com.example.movies.data.local.models.videos.tvshows.LocalTVShow
-import com.example.movies.domain.entities.TVShow
+import com.example.movies.data.local.models.LocalMovie
+import com.example.movies.domain.entities.Movie
 import com.google.gson.annotations.SerializedName
 
 data class RemoteTVShowDetails(
@@ -190,8 +190,8 @@ data class SeasonsItem(
     val posterPath: String? = null
 )
 
-fun RemoteTVShowDetails.asDomainModel(): TVShow =
-    TVShow(
+fun RemoteTVShowDetails.asDomainModel(): Movie =
+    Movie(
         id = id!!,
         posterPath = posterPath,
         backdropPath = backdropPath,
@@ -201,11 +201,12 @@ fun RemoteTVShowDetails.asDomainModel(): TVShow =
         originalLanguage = originalLanguage,
         overview = overview,
         releaseDate = firstAirDate,
-        originalTitle = originalName
+        originalTitle = originalName,
+        isMovie = false
     )
 
-fun RemoteTVShowDetails.asDatabaseModel(): LocalTVShow =
-    LocalTVShow(
+fun RemoteTVShowDetails.asDatabaseModel(): LocalMovie =
+    LocalMovie(
         id = id!!,
         posterPath = posterPath,
         backdropPath = backdropPath,
@@ -215,5 +216,6 @@ fun RemoteTVShowDetails.asDatabaseModel(): LocalTVShow =
         originalLanguage = originalLanguage,
         overview = overview,
         releaseDate = firstAirDate,
-        originalTitle = originalName
+        originalTitle = originalName,
+        isMovie = false
     )

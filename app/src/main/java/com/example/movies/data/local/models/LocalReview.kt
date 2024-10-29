@@ -1,4 +1,4 @@
-package com.example.movies.data.local.models.videos.movies
+package com.example.movies.data.local.models
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -6,17 +6,17 @@ import androidx.room.PrimaryKey
 import com.example.movies.domain.entities.Review
 
 @Entity(
-    tableName = "movie_reviews_table",
+    tableName = "reviews_table",
     foreignKeys = [ForeignKey(
         entity = LocalMovie::class,
         parentColumns = arrayOf("id"),
-        childColumns = arrayOf("videoId"),
+        childColumns = arrayOf("movieId"),
         onUpdate = ForeignKey.CASCADE,
         onDelete = ForeignKey.CASCADE
     )]
 )
-data class LocalMovieReview(
-    val videoId: Int,
+data class LocalReview(
+    val movieId: Int,
     @PrimaryKey
     val reviewId: String,
     val username: String? = null,
@@ -24,9 +24,9 @@ data class LocalMovieReview(
     val content: String? = null
 )
 
-fun LocalMovieReview.asDomainModel(): Review =
+fun LocalReview.asDomainModel(): Review =
     Review(
-        videoId = videoId,
+        videoId = movieId,
         reviewId = reviewId,
         username = username,
         avatarPath = avatarPath,

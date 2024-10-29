@@ -7,8 +7,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.movies.MoviesApp
 import com.example.movies.R
-import com.example.movies.data.local.models.favorites.LocalFavorite
-import com.example.movies.domain.entities.BaseVideo
+import com.example.movies.data.local.models.LocalFavorite
+import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Favorite
 import com.example.movies.domain.repositories.BaseFavoritesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,12 +32,12 @@ class DetailsViewModel @Inject constructor(
     In small devices, selectedVideo is passed as an argument because details fragment and videos
     fragment are not nested
      */
-    private val selectedVideo = savedStateHandle.get<BaseVideo>("video")
+    private val selectedVideo = savedStateHandle.get<Movie>("video")
 
     /*
     In large devices, selectedVideo is observed. because details fragment is child of videos fragment
      */
-    private val _observableSelectedVideo = MutableStateFlow<BaseVideo?>(null)
+    private val _observableSelectedVideo = MutableStateFlow<Movie?>(null)
     val observableSelectedVideo = _observableSelectedVideo.asStateFlow()
 
     private val _favorites = MutableStateFlow<List<Favorite>>(emptyList())
@@ -46,7 +46,7 @@ class DetailsViewModel @Inject constructor(
     private val _detailsEventFlow = MutableSharedFlow<DetailsEvent>()
     val detailsEvent = _detailsEventFlow.asSharedFlow()
 
-    fun updateObservableSelectedVideo(selectedVideo: BaseVideo?) {
+    fun updateObservableSelectedVideo(selectedVideo: Movie?) {
         _observableSelectedVideo.value = selectedVideo
     }
 

@@ -7,7 +7,7 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.movies.data.local.db.MoviesDB
 import com.example.movies.data.local.models.remotekeys.MoviesRemoteKeys
-import com.example.movies.data.local.models.videos.movies.LocalMovie
+import com.example.movies.data.local.models.LocalMovie
 import com.example.movies.data.remote.apis.APIConstants.Companion.DEFAULT_PAGE_INDEX
 import com.example.movies.data.remote.apis.MoviesAPI
 import com.example.movies.data.remote.models.asDatabaseModel
@@ -75,7 +75,7 @@ class MoviesRemoteMediator(
                     }
                     ?.toList() ?: emptyList()
                 moviesRemoteKeysDao.insert(remoteKeys = keys)
-                moviesDao.insert(movies = response.asDatabaseModel())
+                moviesDao.insert(movies = response.asDatabaseModel(isMovie = true))
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {

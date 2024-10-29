@@ -13,7 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.MoviesApp
 import com.example.movies.databinding.FragmentReviewsBinding
-import com.example.movies.domain.entities.BaseVideo
+import com.example.movies.domain.entities.Movie
 import com.example.movies.presentation.common.LoaderStateAdapter
 import com.example.movies.presentation.details.parent.DetailsViewModel
 import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
@@ -99,7 +99,7 @@ class ReviewsFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(selectedVideo: BaseVideo?) =
+        fun newInstance(selectedVideo: Movie?) =
             ReviewsFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(KEY_STATE_SELECTED_VIDEO, selectedVideo)

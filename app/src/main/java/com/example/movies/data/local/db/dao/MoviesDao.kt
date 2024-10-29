@@ -1,8 +1,12 @@
 package com.example.movies.data.local.db.dao
 
 import androidx.paging.PagingSource
-import androidx.room.*
-import com.example.movies.data.local.models.videos.movies.LocalMovie
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
+import com.example.movies.data.local.models.LocalMovie
 
 @Dao
 interface MoviesDao {
@@ -13,12 +17,18 @@ interface MoviesDao {
     @Update
     suspend fun update(localMovie: LocalMovie)
 
-    @Query("SELECT * FROM movies_table Order by pk asc")
+    @Query("SELECT * FROM movies_table WHERE isMovie = 1 ORDER BY pk ASC")
     fun getAllMovies(): PagingSource<Int, LocalMovie>
+
+    @Query("SELECT * FROM movies_table WHERE isMovie = 0 ORDER BY pk ASC")
+    fun getAllTVShows(): PagingSource<Int, LocalMovie>
 
     @Query("SELECT * FROM movies_table where id = :id")
     suspend fun getMovieById(id: Int): LocalMovie
 
-    @Query("DELETE FROM movies_table")
+    @Query("DELETE FROM movies_table WHERE isMovie = 1")
     suspend fun clearMovies()
+
+    @Query("DELETE FROM movies_table WHERE isMovie = 0")
+    suspend fun clearTVShows()
 }

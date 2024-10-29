@@ -3,12 +3,16 @@ package com.example.movies.domain.repositories
 import androidx.paging.PagingData
 import com.example.movies.domain.entities.Clip
 import com.example.movies.domain.entities.Review
-import com.example.movies.domain.entities.BaseVideo
+import com.example.movies.domain.entities.Movie
 import kotlinx.coroutines.flow.Flow
 
-interface BaseVideosRepository {
-    fun getVideos(): Flow<PagingData<BaseVideo>>
-    suspend fun getVideoInfo(videoId: Int): BaseVideo
-    suspend fun getVideoClips(videoId: Int): List<Clip>
-    fun getVideoReviews(videoId: Int): Flow<PagingData<Review>>
+interface BaseMoviesRepository {
+    fun getMovies(): Flow<PagingData<Movie>>
+    fun getTVShows(): Flow<PagingData<Movie>>
+    suspend fun getMovieInfo(id: Int): Movie
+    suspend fun getTVShowInfo(id: Int): Movie
+    suspend fun getMovieClips(id: Int): List<Clip>
+    suspend fun getTVShowClips(id: Int): List<Clip>
+    fun getMovieReviews(id: Int): Flow<PagingData<Review>>
+    fun getTVShowReviews(id: Int): Flow<PagingData<Review>>
 }

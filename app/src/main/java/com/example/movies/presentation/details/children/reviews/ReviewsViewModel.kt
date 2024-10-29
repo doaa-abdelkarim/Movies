@@ -5,12 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.movies.data.di.MoviesRepo
-import com.example.movies.data.di.TVShowsRepo
-import com.example.movies.domain.entities.BaseVideo
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Review
-import com.example.movies.domain.repositories.BaseVideosRepository
+import com.example.movies.domain.repositories.BaseMoviesRepository
 import com.example.movies.util.AppConstants.Companion.KEY_LAST_EMITTED_VALUE
 import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,12 +20,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReviewsViewModel @Inject constructor(
-    @MoviesRepo private val moviesRepository: BaseVideosRepository,
-    @TVShowsRepo private val tvShowsRepository: BaseVideosRepository,
+    private val baseMoviesRepository: BaseMoviesRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val selectedVideo = savedStateHandle.get<BaseVideo>(KEY_STATE_SELECTED_VIDEO)
+    private val selectedVideo = savedStateHandle.get<Movie>(KEY_STATE_SELECTED_VIDEO)
     private val _reviews = MutableStateFlow<PagingData<Review>>(PagingData.empty())
     val reviews = _reviews.asStateFlow()
 
@@ -36,9 +32,9 @@ class ReviewsViewModel @Inject constructor(
         selectedVideo?.let { getVideoReviews(it) }
     }
 
-    fun getVideoReviews(selectedVideo: BaseVideo, isLargeScreen: Boolean) {
+    fun getVideoReviews(selectedVideo: Movie, isLargeScreen: Boolean) {
         // Retrieve the last emitted value from SavedStateHandle
-        val lastEmittedValue = savedStateHandle.get<BaseVideo?>(KEY_LAST_EMITTED_VALUE)
+        val lastEmittedValue = savedStateHandle.get<Movie?>(KEY_LAST_EMITTED_VALUE)
         // Only send request if the current value is different from the last one stored
         if (lastEmittedValue == null || lastEmittedValue != selectedVideo) {
             getVideoReviews(
@@ -51,17 +47,15 @@ class ReviewsViewModel @Inject constructor(
     }
 
     private fun getVideoReviews(
-        selectedVideo: BaseVideo,
+        selectedVideo: Movie,
         doForLargeScreen: (() -> Unit)? = null
     ) {
         viewModelScope.launch {
-            val reviews = if (selectedVideo is Movie) {
-                //As I see without caching it does not survive configuration even if we cache in Room
-                moviesRepository.getVideoReviews(selectedVideo.id).cachedIn(viewModelScope)
-            } else {
-                //As I see without caching it does not survive configuration even if we cache in Room
-                tvShowsRepository.getVideoReviews(selectedVideo.id).cachedIn(viewModelScope)
-            }
+            //As I see without caching it does not survive configuration even if we cache in Room
+            val reviews = if (selectedVideo.isMovie)
+                    baseMoviesRepository.getMovieReviews(selectedVideo.id).cachedIn(viewModelScope)
+                else
+                    baseMoviesRepository.getTVShowReviews(selectedVideo.id).cachedIn(viewModelScope)
             reviews.distinctUntilChanged()
                 .collectLatest {
                     _reviews.value = it

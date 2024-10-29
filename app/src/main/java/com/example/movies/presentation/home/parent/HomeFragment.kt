@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.movies.R
 import com.example.movies.databinding.FragmentHomeBinding
-import com.example.movies.domain.entities.BaseVideo
+import com.example.movies.domain.entities.Movie
 import com.example.movies.presentation.MainActivityViewModel
 import com.example.movies.presentation.home.children.favorites.FavoritesFragment
 import com.example.movies.presentation.home.children.movies.MoviesFragment
@@ -50,7 +50,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setFragmentResultListener(REQUEST_SHOW_FAVORITES) { _, bundle ->
-            if (!bundle.getParcelableArrayList<BaseVideo>(RESULT_SHOW_FAVORITES)
+            if (!bundle.getParcelableArrayList<Movie>(RESULT_SHOW_FAVORITES)
                     .isNullOrEmpty()
             )
                 addFavoritesFragmentToViewPager()

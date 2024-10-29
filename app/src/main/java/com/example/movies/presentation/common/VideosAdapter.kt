@@ -6,13 +6,11 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.databinding.CellVideoBinding
-import com.example.movies.domain.entities.BaseVideo
 import com.example.movies.domain.entities.Movie
-import com.example.movies.domain.entities.TVShow
 import com.example.movies.presentation.common.VideosAdapter.VideoViewHolder
 
 class VideosAdapter(private val onItemClickListener: OnItemClickListener) :
-    PagingDataAdapter<BaseVideo, VideoViewHolder>(DiffCallback()) {
+    PagingDataAdapter<Movie, VideoViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
         return VideoViewHolder.from(parent, onItemClickListener)
@@ -36,26 +34,23 @@ class VideosAdapter(private val onItemClickListener: OnItemClickListener) :
             }
         }
 
-        fun bind(item: BaseVideo?) {
+        fun bind(item: Movie?) {
             binding.video = item
         }
     }
 
-    class OnItemClickListener(val listener: (video: BaseVideo) -> Unit) {
-        fun onItemClick(video: BaseVideo) {
+    class OnItemClickListener(val listener: (video: Movie) -> Unit) {
+        fun onItemClick(video: Movie) {
             listener(video)
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<BaseVideo>() {
-        override fun areItemsTheSame(oldItem: BaseVideo, newItem: BaseVideo) =
+    class DiffCallback : DiffUtil.ItemCallback<Movie>() {
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie) =
             oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: BaseVideo, newItem: BaseVideo) =
-            if (newItem is Movie)
-                (oldItem as Movie) == newItem
-            else
-                (oldItem as TVShow) == (newItem as TVShow)
+        override fun areContentsTheSame(oldItem: Movie, newItem: Movie) =
+            oldItem == newItem
     }
 
 }

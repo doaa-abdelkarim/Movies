@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import com.example.movies.data.remote.apis.APIConstants.Companion.DEFAULT_PAGE_INDEX
 import com.example.movies.data.remote.apis.MoviesAPI
 import com.example.movies.data.remote.models.VideosResultsItem
-import com.example.movies.util.VideoType
+import com.example.movies.util.constants.enums.VideoType
 import retrofit2.HttpException
 import java.io.IOException
 

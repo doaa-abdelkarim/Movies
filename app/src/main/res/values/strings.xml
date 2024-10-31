@@ -18,16 +18,18 @@
     <string name="saved">Saved</string>
     <string name="button_retry">Retry</string>
     <string name="label_error">Something went wrong, Please try again</string>
+    <string name="movie_poster">Movie poster</string>
+    <string name="broken_image">Broken image</string>
 
     <string-array name="tab_layout_home_titles">
-        <item>Movies</item>
-        <item>TV Shows</item>
-        <item>Favorites</item>
+        <item>MOVIES</item>
+        <item>TV SHOWS</item>
+        <item>FAVORITES</item>
     </string-array>
 
     <string-array name="tab_layout_details_titles">
-        <item>Info</item>
-        <item>Clips</item>
-        <item>Reviews</item>
+        <item>INFO</item>
+        <item>CLIPS</item>
+        <item>REVIEWS</item>
     </string-array>
 </resources>

@@ -20,7 +20,7 @@ import com.example.movies.presentation.details.parent.DetailsFragmentDirections
 import com.example.movies.presentation.details.parent.DetailsViewModel
 import com.example.movies.presentation.home.children.movies.MoviesFragmentDirections
 import com.example.movies.presentation.home.children.tvshows.TVShowsFragmentDirections
-import com.example.movies.util.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
+import com.example.movies.util.constants.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import com.example.movies.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext

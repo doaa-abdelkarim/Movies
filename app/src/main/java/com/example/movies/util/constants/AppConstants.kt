@@ -1,4 +1,4 @@
-package com.example.movies.util
+package com.example.movies.util.constants
 
 class AppConstants {
     companion object {

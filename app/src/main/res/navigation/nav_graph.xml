@@ -19,13 +19,14 @@
         android:name="com.example.movies.presentation.details.parent.DetailsFragment"
         android:label="">
         <argument
-            android:name="movie"
-            android:defaultValue="@null"
-            app:argType="com.example.movies.domain.entities.Movie"
-            app:nullable="true" />
+            android:name="movieId"
+            app:argType="integer" />
         <action
             android:id="@+id/action_detailsFragment_to_moviePlayerFragment"
             app:destination="@id/moviePlayerFragment" />
+        <argument
+            android:name="isMovie"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/moviePlayerFragment"

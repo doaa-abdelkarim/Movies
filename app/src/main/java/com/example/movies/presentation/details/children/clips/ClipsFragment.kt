@@ -15,12 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.MoviesApp
 import com.example.movies.R
 import com.example.movies.databinding.FragmentClipsBinding
-import com.example.movies.domain.entities.Movie
 import com.example.movies.presentation.details.parent.DetailsFragmentDirections
 import com.example.movies.presentation.details.parent.DetailsViewModel
 import com.example.movies.presentation.home.children.movies.MoviesFragmentDirections
 import com.example.movies.presentation.home.children.tvshows.TVShowsFragmentDirections
-import com.example.movies.util.constants.AppConstants.Companion.KEY_STATE_SELECTED_MOVIE
+import com.example.movies.util.constants.AppConstants.Companion.KEY_STATE_IS_MOVIE
+import com.example.movies.util.constants.AppConstants.Companion.KEY_STATE_MOVIE_ID
 import com.example.movies.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -136,10 +136,11 @@ class ClipsFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(selectedMovie: Movie?) =
+        fun newInstance(selectedMovieId: Int, isMovie: Boolean) =
             ClipsFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(KEY_STATE_SELECTED_MOVIE, selectedMovie)
+                    putInt(KEY_STATE_MOVIE_ID, selectedMovieId)
+                    putBoolean(KEY_STATE_IS_MOVIE, isMovie)
                 }
             }
     }

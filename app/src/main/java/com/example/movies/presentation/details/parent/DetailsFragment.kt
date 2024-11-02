@@ -17,8 +17,8 @@ import androidx.navigation.fragment.navArgs
 import com.example.movies.MoviesApp
 import com.example.movies.R
 import com.example.movies.databinding.FragmentDetailsBinding
-import com.example.movies.domain.entities.Movie
 import com.example.movies.presentation.MainActivityViewModel
+import com.example.movies.presentation.common.ViewPagerAdapter
 import com.example.movies.presentation.details.children.clips.ClipsFragment
 import com.example.movies.presentation.details.children.info.InfoFragment
 import com.example.movies.presentation.details.children.reviews.ReviewsFragment
@@ -28,7 +28,6 @@ import com.example.movies.presentation.home.children.movies.MoviesViewModel
 import com.example.movies.presentation.home.children.tvshows.TVShowsViewModel
 import com.example.movies.util.constants.AppConstants.Companion.REQUEST_SHOW_FAVORITES
 import com.example.movies.util.constants.AppConstants.Companion.RESULT_SHOW_FAVORITES
-import com.example.movies.presentation.common.ViewPagerAdapter
 import com.example.movies.util.exhaustive
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,7 +48,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private lateinit var binding: FragmentDetailsBinding
     private val args: DetailsFragmentArgs by navArgs()
-    private var selectedMovie: Movie? = null
+    private var selectedMovieId: Int = -1
+    private var isMovie: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,8 +59,10 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 ViewModelProvider(requireParentFragment())[MoviesViewModel::class.java]
             else
                 ViewModelProvider(requireParentFragment())[TVShowsViewModel::class.java]
-        else
-            selectedMovie = args.movie
+        else {
+            selectedMovieId = args.movieId
+            isMovie = args.isMovie
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,17 +79,15 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private fun initViews() {
         binding.buttonAddToFavorites.setOnClickListener {
-            detailsViewModel.onAddToFavorite(
-                isLargeScreen = (appContext as MoviesApp).isLargeScreen
-            )
+            detailsViewModel.onAddToFavorite()
         }
     }
 
     private fun initDetailsViewPager() {
         val fragmentList = arrayListOf(
-            InfoFragment.newInstance(selectedMovie),
-            ClipsFragment.newInstance(selectedMovie),
-            ReviewsFragment.newInstance(selectedMovie)
+            InfoFragment.newInstance(),
+            ClipsFragment.newInstance(selectedMovieId = selectedMovieId, isMovie = isMovie),
+            ReviewsFragment.newInstance(selectedMovieId = selectedMovieId, isMovie = isMovie)
         )
 
         val tabsTitles = resources.getStringArray(R.array.tab_details_titles)
@@ -113,12 +113,16 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     videosViewModel.selectedVideo.collect {
                         detailsViewModel.updateObservableSelectedMovie(selectedMovie = it)
-                        binding.movie = it
+                        it?.let {
+                            detailsViewModel.getMovieDetails(
+                                selectedMovie = it,
+                                isLargeScreen = true
+                            )
+                        }
                     }
                 }
             }
         } else {
-            binding.movie = selectedMovie
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     detailsViewModel.favorites.collect {
@@ -130,7 +134,13 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 }
             }
         }
-
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                detailsViewModel.movieDetails.collect {
+                    binding.movie = it
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 detailsViewModel.favorites.collect {

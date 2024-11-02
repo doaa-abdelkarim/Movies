@@ -40,12 +40,12 @@ class MoviesRepository1(
         }
     }
 
-    override suspend fun getMovieInfo(id: Int): Movie {
-        return moviesAPI.getMovieInfo(id).asDomainModel()
+    override suspend fun getMovieDetails(id: Int): Movie {
+        return moviesAPI.getMovieDetails(id).asDomainModel()
     }
 
-    override suspend fun getTVShowInfo(id: Int): Movie {
-        return moviesAPI.getTVShowInfo(id).asDomainModel()    }
+    override suspend fun getTVShowDetails(id: Int): Movie {
+        return moviesAPI.getTVShowDetails(id).asDomainModel()    }
 
     override suspend fun getMovieClips(id: Int): List<Clip> {
         return moviesAPI.getMovieClips(id).asDomainModel()

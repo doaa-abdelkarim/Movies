@@ -98,7 +98,10 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
                     when (it) {
                         is VideosEvent.NavigateToDetailsScreen ->
                             findNavController().navigate(
-                                HomeFragmentDirections.actionHomeFragmentToDetailsFragment(it.video)
+                                HomeFragmentDirections.actionHomeFragmentToDetailsFragment(
+                                    movieId = it.video.id,
+                                    isMovie = it.video.isMovie
+                                )
                             )
                     }.exhaustive
                 }

@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.Flow
 interface BaseMoviesRepository {
     fun getMovies(): Flow<PagingData<Movie>>
     fun getTVShows(): Flow<PagingData<Movie>>
-    suspend fun getMovieInfo(id: Int): Movie
-    suspend fun getTVShowInfo(id: Int): Movie
+    suspend fun getMovieDetails(id: Int): Movie
+    suspend fun getTVShowDetails(id: Int): Movie
     suspend fun getMovieClips(id: Int): List<Clip>
     suspend fun getTVShowClips(id: Int): List<Clip>
     fun getMovieReviews(id: Int): Flow<PagingData<Review>>

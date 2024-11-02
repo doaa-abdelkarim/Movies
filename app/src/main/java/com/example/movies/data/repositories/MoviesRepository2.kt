@@ -56,20 +56,20 @@ class MoviesRepository2(
         }
     }
 
-    override suspend fun getMovieInfo(id: Int): Movie {
+    override suspend fun getMovieDetails(id: Int): Movie {
         val moviesDao = moviesDB.moviesDao()
         if (networkHandler.isOnline()) {
-            val movie = moviesAPI.getMovieInfo(id)
+            val movie = moviesAPI.getMovieDetails(id)
             val pk = moviesDao.getMovieById(id).pk
             moviesDao.update((movie.asDatabaseModel()).copy(pk = pk))
         }
         return moviesDao.getMovieById(id).asDomainModel()
     }
 
-    override suspend fun getTVShowInfo(id: Int): Movie {
+    override suspend fun getTVShowDetails(id: Int): Movie {
         val moviesDao = moviesDB.moviesDao()
         if (networkHandler.isOnline()) {
-            val movie = moviesAPI.getTVShowInfo(id)
+            val movie = moviesAPI.getTVShowDetails(id)
             val pk = moviesDao.getMovieById(id).pk
             moviesDao.update((movie.asDatabaseModel()).copy(pk = pk))
         }

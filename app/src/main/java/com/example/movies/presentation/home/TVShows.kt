@@ -10,8 +10,10 @@ import com.example.movies.presentation.home.children.tvshows.TVShowsViewModel
 import com.example.movies.util.exhaustive
 
 @Composable
-fun TVShowsScreen(navigateToDetailsScreen: (Movie) -> Unit) {
-    val tvShowsViewModel: TVShowsViewModel = hiltViewModel()
+fun TVShows(
+    tvShowsViewModel: TVShowsViewModel = hiltViewModel(),
+    navigateToDetailsScreen: (Movie) -> Unit
+) {
     val tvShows = tvShowsViewModel.videosFlow.collectAsLazyPagingItems()
     LaunchedEffect(true) {
         tvShowsViewModel.videosEvent.collect {
@@ -20,7 +22,7 @@ fun TVShowsScreen(navigateToDetailsScreen: (Movie) -> Unit) {
             }.exhaustive
         }
     }
-    ListMovies(
+    GridMovies(
         movies = tvShows,
         onItemClick = { tvShow -> tvShowsViewModel.onVideoClicked(tvShow) }
     )

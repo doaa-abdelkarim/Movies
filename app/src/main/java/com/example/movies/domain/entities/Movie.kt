@@ -31,17 +31,19 @@ data class Movie(
     val posterUri: Uri
         get() = Uri.parse(IMAGE_BASE_URL)
             .buildUpon()
+            .appendPath("/")
             .appendPath(posterPath)
             .build()
 
     val backdropUri: Uri
         get() = Uri.parse(IMAGE_BASE_URL)
             .buildUpon()
+            .appendPath("/")
             .appendPath(backdropPath)
             .build()
 }
 
-val MovieNavType = object : NavType<Movie>(isNullableAllowed = false) {
+val MovieNavType = object : NavType<Movie?>(isNullableAllowed = true) {
     override fun get(bundle: Bundle, key: String): Movie {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             bundle.getParcelable(key, Movie::class.java) as Movie
@@ -54,11 +56,11 @@ val MovieNavType = object : NavType<Movie>(isNullableAllowed = false) {
         return Json.decodeFromString<Movie>(value)
     }
 
-    override fun put(bundle: Bundle, key: String, value: Movie) {
+    override fun put(bundle: Bundle, key: String, value: Movie?) {
         bundle.putParcelable(key, value)
     }
 
-    override fun serializeAsValue(value: Movie): String {
+    override fun serializeAsValue(value: Movie?): String {
         return Json.encodeToString(value)
     }
 }

@@ -14,7 +14,7 @@ import com.example.movies.presentation.home.parent.CellMovie
 import com.example.movies.ui.theme.darkerGray
 
 @Composable
-fun ListMovies(
+fun GridMovies(
     movies: LazyPagingItems<Movie>,
     onItemClick: (Movie) -> Unit,
 ) {
@@ -51,8 +51,8 @@ fun <T : Any> List<T>.toPagingItems(): LazyPagingItems<T> {
 
 @Preview(showBackground = true, showSystemUi = true, backgroundColor = 0xFF212121)
 @Composable
-fun ListMoviesPreview() {
-    ListMovies(
+fun GridMoviesPreview() {
+    GridMovies(
         listOf(
             Movie(
                 id = 1,

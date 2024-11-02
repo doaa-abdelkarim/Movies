@@ -8,5 +8,7 @@ sealed class Screen {
     @Serializable
     data object Home: Screen()
     @Serializable
-    data class Details(val movie: Movie): Screen()
+    data class Details(val movie: Movie?): Screen()
+    @Serializable
+    data class MoviePlayer(val clipKey: String): Screen()
 }

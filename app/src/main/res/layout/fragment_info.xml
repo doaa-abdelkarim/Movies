@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_view_overview"
-                android:text="@string/genres_title" />
+                android:text="@string/genres" />
 
             <TextView
                 android:id="@+id/text_view_genres"
@@ -51,7 +51,7 @@
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_genres_title"
                 android:text="@{infoViewModel.info.genres}"
-                tools:text="@string/genres_title" />
+                tools:text="@string/genres" />
 
             <TextView
                 android:id="@+id/text_view_released_title"
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_view_genres_title"
-                android:text="@string/released_title" />
+                android:text="@string/released" />
 
             <TextView
                 android:id="@+id/text_view_released"
@@ -70,7 +70,7 @@
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_released_title"
                 android:text="@{infoViewModel.info.releaseDate}"
-                tools:text="@string/released_title" />
+                tools:text="@string/released" />
 
             <TextView
                 android:id="@+id/text_view_original_title_title"
@@ -78,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_view_released_title"
-                android:text="@string/original_title_title" />
+                android:text="@string/original" />
 
             <TextView
                 android:id="@+id/text_view_original_title"
@@ -89,7 +89,7 @@
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_original_title_title"
                 android:text="@{infoViewModel.info.originalTitle}"
-                tools:text="@string/original_title_title" />
+                tools:text="@string/original" />
 
             <TextView
                 android:id="@+id/text_view_original_language_title"
@@ -97,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_view_original_title_title"
-                android:text="@string/original_language_title" />
+                android:text="@string/original_language" />
 
             <TextView
                 android:id="@+id/text_view_original_language"
@@ -108,7 +108,7 @@
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_original_language_title"
                 android:text="@{infoViewModel.info.originalLanguage}"
-                tools:text="@string/original_language_title" />
+                tools:text="@string/original_language" />
 
             <TextView
                 android:id="@+id/text_view_popularity_title"
@@ -116,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_view_original_language_title"
-                android:text="@string/popularity_title" />
+                android:text="@string/popularity" />
 
             <TextView
                 android:id="@+id/text_view_popularity"
@@ -127,7 +127,7 @@
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_popularity_title"
                 android:text="@{String.valueOf(infoViewModel.info.popularity)}"
-                tools:text="@string/popularity_title" />
+                tools:text="@string/popularity" />
 
             <TextView
                 android:id="@+id/text_view_revenue_title"
@@ -135,7 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_view_popularity_title"
-                android:text="@string/revenue_title"
+                android:text="@string/revenue"
                 android:visibility="@{(infoViewModel.info instanceof Movie)? View.VISIBLE : View.GONE}" />
 
             <TextView
@@ -148,7 +148,7 @@
                 android:layout_toEndOf="@id/text_view_revenue_title"
                 android:text="@{(infoViewModel.info instanceof Movie)? String.valueOf(((Movie)infoViewModel.info).revenue) : ``}"
                 android:visibility="@{(infoViewModel.info instanceof Movie)? View.VISIBLE : View.GONE}"
-                tools:text="@string/revenue_title" />
+                tools:text="@string/revenue" />
 
         </RelativeLayout>
     </ScrollView>

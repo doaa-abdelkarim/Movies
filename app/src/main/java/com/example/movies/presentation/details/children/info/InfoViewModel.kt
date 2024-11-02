@@ -3,23 +3,30 @@ package com.example.movies.presentation.details.children.info
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.example.movies.domain.entities.Movie
+import com.example.movies.domain.entities.MovieNavType
 import com.example.movies.domain.repositories.BaseMoviesRepository
+import com.example.movies.presentation.navigation.Screen
 import com.example.movies.util.constants.AppConstants.Companion.KEY_LAST_EMITTED_VALUE
-import com.example.movies.util.constants.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.reflect.typeOf
 
 @HiltViewModel
 class InfoViewModel @Inject constructor(
     private val baseMoviesRepository: BaseMoviesRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val selectedVideo = savedStateHandle.get<Movie>(KEY_STATE_SELECTED_VIDEO)
+    private val selectedVideo = savedStateHandle.toRoute<Screen.Details>(
+        typeMap = mapOf(
+            typeOf<Movie?>() to MovieNavType
+        )
+    ).movie
     private val _info = MutableStateFlow<Movie?>(null)
     val info = _info.asStateFlow()
 

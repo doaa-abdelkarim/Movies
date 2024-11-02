@@ -90,7 +90,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             ReviewsFragment.newInstance(selectedVideo)
         )
 
-        val tabsTitles = resources.getStringArray(R.array.tab_layout_details_titles)
+        val tabsTitles = resources.getStringArray(R.array.tabs_details_titles)
 
         val viewPagerAdapter = ViewPagerAdapter(
             fragmentList,

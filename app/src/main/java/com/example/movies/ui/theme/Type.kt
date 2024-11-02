@@ -50,6 +50,10 @@ val normalSize14LightGray = normalSize14.copy(
     color = LightGray
 )
 
+val normalSize14White = normalSize14.copy(
+    color = white
+)
+
 val normalSize16 = normal.copy(
     fontSize = 16.sp
 )

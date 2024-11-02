@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="video"
+            name="movie"
             type="com.example.movies.domain.entities.Movie" />
 
     </data>
@@ -39,12 +39,12 @@
             app:layout_constraintGuide_percent="0.5" />
 
         <ImageView
-            android:id="@+id/image_view_video_backdrop"
-            imageURL="@{video.backdropUri}"
+            android:id="@+id/image_view_movie_backdrop"
+            imageURL="@{movie.backdropUri}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
-            android:contentDescription="@string/video_backdrop"
+            android:contentDescription="@string/movie_backdrop"
             android:cropToPadding="false"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toTopOf="@id/guide_line_horizontal_40"
@@ -52,13 +52,13 @@
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <ImageView
-            android:id="@+id/image_view_video_poster"
-            imageURL="@{video.posterUri}"
+            android:id="@+id/image_view_movie_poster"
+            imageURL="@{movie.posterUri}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/spacing_large"
             android:adjustViewBounds="false"
-            android:contentDescription="@string/video_poster"
+            android:contentDescription="@string/movie_poster"
             android:cropToPadding="false"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toTopOf="@id/guide_line_horizontal_50"
@@ -74,9 +74,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_large"
             android:layout_marginTop="@dimen/spacing_small"
-            android:text="@{video.title}"
+            android:text="@{movie.title}"
             app:layout_constraintBottom_toTopOf="@id/guide_line_horizontal_50"
-            app:layout_constraintStart_toEndOf="@id/image_view_video_poster"
+            app:layout_constraintStart_toEndOf="@id/image_view_movie_poster"
             app:layout_constraintTop_toTopOf="@id/guide_line_horizontal_40"
             tools:text="movie_name" />
 

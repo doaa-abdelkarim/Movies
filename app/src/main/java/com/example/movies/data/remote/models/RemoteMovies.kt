@@ -4,7 +4,7 @@ import com.example.movies.data.local.models.LocalMovie
 import com.example.movies.domain.entities.Movie
 import com.google.gson.annotations.SerializedName
 
-data class RemoteVideo(
+data class RemoteMovies(
 
     @field:SerializedName("dates")
     val dates: Dates? = null,
@@ -16,7 +16,7 @@ data class RemoteVideo(
     val totalPages: Int? = null,
 
     @field:SerializedName("results")
-    val results: List<com.example.movies.data.remote.models.VideosResultsItem?>? = null,
+    val results: List<RemoteMovie?>? = null,
 
     @field:SerializedName("total_results")
     val totalResults: Int? = null
@@ -31,7 +31,7 @@ data class Dates(
     val minimum: String? = null
 )
 
-data class VideosResultsItem(
+data class RemoteMovie(
 
     @field:SerializedName("overview")
     val overview: String? = null,
@@ -88,7 +88,7 @@ data class VideosResultsItem(
     val name: String? = null
 )
 
-fun VideosResultsItem.asDomainModel(isMovie: Boolean): Movie =
+fun RemoteMovie.asDomainModel(isMovie: Boolean): Movie =
     Movie(
         id = id!!,
         posterPath = posterPath,
@@ -98,7 +98,7 @@ fun VideosResultsItem.asDomainModel(isMovie: Boolean): Movie =
         isMovie = isMovie
     )
 
-fun RemoteVideo.asDatabaseModel(isMovie: Boolean): List<LocalMovie> =
+fun RemoteMovies.asDatabaseModel(isMovie: Boolean): List<LocalMovie> =
     results
         ?.asSequence()
         ?.filterNotNull()

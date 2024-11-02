@@ -7,7 +7,7 @@ import com.example.movies.domain.entities.Favorite
 @Entity(tableName = "favorites_table")
 data class LocalFavorite(
     @PrimaryKey
-    val videoId: Int,
+    val movieId: Int,
     val posterPath: String? = null,
     val backdropPath: String? = null,
     val title: String? = null
@@ -16,7 +16,7 @@ data class LocalFavorite(
 fun List<LocalFavorite>.asDomainModel(): List<Favorite> =
     map {
         Favorite(
-            videoId = it.videoId,
+            movieId = it.movieId,
             posterPath = it.posterPath,
             backdropPath = it.backdropPath,
             title = it.title

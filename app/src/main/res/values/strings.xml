@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Movies</string>
-    <string name="video_poster">Video\'s poster</string>
-    <string name="video_backdrop">video\'s backdrop</string>
+    <string name="movie_poster">Video\'s poster</string>
+    <string name="movie_backdrop">video\'s backdrop</string>
     <string name="popularity_percentage">Popularity: %s </string>
     <string name="overview">Overview</string>
     <string name="released">Released</string>

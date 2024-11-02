@@ -19,19 +19,19 @@
         android:name="com.example.movies.presentation.details.parent.DetailsFragment"
         android:label="">
         <argument
-            android:name="video"
+            android:name="movie"
             android:defaultValue="@null"
             app:argType="com.example.movies.domain.entities.Movie"
             app:nullable="true" />
         <action
-            android:id="@+id/action_detailsFragment_to_videoPlayerFragment"
-            app:destination="@id/videoPlayerFragment" />
+            android:id="@+id/action_detailsFragment_to_moviePlayerFragment"
+            app:destination="@id/moviePlayerFragment" />
     </fragment>
     <fragment
-        android:id="@+id/videoPlayerFragment"
-        android:name="com.example.movies.presentation.videoplayer.VideoPlayerFragment"
+        android:id="@+id/moviePlayerFragment"
+        android:name="com.example.movies.presentation.movieplayer.MoviePlayerFragment"
         android:label=""
-        tools:layout="@layout/fragment_video_player">
+        tools:layout="@layout/fragment_movie_player">
         <argument
             android:name="clipKey"
             app:argType="string" />
@@ -41,16 +41,16 @@
         android:name="com.example.movies.presentation.home.children.movies.MoviesFragment"
         android:label="Movies" >
         <action
-            android:id="@+id/action_moviesFragment_to_videoPlayerFragment"
-            app:destination="@id/videoPlayerFragment" />
+            android:id="@+id/action_moviesFragment_to_moviePlayerFragment"
+            app:destination="@id/moviePlayerFragment" />
     </fragment>
     <fragment
         android:id="@+id/tvShowsFragment"
         android:name="com.example.movies.presentation.home.children.tvshows.TVShowsFragment"
         android:label="TVShows" >
         <action
-            android:id="@+id/action_tvShowsFragment_to_videoPlayerFragment"
-            app:destination="@id/videoPlayerFragment" />
+            android:id="@+id/action_tvShowsFragment_to_moviePlayerFragment"
+            app:destination="@id/moviePlayerFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"

@@ -4,7 +4,7 @@ import android.net.Uri
 import com.example.movies.util.getYouTubeUriByKey
 
 data class Clip(
-    val videoId: Int,
+    val movieId: Int,
     val clipId: String,
     val name: String? = null,
     val key: String? = null

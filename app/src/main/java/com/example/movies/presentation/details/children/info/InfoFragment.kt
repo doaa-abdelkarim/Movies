@@ -13,7 +13,7 @@ import com.example.movies.R
 import com.example.movies.databinding.FragmentInfoBinding
 import com.example.movies.domain.entities.Movie
 import com.example.movies.presentation.details.parent.DetailsViewModel
-import com.example.movies.util.constants.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
+import com.example.movies.util.constants.AppConstants.Companion.KEY_STATE_SELECTED_MOVIE
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
@@ -43,9 +43,9 @@ class InfoFragment : Fragment(R.layout.fragment_info) {
         if ((appContext as MoviesApp).isLargeScreen) {
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    detailsViewModel.observableSelectedVideo.collect {
+                    detailsViewModel.observableSelectedMovie.collect {
                         it?.let {
-                            infoViewModel.getVideoInfo(selectedVideo = it, isLargeScreen = true)
+                            infoViewModel.getMovieInfo(selectedMovie = it, isLargeScreen = true)
                         }
                     }
                 }
@@ -54,10 +54,10 @@ class InfoFragment : Fragment(R.layout.fragment_info) {
     }
 
     companion object {
-        fun newInstance(selectedVideo: Movie?) =
+        fun newInstance(selectedMovie: Movie?) =
             InfoFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(KEY_STATE_SELECTED_VIDEO, selectedVideo)
+                    putParcelable(KEY_STATE_SELECTED_MOVIE, selectedMovie)
                 }
             }
     }

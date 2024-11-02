@@ -20,7 +20,7 @@ import com.example.movies.presentation.details.parent.DetailsFragmentDirections
 import com.example.movies.presentation.details.parent.DetailsViewModel
 import com.example.movies.presentation.home.children.movies.MoviesFragmentDirections
 import com.example.movies.presentation.home.children.tvshows.TVShowsFragmentDirections
-import com.example.movies.util.constants.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
+import com.example.movies.util.constants.AppConstants.Companion.KEY_STATE_SELECTED_MOVIE
 import com.example.movies.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -82,10 +82,10 @@ class ClipsFragment : Fragment() {
         if ((appContext as MoviesApp).isLargeScreen) {
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    detailsViewModel.observableSelectedVideo.collect {
+                    detailsViewModel.observableSelectedMovie.collect {
                         it?.let {
-                            clipsViewModel.getVideoClips(
-                                selectedVideo = it,
+                            clipsViewModel.getMovieClips(
+                                selectedMovie = it,
                                 isLargeScreen = true
                             )
                         }
@@ -108,23 +108,23 @@ class ClipsFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 clipsViewModel.clipsEvent.collect {
                     when (it) {
-                        is ClipsEvent.EventNavigateToVideoPlayerScreen -> {
+                        is ClipsEvent.EventNavigateToMoviePlayerScreen -> {
                             if ((appContext as MoviesApp).isLargeScreen)
                                 if (findNavController().currentDestination?.id == R.id.moviesFragment)
                                     findNavController().navigate(
-                                        MoviesFragmentDirections.actionMoviesFragmentToVideoPlayerFragment(
+                                        MoviesFragmentDirections.actionMoviesFragmentToMoviePlayerFragment(
                                             it.clipKey ?: ""
                                         )
                                     )
                                 else
                                     findNavController().navigate(
-                                        TVShowsFragmentDirections.actionTvShowsFragmentToVideoPlayerFragment(
+                                        TVShowsFragmentDirections.actionTvShowsFragmentToMoviePlayerFragment(
                                             it.clipKey ?: ""
                                         )
                                     )
                             else
                                 findNavController().navigate(
-                                    DetailsFragmentDirections.actionDetailsFragmentToVideoPlayerFragment(
+                                    DetailsFragmentDirections.actionDetailsFragmentToMoviePlayerFragment(
                                         it.clipKey ?: ""
                                     )
                                 )
@@ -136,10 +136,10 @@ class ClipsFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(selectedVideo: Movie?) =
+        fun newInstance(selectedMovie: Movie?) =
             ClipsFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(KEY_STATE_SELECTED_VIDEO, selectedVideo)
+                    putParcelable(KEY_STATE_SELECTED_MOVIE, selectedMovie)
                 }
             }
     }

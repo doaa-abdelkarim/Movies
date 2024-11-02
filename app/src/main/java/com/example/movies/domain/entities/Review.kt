@@ -1,7 +1,7 @@
 package com.example.movies.domain.entities
 
 data class Review(
-    val videoId: Int,
+    val movieId: Int,
     val reviewId: String,
     val username: String? = null,
     val avatarPath: String? = null,

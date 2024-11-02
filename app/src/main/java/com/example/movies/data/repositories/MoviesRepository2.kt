@@ -38,7 +38,7 @@ class MoviesRepository2(
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow.map {
-            it.map { video -> video.asDomainModel() }
+            it.map { localMovie -> localMovie.asDomainModel() }
         }
     }
 
@@ -52,7 +52,7 @@ class MoviesRepository2(
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow.map {
-            it.map { video -> video.asDomainModel() }
+            it.map { localMovie -> localMovie.asDomainModel() }
         }
     }
 
@@ -105,7 +105,7 @@ class MoviesRepository2(
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow.map {
-            it.map { review -> review.asDomainModel() }
+            it.map { localReview -> localReview.asDomainModel() }
         }
     }
 
@@ -120,7 +120,7 @@ class MoviesRepository2(
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow.map {
-            it.map { review -> review.asDomainModel() }
+            it.map { localReview -> localReview.asDomainModel() }
         }
     }
 }

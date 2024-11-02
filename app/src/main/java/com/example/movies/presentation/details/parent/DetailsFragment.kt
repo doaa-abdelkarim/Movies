@@ -49,7 +49,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private lateinit var binding: FragmentDetailsBinding
     private val args: DetailsFragmentArgs by navArgs()
-    private var selectedVideo: Movie? = null
+    private var selectedMovie: Movie? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +60,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             else
                 ViewModelProvider(requireParentFragment())[TVShowsViewModel::class.java]
         else
-            selectedVideo = args.video
+            selectedMovie = args.movie
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,9 +85,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private fun initDetailsViewPager() {
         val fragmentList = arrayListOf(
-            InfoFragment.newInstance(selectedVideo),
-            ClipsFragment.newInstance(selectedVideo),
-            ReviewsFragment.newInstance(selectedVideo)
+            InfoFragment.newInstance(selectedMovie),
+            ClipsFragment.newInstance(selectedMovie),
+            ReviewsFragment.newInstance(selectedMovie)
         )
 
         val tabsTitles = resources.getStringArray(R.array.tab_details_titles)
@@ -112,13 +112,13 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     videosViewModel.selectedVideo.collect {
-                        detailsViewModel.updateObservableSelectedVideo(selectedVideo = it)
-                        binding.video = it
+                        detailsViewModel.updateObservableSelectedMovie(selectedMovie = it)
+                        binding.movie = it
                     }
                 }
             }
         } else {
-            binding.video = selectedVideo
+            binding.movie = selectedMovie
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     detailsViewModel.favorites.collect {

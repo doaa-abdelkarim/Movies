@@ -97,8 +97,8 @@ class TVShowsRemoteMediator(
         state: PagingState<Int, LocalMovie>
     ): TVShowsRemoteKeys? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { localVideo ->
-                tvShowsRemoteKeysDao.getRemoteKeysById(id = localVideo.id)
+            ?.let { localMovie ->
+                tvShowsRemoteKeysDao.getRemoteKeysById(id = localMovie.id)
             }
     }
 
@@ -106,8 +106,8 @@ class TVShowsRemoteMediator(
         state: PagingState<Int, LocalMovie>
     ): TVShowsRemoteKeys? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
-            ?.let { localVideo ->
-                tvShowsRemoteKeysDao.getRemoteKeysById(id = localVideo.id)
+            ?.let { localMovie ->
+                tvShowsRemoteKeysDao.getRemoteKeysById(id = localMovie.id)
             }
     }
 

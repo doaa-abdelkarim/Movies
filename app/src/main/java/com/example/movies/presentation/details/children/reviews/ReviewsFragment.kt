@@ -16,7 +16,7 @@ import com.example.movies.databinding.FragmentReviewsBinding
 import com.example.movies.domain.entities.Movie
 import com.example.movies.presentation.common.LoaderStateAdapter
 import com.example.movies.presentation.details.parent.DetailsViewModel
-import com.example.movies.util.constants.AppConstants.Companion.KEY_STATE_SELECTED_VIDEO
+import com.example.movies.util.constants.AppConstants.Companion.KEY_STATE_SELECTED_MOVIE
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.collectLatest
@@ -76,10 +76,10 @@ class ReviewsFragment : Fragment() {
         if ((appContext as MoviesApp).isLargeScreen) {
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    detailsViewModel.observableSelectedVideo.collect {
+                    detailsViewModel.observableSelectedMovie.collect {
                         it?.let {
-                            reviewsViewModel.getVideoReviews(
-                                selectedVideo = it,
+                            reviewsViewModel.getMovieReviews(
+                                selectedMovie = it,
                                 isLargeScreen = true
                             )
                         }
@@ -99,10 +99,10 @@ class ReviewsFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(selectedVideo: Movie?) =
+        fun newInstance(selectedMovie: Movie?) =
             ReviewsFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(KEY_STATE_SELECTED_VIDEO, selectedVideo)
+                    putParcelable(KEY_STATE_SELECTED_MOVIE, selectedMovie)
                 }
             }
     }

@@ -8,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.movies.MoviesApp
 import com.example.movies.R
 import com.example.movies.data.local.models.LocalFavorite
-import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Favorite
+import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.repositories.BaseFavoritesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -29,16 +29,16 @@ class DetailsViewModel @Inject constructor(
 ) : AndroidViewModel(context as Application) {
 
     /*
-    In small devices, selectedVideo is passed as an argument because details fragment and videos
+    In small devices, selectedMovie is passed as an argument because details fragment and videos
     fragment are not nested
      */
-    private val selectedVideo = savedStateHandle.get<Movie>("video")
+    private val selectedMovie = savedStateHandle.get<Movie>("movie")
 
     /*
-    In large devices, selectedVideo is observed. because details fragment is child of videos fragment
+    In large devices, selectedMovie is observed. because details fragment is child of videos fragment
      */
-    private val _observableSelectedVideo = MutableStateFlow<Movie?>(null)
-    val observableSelectedVideo = _observableSelectedVideo.asStateFlow()
+    private val _observableSelectedMovie = MutableStateFlow<Movie?>(null)
+    val observableSelectedMovie = _observableSelectedMovie.asStateFlow()
 
     private val _favorites = MutableStateFlow<List<Favorite>>(emptyList())
     val favorites = _favorites.asStateFlow()
@@ -46,19 +46,19 @@ class DetailsViewModel @Inject constructor(
     private val _detailsEventFlow = MutableSharedFlow<DetailsEvent>()
     val detailsEvent = _detailsEventFlow.asSharedFlow()
 
-    fun updateObservableSelectedVideo(selectedVideo: Movie?) {
-        _observableSelectedVideo.value = selectedVideo
+    fun updateObservableSelectedMovie(selectedMovie: Movie?) {
+        _observableSelectedMovie.value = selectedMovie
     }
 
     fun onAddToFavorite(isLargeScreen: Boolean = false) {
         viewModelScope.launch {
-            val selectedVideo =
-                if (isLargeScreen) _observableSelectedVideo.value else this@DetailsViewModel.selectedVideo
+            val selectedMovie =
+                if (isLargeScreen) _observableSelectedMovie.value else this@DetailsViewModel.selectedMovie
             try {
-                selectedVideo?.let {
+                selectedMovie?.let {
                     favoritesRepository.cacheFavorite(
                         LocalFavorite(
-                            videoId = it.id,
+                            movieId = it.id,
                             posterPath = it.posterPath,
                             backdropPath = it.backdropPath,
                             title = it.title,

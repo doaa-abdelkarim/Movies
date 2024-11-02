@@ -6,12 +6,12 @@
     <data>
 
         <variable
-            name="video"
+            name="movie"
             type="com.example.movies.domain.entities.Movie" />
 
         <variable
             name="onItemClickListener"
-            type="com.example.movies.presentation.common.VideosAdapter.OnItemClickListener" />
+            type="com.example.movies.presentation.common.MoviesAdapter.OnItemClickListener" />
 
     </data>
 
@@ -21,7 +21,7 @@
         android:layout_marginTop="@dimen/spacing_small"
         android:layout_marginEnd="@dimen/spacing_small"
         android:background="@color/gray_700"
-        android:onClick="@{() -> onItemClickListener.onItemClick(video)}">
+        android:onClick="@{() -> onItemClickListener.onItemClick(movie)}">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guide_line_vertical_02"
@@ -31,12 +31,12 @@
             app:layout_constraintGuide_percent="0.02" />
 
         <ImageView
-            android:id="@+id/image_view_video_poster"
-            imageURL="@{video.posterUri}"
+            android:id="@+id/image_view_movie_poster"
+            imageURL="@{movie.posterUri}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:adjustViewBounds="false"
-            android:contentDescription="@string/video_poster"
+            android:contentDescription="@string/movie_poster"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="h,2:3"
             app:layout_constraintEnd_toEndOf="parent"
@@ -53,9 +53,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:text="@{video.title}"
+            android:text="@{movie.title}"
             app:layout_constraintStart_toEndOf="@id/guide_line_vertical_02"
-            app:layout_constraintTop_toBottomOf="@id/image_view_video_poster"
+            app:layout_constraintTop_toBottomOf="@id/image_view_movie_poster"
             tools:text="movie_name" />
 
 
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_small"
-            android:text="@{@string/popularity_percentage(String.valueOf(video.popularity))}"
+            android:text="@{@string/popularity_percentage(String.valueOf(movie.popularity))}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/guide_line_vertical_02"
             app:layout_constraintTop_toBottomOf="@id/text_view_title"

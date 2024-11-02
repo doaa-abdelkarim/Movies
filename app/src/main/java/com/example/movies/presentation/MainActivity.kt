@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initPhoneFlavor() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.detailsFragment || destination.id == R.id.videoPlayerFragment)
+            if (destination.id == R.id.detailsFragment || destination.id == R.id.moviePlayerFragment)
                 binding.toolbar.visibility = View.VISIBLE
             else
                 binding.toolbar.visibility = View.GONE

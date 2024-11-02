@@ -1,4 +1,4 @@
-package com.example.movies.presentation.videoplayer
+package com.example.movies.presentation.movieplayer
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -7,25 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import com.example.movies.databinding.FragmentVideoPlayerBinding
+import com.example.movies.databinding.FragmentMoviePlayerBinding
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class VideoPlayerFragment : Fragment() {
+class MoviePlayerFragment : Fragment() {
 
-    private var _binding: FragmentVideoPlayerBinding? = null
+    private var _binding: FragmentMoviePlayerBinding? = null
     private val binding get() = _binding!!
-    private val args: VideoPlayerFragmentArgs by navArgs()
+    private val args: MoviePlayerFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentVideoPlayerBinding.inflate(inflater, container, false)
+        _binding = FragmentMoviePlayerBinding.inflate(inflater, container, false)
         return binding.root
     }
 

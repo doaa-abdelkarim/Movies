@@ -4,7 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.movies.data.paging.ReviewPagingSource
-import com.example.movies.data.paging.VideosPagingSource
+import com.example.movies.data.paging.MoviesPagingSource
 import com.example.movies.data.remote.apis.MoviesAPI
 import com.example.movies.data.remote.models.asDomainModel
 import com.example.movies.domain.entities.Clip
@@ -30,13 +30,13 @@ class MoviesRepository1(
         return Pager(
             config = getDefaultPageConfig(),
             pagingSourceFactory = {
-                VideosPagingSource(
+                MoviesPagingSource(
                     moviesAPI = moviesAPI,
                     videoType = MOVIE
                 )
             }
         ).flow.map {
-            it.map { video -> video.asDomainModel(isMovie = isMovie) }
+            it.map { remoteMovie -> remoteMovie.asDomainModel(isMovie = isMovie) }
         }
     }
 
@@ -68,11 +68,11 @@ class MoviesRepository1(
                 ReviewPagingSource(
                     moviesAPI = moviesAPI,
                     videoType = videoType,
-                    videoId = id
+                    movieId = id
                 )
             }
         ).flow.map {
-            it.map { review -> review.asDomainModel(videoId = id) }
+            it.map { remoteReview -> remoteReview.asDomainModel(movieId = id) }
         }
     }
 

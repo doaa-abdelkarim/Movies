@@ -26,7 +26,7 @@ data class LocalReview(
 
 fun LocalReview.asDomainModel(): Review =
     Review(
-        videoId = movieId,
+        movieId = movieId,
         reviewId = reviewId,
         username = username,
         avatarPath = avatarPath,

@@ -11,10 +11,10 @@ data class RemoteClips(
     val id: Int? = null,
 
     @field:SerializedName("results")
-    val results: List<ClipsResultsItem?>? = null
+    val results: List<RemoteClip?>? = null
 )
 
-data class ClipsResultsItem(
+data class RemoteClip(
 
     @field:SerializedName("site")
     val site: String? = null,
@@ -53,7 +53,7 @@ fun RemoteClips.asDomainModel() =
         ?.filterNotNull()
         ?.map {
             Clip(
-                videoId = this.id!!,
+                movieId = this.id!!,
                 clipId = it.id!!,
                 name = it.name,
                 key = it.key

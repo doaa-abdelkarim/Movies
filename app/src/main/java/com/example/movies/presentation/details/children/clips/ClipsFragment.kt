@@ -113,19 +113,19 @@ class ClipsFragment : Fragment() {
                                 if (findNavController().currentDestination?.id == R.id.moviesFragment)
                                     findNavController().navigate(
                                         MoviesFragmentDirections.actionMoviesFragmentToVideoPlayerFragment(
-                                            it.clipKey
+                                            it.clipKey ?: ""
                                         )
                                     )
                                 else
                                     findNavController().navigate(
                                         TVShowsFragmentDirections.actionTvShowsFragmentToVideoPlayerFragment(
-                                            it.clipKey
+                                            it.clipKey ?: ""
                                         )
                                     )
                             else
                                 findNavController().navigate(
                                     DetailsFragmentDirections.actionDetailsFragmentToVideoPlayerFragment(
-                                        it.clipKey
+                                        it.clipKey ?: ""
                                     )
                                 )
                         }

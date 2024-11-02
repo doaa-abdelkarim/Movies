@@ -59,7 +59,7 @@ class VideoPlayerFragment : Fragment() {
             .addYouTubePlayerListener(object :
                 AbstractYouTubePlayerListener() {
                 override fun onReady(youTubePlayer: YouTubePlayer) {
-                    youTubePlayer.loadVideo(args.clipKey ?: "", 0f)
+                    youTubePlayer.loadVideo(args.clipKey, 0f)
                 }
             })
     }

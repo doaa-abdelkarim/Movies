@@ -34,9 +34,7 @@
         tools:layout="@layout/fragment_video_player">
         <argument
             android:name="clipKey"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/moviesFragment"

@@ -8,8 +8,8 @@ import com.example.movies.data.repositories.FavoritesRepository
 import com.example.movies.data.repositories.MoviesRepository2
 import com.example.movies.domain.repositories.BaseFavoritesRepository
 import com.example.movies.domain.repositories.BaseMoviesRepository
-import com.example.movies.util.NetworkHandler
-import com.example.movies.util.NetworkHandlerImpl
+import com.example.movies.util.helpers.NetworkHandler
+import com.example.movies.util.helpers.NetworkHandlerImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

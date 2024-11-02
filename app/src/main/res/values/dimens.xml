@@ -20,5 +20,6 @@
     <!--    View size-->
     <dimen name="ratio_1point3">1.3</dimen>
     <dimen name="view_size_30dp">30dp</dimen>
+    <dimen name="view_size_88dp">88dp</dimen>
 
 </resources>

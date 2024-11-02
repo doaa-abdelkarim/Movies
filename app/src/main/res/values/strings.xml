@@ -1,31 +1,30 @@
 <resources>
     <string name="app_name">Movies</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="video_poster">Video\'s poster</string>
     <string name="video_backdrop">video\'s backdrop</string>
-    <string name="popularity">Popularity: %s </string>
+    <string name="popularity_percentage">Popularity: %s </string>
     <string name="overview">Overview</string>
-    <string name="released_title">Released</string>
-    <string name="original_title_title">Original Title</string>
-    <string name="original_language_title">Original Language</string>
-    <string name="popularity_title">Popularity</string>
-    <string name="revenue_title">Revenue</string>
+    <string name="released">Released</string>
+    <string name="original_title">Original Title</string>
+    <string name="original_language">Original Language</string>
+    <string name="popularity">Popularity</string>
+    <string name="revenue">Revenue</string>
     <string name="clip_thumbnail">Clip thumbnail</string>
     <string name="author_avatar">Author\'s avatar</string>
-    <string name="genres_title">Genres</string>
-    <string name="button_text_add_to_favorites">Add to Favorites</string>
+    <string name="genres">Genres</string>
+    <string name="add_to_favorites">Add to Favorites</string>
     <string name="app_logo">App logo</string>
     <string name="saved">Saved</string>
     <string name="button_retry">Retry</string>
-    <string name="label_error">Something went wrong, Please try again</string>
+    <string name="something_went_wrong">Something went wrong, Please try again</string>
 
-    <string-array name="tab_layout_home_titles">
+    <string-array name="tab_home_titles">
         <item>Movies</item>
         <item>TV Shows</item>
         <item>Favorites</item>
     </string-array>
 
-    <string-array name="tab_layout_details_titles">
+    <string-array name="tab_details_titles">
         <item>Info</item>
         <item>Clips</item>
         <item>Reviews</item>

@@ -11,9 +11,9 @@ import com.example.movies.domain.entities.Clip
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Review
 import com.example.movies.domain.repositories.BaseMoviesRepository
-import com.example.movies.util.VideoType
-import com.example.movies.util.VideoType.MOVIE
-import com.example.movies.util.VideoType.TVSHOW
+import com.example.movies.util.constants.enums.VideoType
+import com.example.movies.util.constants.enums.VideoType.MOVIE
+import com.example.movies.util.constants.enums.VideoType.TV_SHOW
 import com.example.movies.util.getDefaultPageConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -59,7 +59,7 @@ class MoviesRepository1(
         getReviews(id = id, videoType = MOVIE)
 
     override fun getTVShowReviews(id: Int): Flow<PagingData<Review>> =
-        getReviews(id = id, videoType = TVSHOW)
+        getReviews(id = id, videoType = TV_SHOW)
 
     private fun getReviews(id: Int, videoType: VideoType): Flow<PagingData<Review>> {
         return Pager(

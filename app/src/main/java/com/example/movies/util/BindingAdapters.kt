@@ -13,7 +13,7 @@ fun ImageView.loadImage(imageUri: Uri?) {
             .with(this)
             .load(imageUri)
             .centerCrop()
-            .placeholder(R.drawable.loading_animation)
+            .placeholder(R.drawable.anim_rotate_loading)
             .error(R.drawable.ic_broken_image)
             .into(this)
     }

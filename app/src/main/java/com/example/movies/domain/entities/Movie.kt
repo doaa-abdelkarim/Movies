@@ -2,7 +2,7 @@ package com.example.movies.domain.entities
 
 import android.net.Uri
 import android.os.Parcelable
-import com.example.movies.util.AppConstants.Companion.IMAGE_BASE_URL
+import com.example.movies.util.constants.AppConstants.Companion.IMAGE_BASE_URL
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

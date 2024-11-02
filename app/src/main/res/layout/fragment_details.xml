@@ -69,7 +69,7 @@
 
         <TextView
             android:id="@+id/text_view_title"
-            style="@style/Size18White"
+            style="@style/RegularSize18White"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_large"
@@ -103,7 +103,7 @@
             android:layout_marginEnd="@dimen/spacing_normal"
             android:layout_marginBottom="@dimen/spacing_small"
             android:backgroundTint="@color/strong_pink"
-            android:text="@string/button_text_add_to_favorites"
+            android:text="@string/add_to_favorites"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

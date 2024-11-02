@@ -16,7 +16,7 @@ import com.example.movies.domain.entities.Clip
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Review
 import com.example.movies.domain.repositories.BaseMoviesRepository
-import com.example.movies.util.NetworkHandler
+import com.example.movies.util.helpers.NetworkHandler
 import com.example.movies.util.getDefaultPageConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

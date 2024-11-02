@@ -5,6 +5,8 @@
     <dimen name="spacing_normal">16dp</dimen>
     <dimen name="spacing_large">24dp</dimen>
 
+    <dimen name="custom_spacing_4dp">4dp</dimen>
+
     <!--    Text size-->
     <dimen name="text_size_12sp">12sp</dimen>
     <dimen name="text_size_14sp">14sp</dimen>

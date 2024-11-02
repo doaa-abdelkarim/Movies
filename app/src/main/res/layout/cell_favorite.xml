@@ -40,6 +40,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="@{favorite.title}"
             android:textSize="@dimen/favorite_movie_title"
             app:layout_constraintBottom_toBottomOf="@id/image_view_clip_thumbnail"

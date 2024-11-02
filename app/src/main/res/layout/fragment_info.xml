@@ -56,7 +56,7 @@
                 style="@style/BoldSize16VeryDarkGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_genres_title"
+                android:layout_below="@id/text_view_genres"
                 android:text="@string/released" />
 
             <TextView
@@ -64,7 +64,7 @@
                 style="@style/RegularSize14LightGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_genres_title"
+                android:layout_below="@id/text_view_genres"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_released_title"
                 android:text="@{detailsViewModel.movieDetails.releaseDate}"
@@ -75,7 +75,7 @@
                 style="@style/BoldSize16VeryDarkGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_released_title"
+                android:layout_below="@id/text_view_released"
                 android:text="@string/original_title" />
 
             <TextView
@@ -83,7 +83,7 @@
                 style="@style/RegularSize14LightGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_released_title"
+                android:layout_below="@id/text_view_released"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_original_title_title"
                 android:text="@{detailsViewModel.movieDetails.originalTitle}"
@@ -94,7 +94,7 @@
                 style="@style/BoldSize16VeryDarkGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_original_title_title"
+                android:layout_below="@id/text_view_original_title"
                 android:text="@string/original_language" />
 
             <TextView
@@ -102,7 +102,7 @@
                 style="@style/RegularSize14LightGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_original_title_title"
+                android:layout_below="@id/text_view_original_title"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_original_language_title"
                 android:text="@{detailsViewModel.movieDetails.originalLanguage}"
@@ -113,7 +113,7 @@
                 style="@style/BoldSize16VeryDarkGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_original_language_title"
+                android:layout_below="@id/text_view_original_language"
                 android:text="@string/popularity" />
 
             <TextView
@@ -121,7 +121,7 @@
                 style="@style/RegularSize14LightGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_original_language_title"
+                android:layout_below="@id/text_view_original_language"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_popularity_title"
                 android:text="@{String.valueOf(detailsViewModel.movieDetails.popularity)}"
@@ -132,7 +132,7 @@
                 style="@style/BoldSize16VeryDarkGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_popularity_title"
+                android:layout_below="@id/text_view_popularity"
                 android:text="@string/revenue"
                 android:visibility="@{(detailsViewModel.movieDetails.isMovie == true)? View.VISIBLE : View.GONE}" />
 
@@ -141,7 +141,7 @@
                 style="@style/RegularSize14LightGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_popularity_title"
+                android:layout_below="@id/text_view_popularity"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_revenue_title"
                 android:text="@{(detailsViewModel.movieDetails.isMovie == true)? String.valueOf(detailsViewModel.movieDetails.revenue) : ``}"

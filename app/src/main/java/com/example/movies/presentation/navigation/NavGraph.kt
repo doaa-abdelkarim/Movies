@@ -13,7 +13,7 @@ import com.example.movies.presentation.home.HomeScreen
 import com.example.movies.presentation.navigation.Screen.Details
 import com.example.movies.presentation.navigation.Screen.Home
 import com.example.movies.presentation.navigation.Screen.MoviePlayer
-import com.example.movies.presentation.videoplayer.MoviePlayerScreen
+import com.example.movies.presentation.movieplayer.MoviePlayerScreen
 
 @Composable
 fun MoviesApp() {

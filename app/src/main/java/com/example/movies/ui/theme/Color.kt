@@ -18,6 +18,7 @@ val teal700 = Color(0xFFA52036)
 
 val black = Color(0xFF000000)
 val white = Color(0xFFFFFFFF)
+val transparent = Color.Transparent
 val darkGrayishRed = Color(0xFF9E9C9C)
 val grayLight = Color(0xFFD1CFCF)
 val darkerGray = Color(0xFF080708)

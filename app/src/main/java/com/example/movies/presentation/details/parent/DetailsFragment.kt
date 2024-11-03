@@ -38,8 +38,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     @ApplicationContext
     lateinit var appContext: Context
 
-    private lateinit var videosViewModel: VideosViewModel
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
+    private lateinit var videosViewModel: VideosViewModel
     private val detailsViewModel: DetailsViewModel by viewModels()
 
     private lateinit var binding: FragmentDetailsBinding
@@ -75,7 +75,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private fun initViews() {
         binding.buttonAddToFavorites.setOnClickListener {
-            detailsViewModel.movieDetails.value?.let {
+            detailsViewModel.movie.value?.let {
                 mainActivityViewModel.onAddToFavoriteClick(movie = it)
             }
         }
@@ -109,8 +109,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         if ((appContext as MoviesApp).isLargeScreen) {
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    videosViewModel.selectedVideo.collect {
-                        detailsViewModel.updateObservableSelectedMovie(selectedMovie = it)
+                    videosViewModel.observedVideo.collect {
+                        detailsViewModel.updateObservedMovie(movie = it)
                         it?.let {
                             detailsViewModel.getMovieDetails(
                                 selectedMovie = it,
@@ -123,7 +123,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                detailsViewModel.movieDetails.collect {
+                detailsViewModel.movie.collect {
                     binding.movie = it
                 }
             }

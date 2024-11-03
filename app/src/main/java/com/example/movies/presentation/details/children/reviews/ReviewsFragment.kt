@@ -76,7 +76,7 @@ class ReviewsFragment : Fragment() {
         if ((appContext as MoviesApp).isLargeScreen) {
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    detailsViewModel.observableSelectedMovie.collect {
+                    detailsViewModel.observedMovie.collect {
                         it?.let {
                             reviewsViewModel.getMovieReviews(
                                 selectedMovie = it,

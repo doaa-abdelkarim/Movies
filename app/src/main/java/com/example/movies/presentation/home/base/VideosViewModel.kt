@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 abstract class VideosViewModel(
@@ -24,12 +25,20 @@ abstract class VideosViewModel(
     private val _videosEventFlow = MutableSharedFlow<VideosEvent>()
     val videosEvent = _videosEventFlow.asSharedFlow()
 
-    val selectedVideo = MutableStateFlow<Movie?>(null)
+    /*
+    In large devices, selectedMovie is observed. because details fragment is child of videos fragment
+    */
+    private val _observedVideo = MutableStateFlow<Movie?>(null)
+    val observedVideo = _observedVideo.asStateFlow()
+
+    fun updateObservedVideo(video: Movie?) {
+        _observedVideo.value = video
+    }
 
     fun onVideoClick(video: Movie) {
         viewModelScope.launch {
             if (getApplication<MoviesApp>().isLargeScreen)
-                selectedVideo.value = video
+                _observedVideo.value = video
             else
                 _videosEventFlow.emit(VideosEvent.NavigateToDetailsScreen(video))
         }

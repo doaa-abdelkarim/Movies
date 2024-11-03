@@ -82,7 +82,7 @@ class ClipsFragment : Fragment() {
         if ((appContext as MoviesApp).isLargeScreen) {
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    detailsViewModel.observableSelectedMovie.collect {
+                    detailsViewModel.observedMovie.collect {
                         it?.let {
                             clipsViewModel.getMovieClips(
                                 selectedMovie = it,

@@ -50,10 +50,10 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
             ).apply {
                 if ((appContext as MoviesApp).isLargeScreen)
                     addLoadStateListener { loadStates ->
-                        if (videosViewModel.selectedVideo.value == null &&
+                        if (videosViewModel.observedVideo.value == null &&
                             loadStates.refresh is LoadState.NotLoading && itemCount > 0
                         ) {
-                            videosViewModel.selectedVideo.value = peek(0)
+                            videosViewModel.updateObservedVideo(video = peek(0))
                         }
                     }
             }

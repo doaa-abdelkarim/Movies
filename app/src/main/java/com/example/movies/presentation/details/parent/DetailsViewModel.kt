@@ -29,11 +29,11 @@ class DetailsViewModel @Inject constructor(
     /*
     In large devices, selectedMovie is observed. because details fragment is child of videos fragment
      */
-    private val _observableSelectedMovie = MutableStateFlow<Movie?>(null)
-    val observableSelectedMovie = _observableSelectedMovie.asStateFlow()
+    private val _observedMovie = MutableStateFlow<Movie?>(null)
+    val observedMovie = _observedMovie.asStateFlow()
 
-    private val _movieDetails = MutableStateFlow<Movie?>(null)
-    val movieDetails = _movieDetails.asStateFlow()
+    private val _movie = MutableStateFlow<Movie?>(null)
+    val movie = _movie.asStateFlow()
 
     init {
         if (selectedMovieId != null && isMovie != null)
@@ -53,7 +53,6 @@ class DetailsViewModel @Inject constructor(
                 isMovie = selectedMovie.isMovie,
                 doForLargeScreen = {
                     savedStateHandle[KEY_LAST_EMITTED_VALUE] = selectedMovie.id
-
                 }
             )
 
@@ -67,7 +66,7 @@ class DetailsViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             try {
-                _movieDetails.value = if (isMovie)
+                _movie.value = if (isMovie)
                     baseMoviesRepository.getMovieDetails(selectedMovieId)
                 else
                     baseMoviesRepository.getTVShowDetails(selectedMovieId)
@@ -79,9 +78,8 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
-
-    fun updateObservableSelectedMovie(selectedMovie: Movie?) {
-        _observableSelectedMovie.value = selectedMovie
+    fun updateObservedMovie(movie: Movie?) {
+        _observedMovie.value = movie
     }
 
 }

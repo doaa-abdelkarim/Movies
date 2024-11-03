@@ -23,8 +23,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-//CodeReview swipe to refresh is not implemented which is required in "add infinite scrolling" task
-//CodeReview i think there's a problem in progress bar behavior, it doesn't always show when it should
 abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment_videos) {
 
     @Inject

@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class ViewPagerAdapter (
+class ViewPagerAdapter(
     var fragmentList: ArrayList<Fragment>,
     fm: FragmentManager,
     lifecycle: Lifecycle
@@ -17,5 +17,10 @@ class ViewPagerAdapter (
 
     override fun createFragment(position: Int): Fragment {
         return fragmentList[position]
+    }
+
+    fun addFragment(fragment: Fragment) {
+        fragmentList.add(fragment)
+        notifyItemInserted(fragmentList.size - 1)
     }
 }

@@ -20,6 +20,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+const val VIEWPAGER_POSITION = "VIEWPAGER_POSITION"
+
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
@@ -31,6 +33,7 @@ class HomeFragment : Fragment() {
     private lateinit var tabsTitles: Array<String>
     private lateinit var viewPagerAdapter: ViewPagerAdapter
     private lateinit var fragmentList: ArrayList<Fragment>
+    private var currentViewPagerPosition = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,8 +45,16 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(VIEWPAGER_POSITION, binding.viewPagerHome.currentItem)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        currentViewPagerPosition =
+            savedInstanceState?.getInt(VIEWPAGER_POSITION) ?: currentViewPagerPosition
         observeState()
     }
 
@@ -78,7 +89,7 @@ class HomeFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mainActivityViewModel.favorites.collect {
-                    if (it.isNotEmpty() && fragmentList.size < 3)
+                    if (it.isNotEmpty() && viewPagerAdapter.fragmentList.size < 3)
                         addFavoritesFragmentToViewPager()
                 }
             }
@@ -86,11 +97,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun addFavoritesFragmentToViewPager() {
-        viewPagerAdapter.fragmentList = fragmentList.apply { add(FavoritesFragment()) }
-        viewPagerAdapter.notifyDataSetChanged()
+        viewPagerAdapter.addFragment(FavoritesFragment.newInstance())
         binding.tabLayoutHome.newTab().apply {
-            text = tabsTitles[2]
+            text = tabsTitles.last()
         }
+        binding.viewPagerHome.setCurrentItem(currentViewPagerPosition, false)
     }
 
 }

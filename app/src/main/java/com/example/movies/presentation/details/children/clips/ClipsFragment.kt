@@ -67,7 +67,7 @@ class ClipsFragment : Fragment() {
 
     private fun initRecyclerView() {
         clipsAdapter = ClipsAdapter(ClipsAdapter.OnItemClickListener {
-            clipsViewModel.onClipClicked(it)
+            clipsViewModel.onClipClick(it)
         })
         binding.apply {
             recyclerViewClipsList.apply {

@@ -47,7 +47,7 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
         if (!::moviesAdapter.isInitialized) {
             moviesAdapter = MoviesAdapter(
                 MoviesAdapter.OnItemClickListener {
-                    videosViewModel.onVideoClicked(it)
+                    videosViewModel.onVideoClick(it)
                 }
             ).apply {
                 if ((appContext as MoviesApp).isLargeScreen)

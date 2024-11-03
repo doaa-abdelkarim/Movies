@@ -41,9 +41,9 @@ class MainActivity : AppCompatActivity() {
 
         initNavController()
         if ((appContext as MoviesApp).isLargeScreen)
-            initTabletFlavor()
+            initTablet()
         else
-            initPhoneFlavor()
+            initPhone()
         observeState()
     }
 
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
     }
 
-    private fun initPhoneFlavor() {
+    private fun initPhone() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.detailsFragment || destination.id == R.id.moviePlayerFragment)
                 binding.toolbar.visibility = View.VISIBLE
@@ -65,9 +65,8 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
-    private fun initTabletFlavor() {
+    private fun initTablet() {
         changeStartDestination()
-
         appBarConfiguration = AppBarConfiguration(
             setOf(R.id.moviesFragment, R.id.tvShowsFragment),
             binding.drawerLayout
@@ -90,7 +89,6 @@ class MainActivity : AppCompatActivity() {
             favoritesItem = it.menu.findItem(R.id.favoritesFragment).apply {
                 isVisible = false
             }
-
         }
     }
 

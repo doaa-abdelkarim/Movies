@@ -34,7 +34,7 @@ class ClipsViewModel @Inject constructor(
     val clipsEvent = _clipsEventFlow.asSharedFlow()
 
     init {
-        if (selectedMovieId != null && isMovie != null)
+        if (selectedMovieId != null && selectedMovieId != -1 && isMovie != null)
             getMovieClips(
                 selectedMovieId = selectedMovieId,
                 isMovie = isMovie
@@ -76,7 +76,7 @@ class ClipsViewModel @Inject constructor(
         }
     }
 
-    fun onClipClicked(clip: Clip) {
+    fun onClipClick(clip: Clip) {
         viewModelScope.launch {
             _clipsEventFlow.emit(
                 ClipsEvent.EventNavigateToMoviePlayerScreen(

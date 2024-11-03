@@ -26,7 +26,7 @@ abstract class VideosViewModel(
 
     val selectedVideo = MutableStateFlow<Movie?>(null)
 
-    fun onVideoClicked(video: Movie) {
+    fun onVideoClick(video: Movie) {
         viewModelScope.launch {
             if (getApplication<MoviesApp>().isLargeScreen)
                 selectedVideo.value = video

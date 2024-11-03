@@ -54,7 +54,7 @@ class DetailsViewModel @Inject constructor(
     val detailsEvent = _detailsEventFlow.asSharedFlow()
 
     init {
-        if (selectedMovieId != null && isMovie == true)
+        if (selectedMovieId != null && isMovie != null)
             getMovieDetails(
                 selectedMovieId = selectedMovieId,
                 isMovie = isMovie

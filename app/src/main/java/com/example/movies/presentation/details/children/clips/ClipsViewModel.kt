@@ -34,7 +34,7 @@ class ClipsViewModel @Inject constructor(
     val clipsEvent = _clipsEventFlow.asSharedFlow()
 
     init {
-        if (selectedMovieId != null && isMovie == true)
+        if (selectedMovieId != null && isMovie != null)
             getMovieClips(
                 selectedMovieId = selectedMovieId,
                 isMovie = isMovie

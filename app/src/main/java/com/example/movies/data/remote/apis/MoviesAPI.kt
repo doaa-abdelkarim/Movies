@@ -1,10 +1,9 @@
 package com.example.movies.data.remote.apis
 
 import com.example.movies.data.remote.models.RemoteClips
+import com.example.movies.data.remote.models.RemoteMovie
 import com.example.movies.data.remote.models.RemoteMovies
-import com.example.movies.data.remote.models.RemoteMovieDetails
 import com.example.movies.data.remote.models.RemoteReviews
-import com.example.movies.data.remote.models.RemoteTVShowDetails
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -18,10 +17,10 @@ interface MoviesAPI {
     suspend fun getTVShows(@Query("page") page: Int): RemoteMovies
 
     @GET("movie/{movie_id}")
-    suspend fun getMovieDetails(@Path("movie_id") movieId: Int): RemoteMovieDetails
+    suspend fun getMovieDetails(@Path("movie_id") movieId: Int): RemoteMovie
 
     @GET("tv/{tv_id}")
-    suspend fun getTVShowDetails(@Path("tv_id") tvShowId: Int): RemoteTVShowDetails
+    suspend fun getTVShowDetails(@Path("tv_id") tvShowId: Int): RemoteMovie
 
     @GET("movie/{movie_id}/videos")
     suspend fun getMovieClips(@Path("movie_id") movieId: Int): RemoteClips

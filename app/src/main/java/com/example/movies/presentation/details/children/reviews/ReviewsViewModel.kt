@@ -32,7 +32,7 @@ class ReviewsViewModel @Inject constructor(
     val reviews = _reviews.asStateFlow()
 
     init {
-        if (selectedMovieId != null && isMovie == true)
+        if (selectedMovieId != null && isMovie != null)
             getMovieReviews(
                 selectedMovieId = selectedMovieId,
                 isMovie = isMovie

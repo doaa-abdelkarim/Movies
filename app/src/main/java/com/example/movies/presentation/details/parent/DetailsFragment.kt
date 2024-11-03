@@ -90,7 +90,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             ReviewsFragment.newInstance(selectedMovieId = selectedMovieId, isMovie = isMovie)
         )
 
-        val tabsTitles = resources.getStringArray(R.array.tab_details_titles)
+        val tabsTitles = resources.getStringArray(R.array.tabs_details_titles)
 
         val viewPagerAdapter = ViewPagerAdapter(
             fragmentList,

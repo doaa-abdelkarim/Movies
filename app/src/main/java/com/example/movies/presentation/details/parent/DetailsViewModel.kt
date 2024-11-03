@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.example.movies.MoviesApp
 import com.example.movies.R
 import com.example.movies.data.local.models.LocalFavorite
@@ -12,6 +13,7 @@ import com.example.movies.domain.entities.Favorite
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.repositories.BaseFavoritesRepository
 import com.example.movies.domain.repositories.BaseMoviesRepository
+import com.example.movies.presentation.navigation.Screen
 import com.example.movies.util.constants.AppConstants.Companion.KEY_LAST_EMITTED_VALUE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -35,8 +37,8 @@ class DetailsViewModel @Inject constructor(
     In small devices, selectedMovieId is passed as an argument because details fragment and videos
     fragment are not nested
      */
-    private val selectedMovieId = savedStateHandle.get<Int>("movieId")
-    private val isMovie = savedStateHandle.get<Boolean>("isMovie")
+    private val selectedMovieId = savedStateHandle.toRoute<Screen.Details>().movieId
+    private val isMovie = savedStateHandle.toRoute<Screen.Details>().isMovie
 
     /*
     In large devices, selectedMovie is observed. because details fragment is child of videos fragment

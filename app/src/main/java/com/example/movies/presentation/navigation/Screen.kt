@@ -1,14 +1,18 @@
 package com.example.movies.presentation.navigation
 
-import com.example.movies.domain.entities.Movie
 import kotlinx.serialization.Serializable
 
 @Serializable
 sealed class Screen {
     @Serializable
-    data object Home: Screen()
+    data object Home : Screen()
+
     @Serializable
-    data class Details(val movie: Movie?): Screen()
+    data class Details(
+        val movieId: Int? = null,
+        val isMovie: Boolean? = null
+    ) : Screen()
+
     @Serializable
-    data class MoviePlayer(val clipKey: String): Screen()
+    data class MoviePlayer(val clipKey: String) : Screen()
 }

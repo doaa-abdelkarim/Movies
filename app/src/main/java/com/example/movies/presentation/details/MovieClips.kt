@@ -27,7 +27,7 @@ import com.example.movies.presentation.details.children.clips.ClipsEvent
 import com.example.movies.presentation.details.children.clips.ClipsViewModel
 import com.example.movies.ui.theme.darkerGray
 import com.example.movies.ui.theme.gray700
-import com.example.movies.ui.theme.normalSize16White
+import com.example.movies.ui.theme.regularSize16White
 import com.example.movies.util.exhaustive
 
 @Composable
@@ -39,7 +39,7 @@ fun MoviesClips(
     LaunchedEffect(true) {
         clipsViewModel.clipsEvent.collect {
             when (it) {
-                is ClipsEvent.EventNavigateToVideoPlayerScreen -> {
+                is ClipsEvent.EventNavigateToMoviePlayerScreen -> {
                     /*                    if ((appContext as MoviesApp).isLargeScreen)
                                             if (findNavController().currentDestination?.id == R.id.moviesFragment)
                                                 findNavController().navigate(
@@ -111,7 +111,7 @@ fun CellClip(
                 end = dimensionResource(R.dimen.spacing_normal)
             ),
             text = clip.name ?: "-",
-            style = normalSize16White,
+            style = regularSize16White,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
@@ -126,7 +126,7 @@ fun CellClip(
 fun CellClipPreview() {
     CellClip(
         clip = Clip(
-            videoId = 1,
+            movieId = 1,
             clipId = "1",
             name = "Clip name"
         ),

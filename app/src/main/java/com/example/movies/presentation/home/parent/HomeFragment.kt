@@ -14,12 +14,12 @@ import com.example.movies.R
 import com.example.movies.databinding.FragmentHomeBinding
 import com.example.movies.domain.entities.Movie
 import com.example.movies.presentation.MainActivityViewModel
+import com.example.movies.presentation.common.ViewPagerAdapter
 import com.example.movies.presentation.home.children.favorites.FavoritesFragment
 import com.example.movies.presentation.home.children.movies.MoviesFragment
 import com.example.movies.presentation.home.children.tvshows.TVShowsFragment
 import com.example.movies.util.constants.AppConstants.Companion.REQUEST_SHOW_FAVORITES
 import com.example.movies.util.constants.AppConstants.Companion.RESULT_SHOW_FAVORITES
-import com.example.movies.presentation.common.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -70,7 +70,7 @@ class HomeFragment : Fragment() {
             TVShowsFragment.newInstance()
         )
 
-        tabsTitles = resources.getStringArray(R.array.tab_home_titles)
+        tabsTitles = resources.getStringArray(R.array.tabs_home_titles)
 
         viewPagerAdapter = ViewPagerAdapter(
             fragmentList,

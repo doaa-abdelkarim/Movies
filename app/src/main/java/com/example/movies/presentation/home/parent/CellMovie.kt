@@ -16,7 +16,7 @@ import com.example.movies.R
 import com.example.movies.domain.entities.Movie
 import com.example.movies.presentation.common.CustomSubcomposeAsyncImage
 import com.example.movies.ui.theme.gray700
-import com.example.movies.ui.theme.normalSize18White
+import com.example.movies.ui.theme.regularSize18White
 
 @Composable
 fun CellMovie(
@@ -38,7 +38,7 @@ fun CellMovie(
         Text(
             modifier = Modifier.padding(vertical = dimensionResource(R.dimen.spacing_small)),
             text = movie.title ?: "-",
-            style = normalSize18White,
+            style = regularSize18White,
             maxLines = 3,
             minLines = 3,
             overflow = TextOverflow.Ellipsis,
@@ -46,7 +46,7 @@ fun CellMovie(
         Text(
             modifier = Modifier.padding(bottom = dimensionResource(R.dimen.spacing_small)),
             text = stringResource(R.string.popularity_percentage, movie.popularity.toString()),
-            style = normalSize18White
+            style = regularSize18White
         )
     }
 }

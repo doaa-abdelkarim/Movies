@@ -8,26 +8,17 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movies.R
 import com.example.movies.domain.entities.Movie
-import com.example.movies.presentation.details.children.info.InfoViewModel
-import com.example.movies.ui.theme.normalSize14LightGray
-import com.example.movies.ui.theme.normalSize16VeryDarkGray
+import com.example.movies.ui.theme.regularSize14LightGray
+import com.example.movies.ui.theme.regularSize16VeryDarkGray
 
 @Composable
-fun MovieInfo(infoViewModel: InfoViewModel = hiltViewModel()) {
-    val movie = infoViewModel.info.collectAsState().value
-    ScreenContent(movie = movie)
-}
-
-@Composable
-fun ScreenContent(movie: Movie?) {
+fun MovieInfo(movie: Movie?) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -36,73 +27,73 @@ fun ScreenContent(movie: Movie?) {
     ) {
         Text(
             text = movie?.overview ?: "",
-            style = normalSize14LightGray
+            style = regularSize14LightGray
         )
         Row {
             Text(
                 text = stringResource(R.string.genres),
-                style = normalSize16VeryDarkGray
+                style = regularSize16VeryDarkGray
             )
             Text(
                 modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small)),
                 text = movie?.genres ?: "-",
-                style = normalSize14LightGray
+                style = regularSize14LightGray
             )
         }
         Row {
             Text(
                 text = stringResource(R.string.released),
-                style = normalSize16VeryDarkGray
+                style = regularSize16VeryDarkGray
             )
             Text(
                 modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small)),
                 text = movie?.releaseDate ?: "-",
-                style = normalSize14LightGray
+                style = regularSize14LightGray
             )
         }
         Row {
             Text(
-                text = stringResource(R.string.original),
-                style = normalSize16VeryDarkGray
+                text = stringResource(R.string.original_title),
+                style = regularSize16VeryDarkGray
             )
             Text(
                 modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small)),
                 text = movie?.originalTitle ?: "-",
-                style = normalSize14LightGray
+                style = regularSize14LightGray
             )
         }
         Row {
             Text(
                 text = stringResource(R.string.original_language),
-                style = normalSize16VeryDarkGray
+                style = regularSize16VeryDarkGray
             )
             Text(
                 modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small)),
                 text = movie?.originalLanguage ?: "-",
-                style = normalSize14LightGray
+                style = regularSize14LightGray
             )
         }
         Row {
             Text(
                 text = stringResource(R.string.popularity),
-                style = normalSize16VeryDarkGray
+                style = regularSize16VeryDarkGray
             )
             Text(
                 modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small)),
                 text = movie?.popularity?.toString() ?: "-",
-                style = normalSize14LightGray
+                style = regularSize14LightGray
             )
         }
         if (movie?.isMovie == true)
             Row(modifier = Modifier) {
                 Text(
                     text = stringResource(R.string.revenue),
-                    style = normalSize16VeryDarkGray
+                    style = regularSize16VeryDarkGray
                 )
                 Text(
                     modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small)),
                     text = movie.revenue?.toString() ?: "-",
-                    style = normalSize14LightGray
+                    style = regularSize14LightGray
                 )
             }
     }
@@ -114,8 +105,8 @@ fun ScreenContent(movie: Movie?) {
     backgroundColor = 0xFF212121
 )
 @Composable
-fun ScreenContentPreview() {
-    ScreenContent(
+fun MovieInfoPreview() {
+    MovieInfo(
         Movie(
             pk = 1,
             id = 533535,

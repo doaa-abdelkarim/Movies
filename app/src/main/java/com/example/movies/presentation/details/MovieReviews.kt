@@ -34,7 +34,7 @@ import com.example.movies.ui.theme.boldSize20White
 import com.example.movies.ui.theme.darkerGray
 import com.example.movies.ui.theme.gray700
 import com.example.movies.ui.theme.grayLight
-import com.example.movies.ui.theme.normalSize14White
+import com.example.movies.ui.theme.regularSize14White
 
 @Composable
 fun MoviesReviews(
@@ -71,14 +71,15 @@ fun CellReview(review: Review) {
             data = review.avatarPath,
             contentDescription = stringResource(R.string.reviewer_photo),
             error = {
-                Box(modifier = Modifier
-                    .size(dimensionResource(R.dimen.view_size_88dp))
-                    .clip(CircleShape)
-                    .background(color = grayLight)
+                Box(
+                    modifier = Modifier
+                        .size(dimensionResource(R.dimen.view_size_88dp))
+                        .clip(CircleShape)
+                        .background(color = grayLight)
                 ) {
                     Image(
                         modifier = Modifier.fillMaxSize(),
-                        painter = painterResource(R.drawable.ic_author_avatar),
+                        painter = painterResource(R.drawable.ic_placeholder_author),
                         contentDescription = stringResource(R.string.reviewer_photo),
                     )
                 }
@@ -101,7 +102,7 @@ fun CellReview(review: Review) {
                     top = dimensionResource(R.dimen.spacing_normal)
                 ),
                 text = review.content ?: "-",
-                style = normalSize14White
+                style = regularSize14White
             )
         }
     }
@@ -115,7 +116,7 @@ fun CellReview(review: Review) {
 fun CellReviewPreview() {
     CellReview(
         review = Review(
-            videoId = 1,
+            movieId = 1,
             reviewId = "1",
             username = "User name",
             content = "Content"

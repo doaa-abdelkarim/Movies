@@ -26,7 +26,7 @@ import com.example.movies.R
 import com.example.movies.domain.entities.Movie
 import com.example.movies.presentation.common.CustomSubcomposeAsyncImage
 import com.example.movies.presentation.common.MainTabs
-import com.example.movies.ui.theme.normalSize18White
+import com.example.movies.ui.theme.regularSize18White
 
 @Composable
 fun DetailsScreen(
@@ -49,6 +49,7 @@ fun DetailsScreen(
                 modifier = Modifier.weight(1f),
                 pagerState = pagerState,
                 selectedTabIndex = selectedTabIndex.value,
+                movie = movie,
                 navigateToMoviePlayerScreen = navigateToMoviePlayerScreen
             )
         }
@@ -90,7 +91,7 @@ fun DetailsHeader(modifier: Modifier, movie: Movie?) {
                     )
                     .align(Alignment.Bottom),
                 text = movie?.title ?: "-",
-                style = normalSize18White,
+                style = regularSize18White,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
@@ -103,14 +104,15 @@ fun DetailsHorizontalPager(
     modifier: Modifier,
     pagerState: PagerState,
     selectedTabIndex: Int,
-    navigateToMoviePlayerScreen: (String) -> Unit
+    navigateToMoviePlayerScreen: (String) -> Unit,
+    movie: Movie?
 ) {
     HorizontalPager(
         modifier = modifier.fillMaxWidth(),
         state = pagerState,
     ) {
         when (selectedTabIndex) {
-            0 -> MovieInfo()
+            0 -> MovieInfo(movie = movie)
             1 -> MoviesClips(navigateToMoviePlayerScreen = navigateToMoviePlayerScreen)
             else -> MoviesReviews()
         }

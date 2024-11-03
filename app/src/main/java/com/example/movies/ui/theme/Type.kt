@@ -34,7 +34,7 @@ val Typography = Typography(
     */
 )
 
-val normal = TextStyle(
+val regular = TextStyle(
     fontWeight = FontWeight.Normal
 )
 
@@ -42,43 +42,43 @@ val bold = TextStyle(
     fontWeight = FontWeight.Bold
 )
 
-val normalSize14 = normal.copy(
+val regularSize14 = regular.copy(
     fontSize = 14.sp
 )
 
-val normalSize14LightGray = normalSize14.copy(
+val regularSize14LightGray = regularSize14.copy(
     color = LightGray
 )
 
-val normalSize14White = normalSize14.copy(
+val regularSize14White = regularSize14.copy(
     color = white
 )
 
-val normalSize16 = normal.copy(
+val regularSize16 = regular.copy(
     fontSize = 16.sp
 )
 
-val normalSize16VeryDarkGray = normalSize16.copy(
+val regularSize16VeryDarkGray = regularSize16.copy(
     color = veryDarkGray
 )
 
-val normalSize16White = normalSize16.copy(
+val regularSize16White = regularSize16.copy(
     color = white
 )
 
-val normalSize18 = normal.copy(
+val regularSize18 = regular.copy(
     fontSize = 18.sp
 )
 
-val normalSize18White = normalSize18.copy(
+val regularSize18White = regularSize18.copy(
     color = white
 )
 
-val normalSize20 = normal.copy(
+val regularSize20 = regular.copy(
     fontSize = 20.sp
 )
 
-val normalSize20White = normalSize20.copy(
+val regularSize20White = regularSize20.copy(
     color = white
 )
 

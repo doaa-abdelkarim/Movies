@@ -80,7 +80,7 @@ fun DetailsScreen(
         bottomBar = {
             BottomAppBar(
                 modifier = Modifier.padding(
-                    all = dimensionResource(R.dimen.spacing_small)
+                    horizontal = dimensionResource(R.dimen.spacing_small),
                 ),
                 containerColor = transparent
             ) {

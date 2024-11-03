@@ -69,7 +69,7 @@ fun HomeHorizontalPager(
         when (selectedTabIndex) {
             0 -> Movies(navigateToDetailsScreen = navigateToDetailsScreen)
             1 -> TVShows(navigateToDetailsScreen = navigateToDetailsScreen)
-            else -> Favorites()
+            else -> Favorites(favorites = favorites)
         }
     }
 }

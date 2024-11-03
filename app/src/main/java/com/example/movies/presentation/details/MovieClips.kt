@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -71,7 +72,9 @@ fun ListClips(
     onItemClick: (Clip) -> Unit,
 ) {
     LazyColumn(
-        modifier = Modifier.background(color = darkerGray),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = darkerGray),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_small))
     ) {
         itemsIndexed(clips) { index, clip ->

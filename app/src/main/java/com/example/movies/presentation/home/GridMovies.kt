@@ -2,6 +2,7 @@ package com.example.movies.presentation.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
@@ -19,7 +20,9 @@ fun GridMovies(
     onItemClick: (Movie) -> Unit,
 ) {
     LazyVerticalGrid(
-        modifier = Modifier.background(color = darkerGray),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = darkerGray),
         columns = GridCells.Fixed(4),
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_small)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_small)),

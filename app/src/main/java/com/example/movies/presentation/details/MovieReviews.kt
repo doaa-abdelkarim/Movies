@@ -47,7 +47,9 @@ fun MoviesReviews(
 @Composable
 fun ListReviews(reviews: LazyPagingItems<Review>) {
     LazyColumn(
-        modifier = Modifier.background(color = darkerGray),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = darkerGray),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_normal))
     ) {
         items(reviews.itemCount) { index ->

@@ -52,15 +52,14 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-        <!--CodeReview avoid setting textview width to wrap_content especially if the text might be long
-                it's best to set EndToEndOf parent or a guideline  and set width to 0dp
-                 also set a lines count (e.g.=2) and ellipsize attribute other wise the design won't look good-->
         <TextView
             android:id="@+id/text_view_title"
             style="@style/RegularSize18White"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
+            android:ellipsize="end"
+            android:lines="3"
             android:text="@{movie.title}"
             app:layout_constraintEnd_toEndOf="@id/guide_line_vertical_98"
             app:layout_constraintStart_toEndOf="@id/guide_line_vertical_02"

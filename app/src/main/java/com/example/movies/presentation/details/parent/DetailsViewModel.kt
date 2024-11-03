@@ -1,25 +1,13 @@
 package com.example.movies.presentation.details.parent
 
-import android.app.Application
-import android.content.Context
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.toRoute
-import com.example.movies.MoviesApp
-import com.example.movies.R
-import com.example.movies.data.local.models.LocalFavorite
-import com.example.movies.domain.entities.Favorite
 import com.example.movies.domain.entities.Movie
-import com.example.movies.domain.repositories.BaseFavoritesRepository
 import com.example.movies.domain.repositories.BaseMoviesRepository
-import com.example.movies.presentation.navigation.Screen
 import com.example.movies.util.constants.AppConstants.Companion.KEY_LAST_EMITTED_VALUE
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -27,33 +15,25 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
-    @ApplicationContext context: Context,
     private val baseMoviesRepository: BaseMoviesRepository,
-    private val favoritesRepository: BaseFavoritesRepository,
     private val savedStateHandle: SavedStateHandle
-) : AndroidViewModel(context as Application) {
+) : ViewModel() {
 
     /*
     In small devices, selectedMovieId is passed as an argument because details fragment and videos
     fragment are not nested
      */
-    private val selectedMovieId = savedStateHandle.toRoute<Screen.Details>().movieId
-    private val isMovie = savedStateHandle.toRoute<Screen.Details>().isMovie
+    private val selectedMovieId = savedStateHandle.get<Int>("movieId")
+    private val isMovie = savedStateHandle.get<Boolean>("isMovie")
 
     /*
     In large devices, selectedMovie is observed. because details fragment is child of videos fragment
      */
-    private val _observableSelectedMovie = MutableStateFlow<Movie?>(null)
-    val observableSelectedMovie = _observableSelectedMovie.asStateFlow()
+    private val _observedMovie = MutableStateFlow<Movie?>(null)
+    val observedMovie = _observedMovie.asStateFlow()
 
-    private val _movieDetails = MutableStateFlow<Movie?>(null)
-    val movieDetails = _movieDetails.asStateFlow()
-
-    private val _favorites = MutableStateFlow<List<Favorite>>(emptyList())
-    val favorites = _favorites.asStateFlow()
-
-    private val _detailsEventFlow = MutableSharedFlow<DetailsEvent>()
-    val detailsEvent = _detailsEventFlow.asSharedFlow()
+    private val _movie = MutableStateFlow<Movie?>(null)
+    val movie = _movie.asStateFlow()
 
     init {
         if (selectedMovieId != null && isMovie != null)
@@ -63,17 +43,16 @@ class DetailsViewModel @Inject constructor(
             )
     }
 
-    fun getMovieDetails(selectedMovie: Movie, isLargeScreen: Boolean) {
+    fun getMovieDetails(observedMovie: Movie, isLargeScreen: Boolean) {
         // Retrieve the last emitted value from SavedStateHandle
         val lastEmittedValue = savedStateHandle.get<Int>(KEY_LAST_EMITTED_VALUE)
         // Only send request if the current value is different from the last one stored
-        if (lastEmittedValue == null || lastEmittedValue != selectedMovie.id) {
+        if (lastEmittedValue == null || lastEmittedValue != observedMovie.id) {
             getMovieDetails(
-                selectedMovieId = selectedMovie.id,
-                isMovie = selectedMovie.isMovie,
+                selectedMovieId = observedMovie.id,
+                isMovie = observedMovie.isMovie,
                 doForLargeScreen = {
-                    savedStateHandle[KEY_LAST_EMITTED_VALUE] = selectedMovie.id
-
+                    savedStateHandle[KEY_LAST_EMITTED_VALUE] = observedMovie.id
                 }
             )
 
@@ -87,7 +66,7 @@ class DetailsViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             try {
-                _movieDetails.value = if (isMovie)
+                _movie.value = if (isMovie)
                     baseMoviesRepository.getMovieDetails(selectedMovieId)
                 else
                     baseMoviesRepository.getTVShowDetails(selectedMovieId)
@@ -99,40 +78,8 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
-
-    fun updateObservableSelectedMovie(selectedMovie: Movie?) {
-        _observableSelectedMovie.value = selectedMovie
+    fun updateObservedMovie(movie: Movie?) {
+        _observedMovie.value = movie
     }
 
-    fun onAddToFavorite() {
-        viewModelScope.launch {
-            try {
-                _movieDetails.value?.let {
-                    favoritesRepository.cacheFavorite(
-                        LocalFavorite(
-                            movieId = it.id,
-                            posterPath = it.posterPath,
-                            backdropPath = it.backdropPath,
-                            title = it.title,
-                        )
-                    )
-                    _favorites.value = favoritesRepository.getAllFavorites()
-                    _detailsEventFlow.emit(
-                        DetailsEvent.ShowSavedMessage(
-                            getApplication<MoviesApp>().getString(
-                                R.string.saved
-                            )
-                        )
-                    )
-                }
-            } catch (e: Exception) {
-                Timber.d(e.localizedMessage)
-            }
-
-        }
-    }
-
-    sealed class DetailsEvent {
-        class ShowSavedMessage(val message: String) : DetailsEvent()
-    }
 }

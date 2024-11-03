@@ -34,23 +34,23 @@ class ClipsViewModel @Inject constructor(
     val clipsEvent = _clipsEventFlow.asSharedFlow()
 
     init {
-        if (selectedMovieId != null && isMovie != null)
+        if (selectedMovieId != null && selectedMovieId != -1 && isMovie != null)
             getMovieClips(
                 selectedMovieId = selectedMovieId,
                 isMovie = isMovie
             )
     }
 
-    fun getMovieClips(selectedMovie: Movie, isLargeScreen: Boolean) {
+    fun getMovieClips(observedMovie: Movie, isLargeScreen: Boolean) {
         // Retrieve the last emitted value from SavedStateHandle
         val lastEmittedValue = savedStateHandle.get<Int>(KEY_LAST_EMITTED_VALUE)
         // Only send request if the current value is different from the last one stored
-        if (lastEmittedValue == null || lastEmittedValue != selectedMovie.id) {
+        if (lastEmittedValue == null || lastEmittedValue != observedMovie.id) {
             getMovieClips(
-                selectedMovieId = selectedMovie.id,
-                isMovie = selectedMovie.isMovie,
+                selectedMovieId = observedMovie.id,
+                isMovie = observedMovie.isMovie,
                 doForLargeScreen = {
-                    savedStateHandle[KEY_LAST_EMITTED_VALUE] = selectedMovie.id
+                    savedStateHandle[KEY_LAST_EMITTED_VALUE] = observedMovie.id
                 }
             )
 
@@ -76,7 +76,7 @@ class ClipsViewModel @Inject constructor(
         }
     }
 
-    fun onClipClicked(clip: Clip) {
+    fun onClipClick(clip: Clip) {
         viewModelScope.launch {
             _clipsEventFlow.emit(
                 ClipsEvent.EventNavigateToMoviePlayerScreen(

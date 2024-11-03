@@ -67,7 +67,7 @@ class ClipsFragment : Fragment() {
 
     private fun initRecyclerView() {
         clipsAdapter = ClipsAdapter(ClipsAdapter.OnItemClickListener {
-            clipsViewModel.onClipClicked(it)
+            clipsViewModel.onClipClick(it)
         })
         binding.apply {
             recyclerViewClipsList.apply {
@@ -82,10 +82,10 @@ class ClipsFragment : Fragment() {
         if ((appContext as MoviesApp).isLargeScreen) {
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    detailsViewModel.observableSelectedMovie.collect {
+                    detailsViewModel.observedMovie.collect {
                         it?.let {
                             clipsViewModel.getMovieClips(
-                                selectedMovie = it,
+                                observedMovie = it,
                                 isLargeScreen = true
                             )
                         }

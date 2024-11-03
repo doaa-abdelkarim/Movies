@@ -47,7 +47,8 @@ class HomeFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(VIEWPAGER_POSITION, binding.viewPagerHome.currentItem)
+        if (_binding != null)
+            outState.putInt(VIEWPAGER_POSITION, binding.viewPagerHome.currentItem)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -16,34 +16,22 @@ data class RemoteReviews(
     val totalPages: Int? = null,
 
     @field:SerializedName("results")
-    val results: List<ReviewsResultsItem?>? = null,
+    val results: List<RemoteReview?>? = null,
 
     @field:SerializedName("total_results")
     val totalResults: Int? = null
 )
 
-data class ReviewsResultsItem(
+data class RemoteReview(
 
     @field:SerializedName("author_details")
     val authorDetails: AuthorDetails? = null,
-
-    @field:SerializedName("updated_at")
-    val updatedAt: String? = null,
-
-    @field:SerializedName("author")
-    val author: String? = null,
-
-    @field:SerializedName("created_at")
-    val createdAt: String? = null,
 
     @field:SerializedName("id")
     val id: String? = null,
 
     @field:SerializedName("content")
-    val content: String? = null,
-
-    @field:SerializedName("url")
-    val url: String? = null
+    val content: String? = null
 )
 
 data class AuthorDetails(
@@ -61,9 +49,9 @@ data class AuthorDetails(
     val username: String? = null
 )
 
-fun ReviewsResultsItem.asDomainModel(videoId: Int): Review =
+fun RemoteReview.asDomainModel(movieId: Int): Review =
     Review(
-        videoId = videoId,
+        movieId = movieId,
         reviewId = id!!,
         username = authorDetails?.username,
         avatarPath = authorDetails?.avatarPath,

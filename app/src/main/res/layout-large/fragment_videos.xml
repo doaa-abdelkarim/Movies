@@ -7,13 +7,13 @@
     tools:viewBindingIgnore="true">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_videos_list"
+        android:id="@+id/recycler_view_movies"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:background="@color/darker_gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.5"
-        tools:listitem="@layout/cell_video" />
+        tools:listitem="@layout/cell_movie" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_details"
@@ -21,7 +21,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/recycler_view_videos_list" />
+        app:layout_constraintStart_toEndOf="@id/recycler_view_movies" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -42,7 +42,7 @@ class FavoritesAdapter :
 
     class DiffCallback : DiffUtil.ItemCallback<Favorite>() {
         override fun areItemsTheSame(oldItem: Favorite, newItem: Favorite) =
-            oldItem.videoId == newItem.videoId
+            oldItem.movieId == newItem.movieId
 
         override fun areContentsTheSame(oldItem: Favorite, newItem: Favorite) =
             oldItem == newItem

@@ -5,6 +5,8 @@
     <dimen name="spacing_normal">16dp</dimen>
     <dimen name="spacing_large">24dp</dimen>
 
+    <dimen name="custom_spacing_4dp">4dp</dimen>
+
     <!--    Text size-->
     <dimen name="text_size_12sp">12sp</dimen>
     <dimen name="text_size_14sp">14sp</dimen>
@@ -12,7 +14,7 @@
     <dimen name="text_size_18sp">18sp</dimen>
     <dimen name="text_size_20sp">20sp</dimen>
     <dimen name="text_size_32sp">32sp</dimen>
-    <dimen name="favorite_video_title">16sp</dimen>
+    <dimen name="favorite_movie_title">16sp</dimen>
 
     <!--    Corner radius-->
     <dimen name="corner_radius_10dp">10dp</dimen>

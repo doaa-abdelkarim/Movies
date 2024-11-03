@@ -27,7 +27,7 @@ data class LocalClip(
 fun List<LocalClip>.asDomainModel(): List<Clip> =
     map {
         Clip(
-            videoId = it.movieId,
+            movieId = it.movieId,
             clipId = it.clipId,
             name = it.name,
             key = it.key

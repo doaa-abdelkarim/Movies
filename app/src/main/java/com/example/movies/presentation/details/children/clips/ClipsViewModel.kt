@@ -3,13 +3,12 @@ package com.example.movies.presentation.details.children.clips
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.toRoute
 import com.example.movies.domain.entities.Clip
 import com.example.movies.domain.entities.Movie
-import com.example.movies.domain.entities.MovieNavType
 import com.example.movies.domain.repositories.BaseMoviesRepository
-import com.example.movies.presentation.navigation.Screen
 import com.example.movies.util.constants.AppConstants.Companion.KEY_LAST_EMITTED_VALUE
+import com.example.movies.util.constants.AppConstants.Companion.KEY_STATE_IS_MOVIE
+import com.example.movies.util.constants.AppConstants.Companion.KEY_STATE_MOVIE_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,18 +17,16 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.reflect.typeOf
 
 @HiltViewModel
 class ClipsViewModel @Inject constructor(
     private val baseMoviesRepository: BaseMoviesRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val selectedVideo = savedStateHandle.toRoute<Screen.Details>(
-        typeMap = mapOf(
-            typeOf<Movie?>() to MovieNavType
-        )
-    ).movie
+
+    private val selectedMovieId = savedStateHandle.get<Int>(KEY_STATE_MOVIE_ID)
+    private val isMovie = savedStateHandle.get<Boolean>(KEY_STATE_IS_MOVIE)
+
     private val _clips = MutableStateFlow<List<Clip>>(emptyList())
     val clips = _clips.asStateFlow()
 
@@ -37,34 +34,40 @@ class ClipsViewModel @Inject constructor(
     val clipsEvent = _clipsEventFlow.asSharedFlow()
 
     init {
-        selectedVideo?.let { getVideoClips(it) }
+        if (selectedMovieId != null && isMovie != null)
+            getMovieClips(
+                selectedMovieId = selectedMovieId,
+                isMovie = isMovie
+            )
     }
 
-    fun getVideoClips(selectedVideo: Movie, isLargeScreen: Boolean) {
+    fun getMovieClips(selectedMovie: Movie, isLargeScreen: Boolean) {
         // Retrieve the last emitted value from SavedStateHandle
-        val lastEmittedValue = savedStateHandle.get<Movie?>(KEY_LAST_EMITTED_VALUE)
+        val lastEmittedValue = savedStateHandle.get<Int>(KEY_LAST_EMITTED_VALUE)
         // Only send request if the current value is different from the last one stored
-        if (lastEmittedValue == null || lastEmittedValue != selectedVideo) {
-            getVideoClips(
-                selectedVideo = selectedVideo,
+        if (lastEmittedValue == null || lastEmittedValue != selectedMovie.id) {
+            getMovieClips(
+                selectedMovieId = selectedMovie.id,
+                isMovie = selectedMovie.isMovie,
                 doForLargeScreen = {
-                    savedStateHandle[KEY_LAST_EMITTED_VALUE] = selectedVideo
+                    savedStateHandle[KEY_LAST_EMITTED_VALUE] = selectedMovie.id
                 }
             )
 
         }
     }
 
-    private fun getVideoClips(
-        selectedVideo: Movie,
-        doForLargeScreen: (() -> Unit)? = null
+    private fun getMovieClips(
+        selectedMovieId: Int,
+        isMovie: Boolean,
+        doForLargeScreen: (() -> Unit)? = null,
     ) {
         viewModelScope.launch {
             try {
-                _clips.value = if (selectedVideo.isMovie)
-                    baseMoviesRepository.getMovieClips(selectedVideo.id)
+                _clips.value = if (isMovie)
+                    baseMoviesRepository.getMovieClips(selectedMovieId)
                 else
-                    baseMoviesRepository.getTVShowClips(selectedVideo.id)
+                    baseMoviesRepository.getTVShowClips(selectedMovieId)
                 doForLargeScreen?.invoke()
             } catch (e: Exception) {
                 Timber.d(e.localizedMessage)
@@ -76,7 +79,7 @@ class ClipsViewModel @Inject constructor(
     fun onClipClicked(clip: Clip) {
         viewModelScope.launch {
             _clipsEventFlow.emit(
-                ClipsEvent.EventNavigateToVideoPlayerScreen(
+                ClipsEvent.EventNavigateToMoviePlayerScreen(
                     clip.key,
                     clip.name
                 )
@@ -86,7 +89,7 @@ class ClipsViewModel @Inject constructor(
 }
 
 sealed class ClipsEvent {
-    data class EventNavigateToVideoPlayerScreen(
+    data class EventNavigateToMoviePlayerScreen(
         val clipKey: String?, val clipName: String?
     ) : ClipsEvent()
 }

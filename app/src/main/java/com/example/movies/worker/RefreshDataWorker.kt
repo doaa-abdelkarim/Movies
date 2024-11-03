@@ -23,7 +23,7 @@ class RefreshDataWorker(
             val movies = baseMoviesRepository.getMovies()
             movies.collect {
                 it.map { video ->
-                    baseMoviesRepository.getMovieInfo(video.id)
+                    baseMoviesRepository.getMovieDetails(video.id)
                     baseMoviesRepository.getMovieClips(video.id)
                     baseMoviesRepository.getMovieReviews(video.id)
                 }
@@ -33,7 +33,7 @@ class RefreshDataWorker(
             tvShows.collect {
                 it.map { video ->
                     baseMoviesRepository
-                        .getMovieInfo(video.id)
+                        .getMovieDetails(video.id)
                     baseMoviesRepository
                         .getMovieClips(video.id)
                     baseMoviesRepository

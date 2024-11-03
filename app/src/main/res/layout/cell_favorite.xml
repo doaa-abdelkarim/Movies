@@ -36,12 +36,14 @@
 
         <TextView
             android:id="@+id/text_view_title"
-            style="@style/Size16White"
+            style="@style/RegularSize16White"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="@{favorite.title}"
-            android:textSize="@dimen/favorite_video_title"
+            android:textSize="@dimen/favorite_movie_title"
             app:layout_constraintBottom_toBottomOf="@id/image_view_clip_thumbnail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

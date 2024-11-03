@@ -16,8 +16,8 @@ import com.example.movies.domain.entities.Clip
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.entities.Review
 import com.example.movies.domain.repositories.BaseMoviesRepository
-import com.example.movies.util.helpers.NetworkHandler
 import com.example.movies.util.getDefaultPageConfig
+import com.example.movies.util.helpers.NetworkHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -38,7 +38,7 @@ class MoviesRepository2(
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow.map {
-            it.map { video -> video.asDomainModel() }
+            it.map { localMovie -> localMovie.asDomainModel() }
         }
     }
 
@@ -52,26 +52,26 @@ class MoviesRepository2(
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow.map {
-            it.map { video -> video.asDomainModel() }
+            it.map { localMovie -> localMovie.asDomainModel() }
         }
     }
 
-    override suspend fun getMovieInfo(id: Int): Movie {
+    override suspend fun getMovieDetails(id: Int): Movie {
         val moviesDao = moviesDB.moviesDao()
         if (networkHandler.isOnline()) {
-            val movie = moviesAPI.getMovieInfo(id)
+            val movie = moviesAPI.getMovieDetails(id)
             val pk = moviesDao.getMovieById(id).pk
-            moviesDao.update((movie.asDatabaseModel()).copy(pk = pk))
+            moviesDao.update((movie.asDatabaseModel(isMovie = true)).copy(pk = pk))
         }
         return moviesDao.getMovieById(id).asDomainModel()
     }
 
-    override suspend fun getTVShowInfo(id: Int): Movie {
+    override suspend fun getTVShowDetails(id: Int): Movie {
         val moviesDao = moviesDB.moviesDao()
         if (networkHandler.isOnline()) {
-            val movie = moviesAPI.getTVShowInfo(id)
+            val movie = moviesAPI.getTVShowDetails(id)
             val pk = moviesDao.getMovieById(id).pk
-            moviesDao.update((movie.asDatabaseModel()).copy(pk = pk))
+            moviesDao.update((movie.asDatabaseModel(isMovie = false)).copy(pk = pk))
         }
         return moviesDao.getMovieById(id).asDomainModel()
     }
@@ -105,7 +105,7 @@ class MoviesRepository2(
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow.map {
-            it.map { review -> review.asDomainModel() }
+            it.map { localReview -> localReview.asDomainModel() }
         }
     }
 
@@ -120,7 +120,7 @@ class MoviesRepository2(
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow.map {
-            it.map { review -> review.asDomainModel() }
+            it.map { localReview -> localReview.asDomainModel() }
         }
     }
 }

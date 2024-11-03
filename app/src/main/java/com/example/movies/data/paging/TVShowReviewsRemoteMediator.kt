@@ -98,8 +98,8 @@ class TVShowReviewsRemoteMediator(
         state: PagingState<Int, LocalReview>
     ): TVShowReviewsRemoteKeys? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { localVideo ->
-                tvShowReviewsRemoteKeysDao.getRemoteKeysById(id = localVideo.reviewId)
+            ?.let { localReview ->
+                tvShowReviewsRemoteKeysDao.getRemoteKeysById(id = localReview.reviewId)
             }
     }
 
@@ -107,8 +107,8 @@ class TVShowReviewsRemoteMediator(
         state: PagingState<Int, LocalReview>
     ): TVShowReviewsRemoteKeys? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
-            ?.let { localVideo ->
-                tvShowReviewsRemoteKeysDao.getRemoteKeysById(id = localVideo.reviewId)
+            ?.let { localReview ->
+                tvShowReviewsRemoteKeysDao.getRemoteKeysById(id = localReview.reviewId)
             }
     }
 

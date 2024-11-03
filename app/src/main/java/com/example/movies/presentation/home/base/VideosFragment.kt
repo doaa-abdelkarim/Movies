@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.MoviesApp
 import com.example.movies.R
 import com.example.movies.presentation.common.LoaderStateAdapter
-import com.example.movies.presentation.common.VideosAdapter
+import com.example.movies.presentation.common.MoviesAdapter
 import com.example.movies.presentation.home.parent.HomeFragmentDirections
 import com.example.movies.util.exhaustive
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -31,7 +31,7 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
     @ApplicationContext
     lateinit var appContext: Context
 
-    private lateinit var videosAdapter: VideosAdapter
+    private lateinit var moviesAdapter: MoviesAdapter
     private lateinit var loaderStateAdapter: LoaderStateAdapter
     abstract val videosViewModel: VM
 
@@ -44,9 +44,9 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
     }
 
     private fun initRecyclerView(view: View) {
-        if (!::videosAdapter.isInitialized) {
-            videosAdapter = VideosAdapter(
-                VideosAdapter.OnItemClickListener {
+        if (!::moviesAdapter.isInitialized) {
+            moviesAdapter = MoviesAdapter(
+                MoviesAdapter.OnItemClickListener {
                     videosViewModel.onVideoClicked(it)
                 }
             ).apply {
@@ -59,11 +59,11 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
                         }
                     }
             }
-            loaderStateAdapter = LoaderStateAdapter { videosAdapter.retry() }
+            loaderStateAdapter = LoaderStateAdapter { moviesAdapter.retry() }
         }
 
-        view.findViewById<RecyclerView>(R.id.recycler_view_videos_list).apply {
-            adapter = videosAdapter.withLoadStateFooter(loaderStateAdapter)
+        view.findViewById<RecyclerView>(R.id.recycler_view_movies).apply {
+            adapter = moviesAdapter.withLoadStateFooter(loaderStateAdapter)
             layoutManager = GridLayoutManager(requireContext(), 4)
             setHasFixedSize(true)
         }
@@ -85,7 +85,7 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
                 videosViewModel.videosFlow
                     .distinctUntilChanged()
                     .collectLatest {
-                        videosAdapter.submitData(it)
+                        moviesAdapter.submitData(it)
                     }
             }
         }
@@ -98,7 +98,10 @@ abstract class VideosFragment<VM : VideosViewModel> : Fragment(R.layout.fragment
                     when (it) {
                         is VideosEvent.NavigateToDetailsScreen ->
                             findNavController().navigate(
-                                HomeFragmentDirections.actionHomeFragmentToDetailsFragment(it.video)
+                                HomeFragmentDirections.actionHomeFragmentToDetailsFragment(
+                                    movieId = it.video.id,
+                                    isMovie = it.video.isMovie
+                                )
                             )
                     }.exhaustive
                 }

@@ -4,7 +4,7 @@ import android.net.Uri
 import com.example.movies.util.constants.AppConstants.Companion.IMAGE_BASE_URL
 
 data class Favorite(
-    val videoId: Int? = null,
+    val movieId: Int? = null,
     val posterPath: String? = null,
     val backdropPath: String? = null,
     val title: String? = null

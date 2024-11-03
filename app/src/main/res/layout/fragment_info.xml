@@ -4,13 +4,11 @@
 
     <data>
 
-        <import type="com.example.movies.domain.entities.Movie" />
-
         <import type="android.view.View" />
 
         <variable
-            name="infoViewModel"
-            type="com.example.movies.presentation.details.children.info.InfoViewModel" />
+            name="detailsViewModel"
+            type="com.example.movies.presentation.details.parent.DetailsViewModel" />
 
     </data>
 
@@ -28,10 +26,10 @@
 
             <TextView
                 android:id="@+id/text_view_overview"
-                style="@style/Size14LightGray"
+                style="@style/RegularSize14LightGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{infoViewModel.info.overview}"
+                android:text="@{detailsViewModel.movieDetails.overview}"
                 tools:text="@string/overview" />
 
             <TextView
@@ -44,13 +42,13 @@
 
             <TextView
                 android:id="@+id/text_view_genres"
-                style="@style/Size14LightGray"
+                style="@style/RegularSize14LightGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_view_overview"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_genres_title"
-                android:text="@{infoViewModel.info.genres}"
+                android:text="@{detailsViewModel.movieDetails.genres}"
                 tools:text="@string/genres" />
 
             <TextView
@@ -58,18 +56,18 @@
                 style="@style/BoldSize16VeryDarkGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_genres_title"
+                android:layout_below="@id/text_view_genres"
                 android:text="@string/released" />
 
             <TextView
                 android:id="@+id/text_view_released"
-                style="@style/Size14LightGray"
+                style="@style/RegularSize14LightGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_genres_title"
+                android:layout_below="@id/text_view_genres"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_released_title"
-                android:text="@{infoViewModel.info.releaseDate}"
+                android:text="@{detailsViewModel.movieDetails.releaseDate}"
                 tools:text="@string/released" />
 
             <TextView
@@ -77,37 +75,37 @@
                 style="@style/BoldSize16VeryDarkGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_released_title"
-                android:text="@string/original" />
+                android:layout_below="@id/text_view_released"
+                android:text="@string/original_title" />
 
             <TextView
                 android:id="@+id/text_view_original_title"
-                style="@style/Size14LightGray"
+                style="@style/RegularSize14LightGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_released_title"
+                android:layout_below="@id/text_view_released"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_original_title_title"
-                android:text="@{infoViewModel.info.originalTitle}"
-                tools:text="@string/original" />
+                android:text="@{detailsViewModel.movieDetails.originalTitle}"
+                tools:text="@string/original_title" />
 
             <TextView
                 android:id="@+id/text_view_original_language_title"
                 style="@style/BoldSize16VeryDarkGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_original_title_title"
+                android:layout_below="@id/text_view_original_title"
                 android:text="@string/original_language" />
 
             <TextView
                 android:id="@+id/text_view_original_language"
-                style="@style/Size14LightGray"
+                style="@style/RegularSize14LightGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_original_title_title"
+                android:layout_below="@id/text_view_original_title"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_original_language_title"
-                android:text="@{infoViewModel.info.originalLanguage}"
+                android:text="@{detailsViewModel.movieDetails.originalLanguage}"
                 tools:text="@string/original_language" />
 
             <TextView
@@ -115,18 +113,18 @@
                 style="@style/BoldSize16VeryDarkGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_original_language_title"
+                android:layout_below="@id/text_view_original_language"
                 android:text="@string/popularity" />
 
             <TextView
                 android:id="@+id/text_view_popularity"
-                style="@style/Size14LightGray"
+                style="@style/RegularSize14LightGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_original_language_title"
+                android:layout_below="@id/text_view_original_language"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_popularity_title"
-                android:text="@{String.valueOf(infoViewModel.info.popularity)}"
+                android:text="@{String.valueOf(detailsViewModel.movieDetails.popularity)}"
                 tools:text="@string/popularity" />
 
             <TextView
@@ -134,20 +132,20 @@
                 style="@style/BoldSize16VeryDarkGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_popularity_title"
+                android:layout_below="@id/text_view_popularity"
                 android:text="@string/revenue"
-                android:visibility="@{(infoViewModel.info instanceof Movie)? View.VISIBLE : View.GONE}" />
+                android:visibility="@{(detailsViewModel.movieDetails.isMovie == true)? View.VISIBLE : View.GONE}" />
 
             <TextView
                 android:id="@+id/text_view_revenue"
-                style="@style/Size14LightGray"
+                style="@style/RegularSize14LightGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_popularity_title"
+                android:layout_below="@id/text_view_popularity"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_revenue_title"
-                android:text="@{(infoViewModel.info instanceof Movie)? String.valueOf(((Movie)infoViewModel.info).revenue) : ``}"
-                android:visibility="@{(infoViewModel.info instanceof Movie)? View.VISIBLE : View.GONE}"
+                android:text="@{(detailsViewModel.movieDetails.isMovie == true)? String.valueOf(detailsViewModel.movieDetails.revenue) : ``}"
+                android:visibility="@{(detailsViewModel.movieDetails.isMovie == true)? View.VISIBLE : View.GONE}"
                 tools:text="@string/revenue" />
 
         </RelativeLayout>

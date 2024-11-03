@@ -5,43 +5,46 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movies.databinding.CellVideoBinding
+import com.example.movies.databinding.CellMovieBinding
 import com.example.movies.domain.entities.Movie
-import com.example.movies.presentation.common.VideosAdapter.VideoViewHolder
+import com.example.movies.presentation.common.MoviesAdapter.MoviesViewHolder
 
-class VideosAdapter(private val onItemClickListener: OnItemClickListener) :
-    PagingDataAdapter<Movie, VideoViewHolder>(DiffCallback()) {
+class MoviesAdapter(private val onItemClickListener: OnItemClickListener) :
+    PagingDataAdapter<Movie, MoviesViewHolder>(DiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
-        return VideoViewHolder.from(parent, onItemClickListener)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
+        return MoviesViewHolder.from(parent, onItemClickListener)
     }
 
-    override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    class VideoViewHolder(private val binding: CellVideoBinding) :
+    class MoviesViewHolder(private val binding: CellMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         companion object {
-            fun from(parent: ViewGroup, onItemClickListener: OnItemClickListener): VideoViewHolder {
+            fun from(
+                parent: ViewGroup,
+                onItemClickListener: OnItemClickListener
+            ): MoviesViewHolder {
                 val binding =
-                    CellVideoBinding.inflate(
+                    CellMovieBinding.inflate(
                         LayoutInflater.from(parent.context), parent, false
                     )
                 binding.onItemClickListener = onItemClickListener
-                return VideoViewHolder(binding)
+                return MoviesViewHolder(binding)
             }
         }
 
         fun bind(item: Movie?) {
-            binding.video = item
+            binding.movie = item
         }
     }
 
-    class OnItemClickListener(val listener: (video: Movie) -> Unit) {
-        fun onItemClick(video: Movie) {
-            listener(video)
+    class OnItemClickListener(val listener: (movie: Movie) -> Unit) {
+        fun onItemClick(movie: Movie) {
+            listener(movie)
         }
     }
 

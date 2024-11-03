@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "255a019061b99d1370810b3f97db0421",
+    "identityHash": "6f3ddb9ab4e17e09b26f80761f141a89",
     "entities": [
       {
         "tableName": "movies_table",
@@ -220,11 +220,11 @@
       },
       {
         "tableName": "favorites_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`videoId` INTEGER NOT NULL, `posterPath` TEXT, `backdropPath` TEXT, `title` TEXT, PRIMARY KEY(`videoId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`movieId` INTEGER NOT NULL, `posterPath` TEXT, `backdropPath` TEXT, `title` TEXT, PRIMARY KEY(`movieId`))",
         "fields": [
           {
-            "fieldPath": "videoId",
-            "columnName": "videoId",
+            "fieldPath": "movieId",
+            "columnName": "movieId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -250,7 +250,7 @@
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
-            "videoId"
+            "movieId"
           ]
         },
         "indices": [],
@@ -388,7 +388,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '255a019061b99d1370810b3f97db0421')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6f3ddb9ab4e17e09b26f80761f141a89')"
     ]
   }
 }

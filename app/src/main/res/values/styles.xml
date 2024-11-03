@@ -5,48 +5,64 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="Size14">
-        <item name="android:textSize">@dimen/text_size_14sp</item>
+    <style name="BoldSize16" parent="Bold">
+        <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="Size16">
-        <item name="android:textSize">@dimen/text_size_16sp</item>
-    </style>
-
-    <style name="Size18">
-        <item name="android:textSize">@dimen/text_size_18sp</item>
-    </style>
-
-    <style name="Size20">
-        <item name="android:textSize">@dimen/text_size_20sp</item>
-    </style>
-
-    <style name="Size14LightGray" parent="Size14">
-        <item name="android:textColor">@color/light_gray</item>
-    </style>
-
-    <style name="Size16VeryDarkGray" parent="Size16">
+    <style name="BoldSize16VeryDarkGray" parent="BoldSize16">
         <item name="android:textColor">@color/very_dark_gray</item>
     </style>
 
-    <style name="Size16White" parent="Size16">
+    <style name="BoldSize20" parent="Bold">
+        <item name="android:textSize">@dimen/text_size_20sp</item>
+    </style>
+
+    <style name="BoldSize20White" parent="BoldSize20">
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="BoldSize16VeryDarkGray" parent="Size16VeryDarkGray">
-        <item name="android:textStyle">bold</item>
+    <style name="Regular">
+        <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="Size18White" parent="Size18">
+    <style name="RegularSize14" parent="Regular">
+        <item name="android:textSize">@dimen/text_size_14sp</item>
+    </style>
+
+    <style name="RegularSize14LightGray" parent="RegularSize14">
+        <item name="android:textColor">@color/light_gray</item>
+    </style>
+
+    <style name="RegularSize14White" parent="RegularSize14">
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Size20White" parent="Size20">
+    <style name="RegularSize16" parent="Regular">
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+    </style>
+
+    <style name="RegularSize16VeryDarkGray" parent="RegularSize16">
+        <item name="android:textColor">@color/very_dark_gray</item>
+    </style>
+
+    <style name="RegularSize16White" parent="RegularSize16">
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Size20WhiteBold" parent="Size20White">
-        <item name="android:textStyle">bold</item>
+    <style name="RegularSize18" parent="Regular">
+        <item name="android:textSize">@dimen/text_size_18sp</item>
+    </style>
+
+    <style name="RegularSize18White" parent="RegularSize18">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="RegularSize20" parent="Regular">
+        <item name="android:textSize">@dimen/text_size_20sp</item>
+    </style>
+
+    <style name="RegularSize20White" parent="RegularSize20">
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="MainTabLayoutStyle">

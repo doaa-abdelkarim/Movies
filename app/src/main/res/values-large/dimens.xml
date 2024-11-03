@@ -6,7 +6,7 @@
     <dimen name="spacing_large">48dp</dimen>
 
     <!--    Text size-->
-    <dimen name="favorite_video_title">32sp</dimen>
+    <dimen name="favorite_movie_title">32sp</dimen>
 
     <!--    View size-->
     <dimen name="ratio_1point3">2</dimen>

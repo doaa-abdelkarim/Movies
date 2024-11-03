@@ -97,8 +97,8 @@ class MoviesRemoteMediator(
         state: PagingState<Int, LocalMovie>
     ): MoviesRemoteKeys? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { localVideo ->
-                moviesRemoteKeysDao.getRemoteKeysById(id = localVideo.id)
+            ?.let { localMovie ->
+                moviesRemoteKeysDao.getRemoteKeysById(id = localMovie.id)
             }
     }
 
@@ -106,8 +106,8 @@ class MoviesRemoteMediator(
         state: PagingState<Int, LocalMovie>
     ): MoviesRemoteKeys? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
-            ?.let { localVideo ->
-                moviesRemoteKeysDao.getRemoteKeysById(id = localVideo.id)
+            ?.let { localMovie ->
+                moviesRemoteKeysDao.getRemoteKeysById(id = localMovie.id)
             }
     }
 

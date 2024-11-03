@@ -20,6 +20,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -49,10 +50,11 @@ import java.util.Locale
 @Composable
 fun DetailsScreen(
     movie: Movie?,
-    onAddToFavoriteClick: () -> Unit,
-    navigateToMoviePlayerScreen: (String) -> Unit
+    onAddToFavoriteClick: (Movie) -> Unit,
+    navigateToMoviePlayerScreen: (String) -> Unit,
+    navigateBack: () -> Unit,
 ) {
-    val tabsTitles = stringArrayResource(R.array.tabs_details_titles)
+    val tabsTitles = stringArrayResource(R.array.tabs_details_titles).toList()
     val pagerState = rememberPagerState(pageCount = { tabsTitles.size })
     val selectedTabIndex = remember { derivedStateOf { pagerState.currentPage } }
 
@@ -66,10 +68,12 @@ fun DetailsScreen(
                     navigationIconContentColor = white
                 ),
                 navigationIcon = {
-                    Icon(
-                        Icons.AutoMirrored.Default.ArrowBack,
-                        contentDescription = null
-                    )
+                    IconButton(onClick = navigateBack) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Localized description"
+                        )
+                    }
                 }
             )
         },
@@ -91,7 +95,7 @@ fun DetailsScreen(
                             size = 0.dp
                         )
                     ),
-                    onClick = onAddToFavoriteClick
+                    onClick = { movie?.let { onAddToFavoriteClick(it) } }
                 ) {
                     Text(text = stringResource(R.string.add_to_favorites).uppercase(Locale.ROOT))
                 }
@@ -202,6 +206,7 @@ fun DetailsScreenPreview() {
             isMovie = true
         ),
         onAddToFavoriteClick = {},
-        navigateToMoviePlayerScreen = {}
+        navigateToMoviePlayerScreen = {},
+        navigateBack = {}
     )
 }

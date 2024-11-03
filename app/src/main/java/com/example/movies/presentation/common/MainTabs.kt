@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun MainTabs(
-    tabsTitles: Array<String>,
+    tabsTitles: List<String>,
     selectedTabIndex: Int,
     pagerState: PagerState
 ) {

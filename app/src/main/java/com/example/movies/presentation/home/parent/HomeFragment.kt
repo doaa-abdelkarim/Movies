@@ -70,7 +70,7 @@ class HomeFragment : Fragment() {
             TVShowsFragment.newInstance()
         )
 
-        tabsTitles = resources.getStringArray(R.array.tab_home_titles)
+        tabsTitles = resources.getStringArray(R.array.tabs_home_titles)
 
         viewPagerAdapter = ViewPagerAdapter(
             fragmentList,

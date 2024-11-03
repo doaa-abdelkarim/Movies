@@ -15,7 +15,7 @@ fun Movies(
     navigateToDetailsScreen: (Movie) -> Unit
 ) {
     val movies = moviesViewModel.videosFlow.collectAsLazyPagingItems()
-    LaunchedEffect(true) {
+    LaunchedEffect(Unit) {
         moviesViewModel.videosEvent.collect {
             when (it) {
                 is VideosEvent.NavigateToDetailsScreen -> navigateToDetailsScreen(it.video)
@@ -24,6 +24,6 @@ fun Movies(
     }
     GridMovies(
         movies = movies,
-        onItemClick = { movie -> moviesViewModel.onVideoClicked(movie) }
+        onItemClick = { movie -> moviesViewModel.onVideoClick(movie) }
     )
 }

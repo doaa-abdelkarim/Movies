@@ -36,7 +36,7 @@ fun MoviesClips(
     navigateToMoviePlayerScreen: (String) -> Unit
 ) {
     val clips = clipsViewModel.clips.collectAsState().value
-    LaunchedEffect(true) {
+    LaunchedEffect(Unit) {
         clipsViewModel.clipsEvent.collect {
             when (it) {
                 is ClipsEvent.EventNavigateToMoviePlayerScreen -> {
@@ -61,7 +61,7 @@ fun MoviesClips(
     }
     ListClips(
         clips = clips,
-        onItemClick = { clip -> clipsViewModel.onClipClicked(clip) }
+        onItemClick = { clip -> clipsViewModel.onClipClick(clip) }
     )
 }
 

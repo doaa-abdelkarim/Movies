@@ -13,14 +13,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import com.example.movies.R
+import com.example.movies.domain.entities.Favorite
 import com.example.movies.domain.entities.Movie
 import com.example.movies.presentation.common.MainTabs
 
 @Composable
-fun HomeScreen(navigateToDetailsScreen: (Movie) -> Unit) {
-    val tabsTitles = stringArrayResource(R.array.tabs_home_titles)
+fun HomeScreen(
+    favorites: List<Favorite>,
+    navigateToDetailsScreen: (Movie) -> Unit
+) {
+    val tabsTitles = mutableListOf(
+        stringResource(R.string.movies),
+        stringResource(R.string.tv_shows),
+    ).apply {
+        if (favorites.isNotEmpty())
+            this.add(stringResource(R.string.favorites))
+    }
     val pagerState = rememberPagerState(pageCount = { tabsTitles.size })
     val selectedTabIndex = remember { derivedStateOf { pagerState.currentPage } }
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -38,6 +48,7 @@ fun HomeScreen(navigateToDetailsScreen: (Movie) -> Unit) {
             HomeHorizontalPager(
                 pagerState = pagerState,
                 selectedTabIndex = selectedTabIndex.value,
+                favorites = favorites,
                 navigateToDetailsScreen = navigateToDetailsScreen
             )
         }
@@ -49,14 +60,16 @@ fun HomeHorizontalPager(
     pagerState: PagerState,
     selectedTabIndex: Int,
     navigateToDetailsScreen: (Movie) -> Unit,
+    favorites: List<Favorite>
 ) {
     HorizontalPager(
         state = pagerState,
         modifier = Modifier.fillMaxWidth()
     ) {
-        if (selectedTabIndex == 0)
-            Movies(navigateToDetailsScreen = navigateToDetailsScreen)
-        else if (selectedTabIndex == 1)
-            TVShows(navigateToDetailsScreen = navigateToDetailsScreen)
+        when (selectedTabIndex) {
+            0 -> Movies(navigateToDetailsScreen = navigateToDetailsScreen)
+            1 -> TVShows(navigateToDetailsScreen = navigateToDetailsScreen)
+            else -> Favorites()
+        }
     }
 }

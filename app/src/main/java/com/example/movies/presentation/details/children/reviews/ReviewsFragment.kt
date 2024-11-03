@@ -79,7 +79,7 @@ class ReviewsFragment : Fragment() {
                     detailsViewModel.observedMovie.collect {
                         it?.let {
                             reviewsViewModel.getMovieReviews(
-                                selectedMovie = it,
+                                observedMovie = it,
                                 isLargeScreen = true
                             )
                         }

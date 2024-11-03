@@ -85,7 +85,7 @@ class ClipsFragment : Fragment() {
                     detailsViewModel.observedMovie.collect {
                         it?.let {
                             clipsViewModel.getMovieClips(
-                                selectedMovie = it,
+                                observedMovie = it,
                                 isLargeScreen = true
                             )
                         }

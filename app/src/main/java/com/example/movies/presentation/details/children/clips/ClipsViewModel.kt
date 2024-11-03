@@ -41,16 +41,16 @@ class ClipsViewModel @Inject constructor(
             )
     }
 
-    fun getMovieClips(selectedMovie: Movie, isLargeScreen: Boolean) {
+    fun getMovieClips(observedMovie: Movie, isLargeScreen: Boolean) {
         // Retrieve the last emitted value from SavedStateHandle
         val lastEmittedValue = savedStateHandle.get<Int>(KEY_LAST_EMITTED_VALUE)
         // Only send request if the current value is different from the last one stored
-        if (lastEmittedValue == null || lastEmittedValue != selectedMovie.id) {
+        if (lastEmittedValue == null || lastEmittedValue != observedMovie.id) {
             getMovieClips(
-                selectedMovieId = selectedMovie.id,
-                isMovie = selectedMovie.isMovie,
+                selectedMovieId = observedMovie.id,
+                isMovie = observedMovie.isMovie,
                 doForLargeScreen = {
-                    savedStateHandle[KEY_LAST_EMITTED_VALUE] = selectedMovie.id
+                    savedStateHandle[KEY_LAST_EMITTED_VALUE] = observedMovie.id
                 }
             )
 

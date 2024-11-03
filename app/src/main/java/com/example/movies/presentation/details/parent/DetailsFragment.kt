@@ -113,7 +113,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                         detailsViewModel.updateObservedMovie(movie = it)
                         it?.let {
                             detailsViewModel.getMovieDetails(
-                                selectedMovie = it,
+                                observedMovie = it,
                                 isLargeScreen = true
                             )
                         }

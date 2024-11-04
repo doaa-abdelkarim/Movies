@@ -29,8 +29,8 @@ class MainActivityViewModel @Inject constructor(
     private val _favorites = MutableStateFlow<List<Favorite>>(emptyList())
     val favorites = _favorites.asStateFlow()
 
-    private val _detailsEventFlow = MutableSharedFlow<DetailsEvent>()
-    val detailsEvent = _detailsEventFlow.asSharedFlow()
+    private val _mainEventFlow = MutableSharedFlow<MainEvent>()
+    val mainEvent = _mainEventFlow.asSharedFlow()
 
     init {
         getAllFavorites()
@@ -48,8 +48,8 @@ class MainActivityViewModel @Inject constructor(
                     )
                 )
                 _favorites.value = favoritesRepository.getAllFavorites()
-                _detailsEventFlow.emit(
-                    DetailsEvent.ShowSavedMessage(
+                _mainEventFlow.emit(
+                    MainEvent.ShowSavedMessage(
                         message = getApplication<MoviesApp>().getString(
                             R.string.saved
                         )
@@ -72,8 +72,8 @@ class MainActivityViewModel @Inject constructor(
         }
 
 
-    sealed class DetailsEvent {
-        class ShowSavedMessage(val message: String) : DetailsEvent()
+    sealed class MainEvent {
+        class ShowSavedMessage(val message: String) : MainEvent()
     }
 }
 

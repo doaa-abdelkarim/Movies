@@ -133,9 +133,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     private fun listenToEvents() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mainActivityViewModel.detailsEvent.collect {
+                mainActivityViewModel.mainEvent.collect {
                     when (it) {
-                        is MainActivityViewModel.DetailsEvent.ShowSavedMessage ->
+                        is MainActivityViewModel.MainEvent.ShowSavedMessage ->
                             Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     }.exhaustive
                 }

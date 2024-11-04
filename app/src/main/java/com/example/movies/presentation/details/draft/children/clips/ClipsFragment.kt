@@ -15,10 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.MoviesApp
 import com.example.movies.R
 import com.example.movies.databinding.FragmentClipsBinding
-import com.example.movies.presentation.details.parent.DetailsFragmentDirections
+import com.example.movies.presentation.details.draft.parent.DetailsFragmentDirections
 import com.example.movies.presentation.details.draft.parent.DetailsViewModel
-import com.example.movies.presentation.home.components.movies.MoviesFragmentDirections
-import com.example.movies.presentation.home.components.tvshows.TVShowsFragmentDirections
+import com.example.movies.presentation.home.draft.children.movies.MoviesFragmentDirections
+import com.example.movies.presentation.home.draft.children.tvshows.TVShowsFragmentDirections
 import com.example.movies.util.constants.AppConstants.Companion.KEY_STATE_IS_MOVIE
 import com.example.movies.util.constants.AppConstants.Companion.KEY_STATE_MOVIE_ID
 import com.example.movies.util.exhaustive

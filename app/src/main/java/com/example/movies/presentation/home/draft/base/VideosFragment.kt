@@ -15,7 +15,7 @@ import com.example.movies.MoviesApp
 import com.example.movies.R
 import com.example.movies.presentation.common.LoaderStateAdapter
 import com.example.movies.presentation.common.MoviesAdapter
-import com.example.movies.presentation.home.parent.HomeFragmentDirections
+import com.example.movies.presentation.home.draft.parent.HomeFragmentDirections
 import com.example.movies.util.exhaustive
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.collectLatest

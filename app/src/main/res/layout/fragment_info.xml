@@ -8,7 +8,7 @@
 
         <variable
             name="detailsViewModel"
-            type="com.example.movies.presentation.details.parent.DetailsViewModel" />
+            type="com.example.movies.presentation.details.draft.parent.DetailsViewModel" />
 
     </data>
 

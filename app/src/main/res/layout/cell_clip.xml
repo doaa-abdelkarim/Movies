@@ -11,7 +11,7 @@
 
         <variable
             name="onItemClickListener"
-            type="com.example.movies.presentation.details.children.clips.ClipsAdapter.OnItemClickListener" />
+            type="com.example.movies.presentation.details.draft.children.clips.ClipsAdapter" />
 
     </data>
 

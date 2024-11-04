@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.movies.presentation.home.parent.HomeFragment"
+        android:name="com.example.movies.presentation.home.draft.parent.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.example.movies.presentation.details.parent.DetailsFragment"
+        android:name="com.example.movies.presentation.details.draft.parent.DetailsFragment"
         android:label="">
         <argument
             android:name="movieId"
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/moviePlayerFragment"
-        android:name="com.example.movies.presentation.movieplayer.MoviePlayerFragment"
+        android:name="com.example.movies.presentation.movieplayer.draft.MoviePlayerFragment"
         android:label=""
         tools:layout="@layout/fragment_movie_player">
         <argument
@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/moviesFragment"
-        android:name="com.example.movies.presentation.home.children.movies.MoviesFragment"
+        android:name="com.example.movies.presentation.home.draft.children.movies.MoviesFragment"
         android:label="Movies" >
         <action
             android:id="@+id/action_moviesFragment_to_moviePlayerFragment"
@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/tvShowsFragment"
-        android:name="com.example.movies.presentation.home.children.tvshows.TVShowsFragment"
+        android:name="com.example.movies.presentation.home.draft.children.tvshows.TVShowsFragment"
         android:label="TVShows" >
         <action
             android:id="@+id/action_tvShowsFragment_to_moviePlayerFragment"
@@ -55,6 +55,6 @@
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="com.example.movies.presentation.home.children.favorites.FavoritesFragment"
+        android:name="com.example.movies.presentation.home.draft.children.favorites.FavoritesFragment"
         android:label="Favorites" />
 </navigation>

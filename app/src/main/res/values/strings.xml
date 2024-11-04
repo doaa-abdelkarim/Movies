@@ -22,9 +22,11 @@
     <string name="movie_backdrop">Movie backdrop</string>
     <string name="clip_image">Clip image</string>
     <string name="reviewer_photo">Reviewer photo</string>
-    <string name="movies">MOVIES</string>
-    <string name="tv_shows">TV SHOWS</string>
-    <string name="favorites">FAVORITES</string>
+    <string name="movies">Movies</string>
+    <string name="tv_shows">TV Shows</string>
+    <string name="favorites">Favourites</string>
+    <string name="popular_movies">Popular Movies</string>
+    <string name="popular_tv_shows">Popular TV Shows</string>
 
     <string-array name="tabs_home_titles">
         <item>MOVIES</item>

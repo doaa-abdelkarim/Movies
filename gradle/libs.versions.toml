@@ -1,6 +1,7 @@
 [versions]
 agp = "8.6.0"
 coilCompose = "3.0.0-rc02"
+composeBomVersion = "2023.08.00"
 converterGson = "2.11.0"
 core = "12.1.1"
 fragmentKtx = "1.8.4"
@@ -28,6 +29,7 @@ workVersion = "2.9.1"
 animationGraphicsAndroid = "1.7.4"
 
 [libraries]
+androidx-compose-bom-v20230800 = { module = "androidx.compose:compose-bom", version.ref = "composeBomVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }

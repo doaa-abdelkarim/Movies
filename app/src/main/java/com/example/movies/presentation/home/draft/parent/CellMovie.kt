@@ -36,7 +36,11 @@ fun CellMovie(
             contentDescription = stringResource(R.string.movie_poster)
         )
         Text(
-            modifier = Modifier.padding(vertical = dimensionResource(R.dimen.spacing_small)),
+            modifier = Modifier.padding(
+                start = dimensionResource(R.dimen.custom_spacing_4dp),
+                top = dimensionResource(R.dimen.spacing_small),
+                bottom = dimensionResource(R.dimen.spacing_small),
+            ),
             text = movie.title ?: "-",
             style = regularSize18White,
             maxLines = 3,
@@ -44,7 +48,11 @@ fun CellMovie(
             overflow = TextOverflow.Ellipsis,
         )
         Text(
-            modifier = Modifier.padding(bottom = dimensionResource(R.dimen.spacing_small)),
+            modifier = Modifier.padding(
+                start = dimensionResource(R.dimen.custom_spacing_4dp),
+                top = dimensionResource(R.dimen.spacing_small),
+                bottom = dimensionResource(R.dimen.spacing_small),
+            ),
             text = stringResource(R.string.popularity_percentage, movie.popularity.toString()),
             style = regularSize18White
         )

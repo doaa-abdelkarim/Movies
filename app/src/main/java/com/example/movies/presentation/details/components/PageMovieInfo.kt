@@ -36,7 +36,7 @@ fun PageMovieInfo(movie: Movie?) {
             )
             Text(
                 modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small)),
-                text = movie?.genres ?: "-",
+                text = movie?.genres ?: "",
                 style = regularSize14LightGray
             )
         }
@@ -47,7 +47,7 @@ fun PageMovieInfo(movie: Movie?) {
             )
             Text(
                 modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small)),
-                text = movie?.releaseDate ?: "-",
+                text = movie?.releaseDate ?: "",
                 style = regularSize14LightGray
             )
         }
@@ -58,7 +58,7 @@ fun PageMovieInfo(movie: Movie?) {
             )
             Text(
                 modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small)),
-                text = movie?.originalTitle ?: "-",
+                text = movie?.originalTitle ?: "",
                 style = regularSize14LightGray
             )
         }
@@ -69,7 +69,7 @@ fun PageMovieInfo(movie: Movie?) {
             )
             Text(
                 modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small)),
-                text = movie?.originalLanguage ?: "-",
+                text = movie?.originalLanguage ?: "",
                 style = regularSize14LightGray
             )
         }
@@ -80,7 +80,7 @@ fun PageMovieInfo(movie: Movie?) {
             )
             Text(
                 modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small)),
-                text = movie?.popularity?.toString() ?: "-",
+                text = movie?.popularity?.toString() ?: "",
                 style = regularSize14LightGray
             )
         }
@@ -92,7 +92,7 @@ fun PageMovieInfo(movie: Movie?) {
                 )
                 Text(
                     modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small)),
-                    text = movie.revenue?.toString() ?: "-",
+                    text = movie.revenue?.toString() ?: "",
                     style = regularSize14LightGray
                 )
             }

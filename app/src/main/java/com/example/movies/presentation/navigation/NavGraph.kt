@@ -11,7 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.movies.presentation.MainActivityViewModel
-import com.example.movies.presentation.MainActivityViewModel.DetailsEvent.ShowSavedMessage
+import com.example.movies.presentation.MainActivityViewModel.MainEvent.ShowSavedMessage
 import com.example.movies.presentation.details.DetailsScreen
 import com.example.movies.presentation.details.parent.DetailsViewModel
 import com.example.movies.presentation.home.HomeScreen
@@ -27,7 +27,7 @@ fun SetupNavGraph() {
     val context = LocalContext.current
     val mainActivityViewModel: MainActivityViewModel = hiltViewModel()
     LaunchedEffect(Unit) {
-        mainActivityViewModel.detailsEvent.collect {
+        mainActivityViewModel.mainEvent.collect {
             when (it) {
                 is ShowSavedMessage ->
                     Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()

@@ -70,7 +70,10 @@ fun SetupNavGraph() {
         }
         composable<MoviePlayer> {
             val moviePlayer = it.toRoute<MoviePlayer>()
-            MoviePlayerScreen(clipKey = moviePlayer.clipKey)
+            MoviePlayerScreen(
+                clipKey = moviePlayer.clipKey,
+                navigateBack = { navController.popBackStack() }
+            )
         }
     }
 }

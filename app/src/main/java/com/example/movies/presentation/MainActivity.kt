@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -16,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.movies.MoviesApp
 import com.example.movies.R
 import com.example.movies.databinding.ActivityMainBinding
+import com.example.movies.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
@@ -45,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         else
             initPhone()
         observeState()
+        listenToEvents()
     }
 
     private fun initNavController() {
@@ -101,6 +104,19 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+    }
+
+    private fun listenToEvents() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainActivityViewModel.mainEvent.collect {
+                    when (it) {
+                        is MainActivityViewModel.MainEvent.ShowSavedMessage ->
+                            Toast.makeText(this@MainActivity, it.message, Toast.LENGTH_SHORT).show()
+                    }.exhaustive
+                }
+            }
+        }
     }
 
 }

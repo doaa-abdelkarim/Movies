@@ -7,8 +7,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="detailsViewModel"
-            type="com.example.movies.presentation.details.parent.DetailsViewModel" />
+            name="movie"
+            type="com.example.movies.domain.entities.Movie" />
 
     </data>
 
@@ -29,7 +29,7 @@
                 style="@style/RegularSize14LightGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{detailsViewModel.movie.overview}"
+                android:text="@{movie.overview}"
                 tools:text="@string/overview" />
 
             <TextView
@@ -48,7 +48,7 @@
                 android:layout_below="@id/text_view_overview"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_genres_title"
-                android:text="@{detailsViewModel.movie.genres}"
+                android:text="@{movie.genres}"
                 tools:text="@string/genres" />
 
             <TextView
@@ -67,7 +67,7 @@
                 android:layout_below="@id/text_view_genres"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_released_title"
-                android:text="@{detailsViewModel.movie.releaseDate}"
+                android:text="@{movie.releaseDate}"
                 tools:text="@string/released" />
 
             <TextView
@@ -86,7 +86,7 @@
                 android:layout_below="@id/text_view_released"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_original_title_title"
-                android:text="@{detailsViewModel.movie.originalTitle}"
+                android:text="@{movie.originalTitle}"
                 tools:text="@string/original_title" />
 
             <TextView
@@ -105,7 +105,7 @@
                 android:layout_below="@id/text_view_original_title"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_original_language_title"
-                android:text="@{detailsViewModel.movie.originalLanguage}"
+                android:text="@{movie.originalLanguage}"
                 tools:text="@string/original_language" />
 
             <TextView
@@ -124,7 +124,7 @@
                 android:layout_below="@id/text_view_original_language"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_popularity_title"
-                android:text="@{String.valueOf(detailsViewModel.movie.popularity)}"
+                android:text="@{String.valueOf(movie.popularity)}"
                 tools:text="@string/popularity" />
 
             <TextView
@@ -134,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_view_popularity"
                 android:text="@string/revenue"
-                android:visibility="@{(detailsViewModel.movie.isMovie == true)? View.VISIBLE : View.GONE}" />
+                android:visibility="@{(movie.isMovie == true)? View.VISIBLE : View.GONE}" />
 
             <TextView
                 android:id="@+id/text_view_revenue"
@@ -144,8 +144,8 @@
                 android:layout_below="@id/text_view_popularity"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_toEndOf="@id/text_view_revenue_title"
-                android:text="@{(detailsViewModel.movie.isMovie == true)? String.valueOf(detailsViewModel.movie.revenue) : ``}"
-                android:visibility="@{(detailsViewModel.movie.isMovie == true)? View.VISIBLE : View.GONE}"
+                android:text="@{(movie.isMovie == true)? String.valueOf(movie.revenue) : ``}"
+                android:visibility="@{(movie.isMovie == true)? View.VISIBLE : View.GONE}"
                 tools:text="@string/revenue" />
 
         </RelativeLayout>

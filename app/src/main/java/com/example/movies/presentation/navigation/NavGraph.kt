@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -39,7 +40,7 @@ fun SetupNavGraph() {
         startDestination = Home
     ) {
         composable<Home> {
-            val favorites = mainActivityViewModel.favorites.collectAsState().value
+            val favorites by mainActivityViewModel.favorites.collectAsState()
             HomeScreen(
                 favorites = favorites,
                 navigateToDetailsScreen = { movie ->
@@ -61,7 +62,7 @@ fun SetupNavGraph() {
         }
         composable<Details> {
             val detailsViewModel: DetailsViewModel = hiltViewModel()
-            val movie = detailsViewModel.movie.collectAsState().value
+            val movie by detailsViewModel.movie.collectAsState()
             DetailsScreen(
                 movie = movie,
                 onAddToFavoriteClick = { mainActivityViewModel.onAddToFavoriteClick(movie = it) },

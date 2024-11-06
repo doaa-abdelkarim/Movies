@@ -54,7 +54,10 @@ fun HomePhoneLayout(
                 when (page) {
                     0 -> PageMovies(navigateToDetailsScreen = navigateToDetailsScreen)
                     1 -> PageTVShows(navigateToDetailsScreen = navigateToDetailsScreen)
-                    else -> PageFavorites(favorites = favorites, innerPadding = innerPadding)
+                    else -> PageFavorites(
+                        innerPadding = innerPadding,
+                        favorites = favorites
+                    )
                 }
             }
         }

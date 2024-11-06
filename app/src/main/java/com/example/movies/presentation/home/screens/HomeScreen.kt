@@ -12,7 +12,6 @@ fun HomeScreen(
     navigateToDetailsScreen: (Movie) -> Unit,
     navigateToMoviePlayerScreen: (String) -> Unit,
 ) {
-
     if (LocalContext.current.isLargeScreen()) {
         HomeTabletLayout(
             favorites = favorites,
@@ -24,5 +23,4 @@ fun HomeScreen(
             navigateToDetailsScreen = navigateToDetailsScreen
         )
     }
-
 }

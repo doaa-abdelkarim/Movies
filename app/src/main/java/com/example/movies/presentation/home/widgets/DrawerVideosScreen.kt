@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -42,7 +43,7 @@ fun DrawerVideosScreen(
         )
             videosViewModel.updateObservedVideo(video = peek(0))
     }
-    val movie = detailsViewModel.movie.collectAsState().value
+    val movie by detailsViewModel.movie.collectAsState()
     LaunchedEffect(Unit) {
         videosViewModel.observedVideo.collect {
             detailsViewModel.updateObservedMovie(movie = it)

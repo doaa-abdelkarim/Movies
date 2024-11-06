@@ -3,6 +3,7 @@ package com.example.movies.presentation.details.widgets
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movies.presentation.details.draft.children.clips.ClipsEvent
 import com.example.movies.presentation.details.draft.children.clips.ClipsViewModel
@@ -15,7 +16,7 @@ fun PageMoviesClips(
     detailsViewModel: DetailsViewModel = hiltViewModel(),
     navigateToMoviePlayerScreen: (String) -> Unit
 ) {
-    val clips = clipsViewModel.clips.collectAsState().value
+    val clips by clipsViewModel.clips.collectAsState()
     LaunchedEffect(Unit) {
         clipsViewModel.clipsEvent.collect {
             when (it) {

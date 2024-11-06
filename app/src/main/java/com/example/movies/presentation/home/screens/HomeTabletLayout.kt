@@ -54,11 +54,13 @@ fun HomeTabletLayout(
     favorites: List<Favorite>,
     navigateToMoviePlayerScreen: (String) -> Unit,
 ) {
-    val drawerMenu = listOf(
+    val drawerMenu = mutableListOf(
         stringResource(R.string.popular_movies),
         stringResource(R.string.popular_tv_shows),
-        stringResource(R.string.favorites),
-    )
+    ).apply {
+        if (favorites.isNotEmpty())
+            this.add(stringResource(R.string.favorites))
+    }
 
     var selectedItemIndex by rememberSaveable {
         mutableIntStateOf(0)

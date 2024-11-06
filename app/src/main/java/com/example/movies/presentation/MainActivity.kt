@@ -14,10 +14,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-//    @Inject
-//    @ApplicationContext
-//    lateinit var appContext: Context
-//    private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,18 +36,5 @@ class MainActivity : ComponentActivity() {
                 SetupNavGraph()
             }
         }
-
-//        observeState()
     }
-
-//    private fun observeState() {
-//        if ((appContext as MoviesApp).isLargeScreen)
-//            lifecycleScope.launch {
-//                repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                    mainActivityViewModel.favorites.collect {
-//                        favoritesItem.isVisible = it.isNotEmpty()
-//                    }
-//                }
-//            }
-//    }
 }

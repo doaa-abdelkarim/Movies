@@ -39,7 +39,6 @@ fun DetailsScreen(
     navigateToMoviePlayerScreen: (String) -> Unit,
     navigateBack: () -> Unit,
 ) {
-
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {

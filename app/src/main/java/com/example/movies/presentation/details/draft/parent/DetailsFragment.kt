@@ -70,7 +70,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         initViews()
         initDetailsViewPager()
         observeState()
-        listenToEvents()
     }
 
     private fun initViews() {
@@ -125,19 +124,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 detailsViewModel.movie.collect {
                     binding.movie = it
-                }
-            }
-        }
-    }
-
-    private fun listenToEvents() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mainActivityViewModel.mainEvent.collect {
-                    when (it) {
-                        is MainActivityViewModel.MainEvent.ShowSavedMessage ->
-                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    }.exhaustive
                 }
             }
         }

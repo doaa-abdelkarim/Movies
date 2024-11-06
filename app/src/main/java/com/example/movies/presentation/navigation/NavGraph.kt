@@ -51,6 +51,7 @@ fun SetupNavGraph() {
                         )
                     )
                 },
+                onAddToFavoriteClick = { mainActivityViewModel.onAddToFavoriteClick(movie = it) },
                 navigateToMoviePlayerScreen = { clipKey ->
                     navController.navigate(
                         route = MoviePlayer(

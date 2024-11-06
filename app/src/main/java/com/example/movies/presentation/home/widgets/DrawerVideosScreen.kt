@@ -15,6 +15,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.movies.R
+import com.example.movies.domain.entities.Movie
 import com.example.movies.presentation.common.SectionMovieDetails
 import com.example.movies.presentation.details.draft.parent.DetailsViewModel
 import com.example.movies.presentation.home.draft.base.VideosViewModel
@@ -34,6 +35,7 @@ fun DrawerVideosScreen(
         else
             hiltViewModel<TVShowsViewModel>(),
     detailsViewModel: DetailsViewModel = hiltViewModel(),
+    onAddToFavoriteClick: (Movie) -> Unit,
     navigateToMoviePlayerScreen: (String) -> Unit,
 ) {
     val movies = videosViewModel.videosFlow.collectAsLazyPagingItems().apply {
@@ -72,8 +74,10 @@ fun DrawerVideosScreen(
         }
         Box(modifier = Modifier.weight(1f)) {
             SectionMovieDetails(
+                innerPadding = PaddingValues(),
                 movie = movie,
-                navigateToMoviePlayerScreen = navigateToMoviePlayerScreen
+                onAddToFavoriteClick = onAddToFavoriteClick,
+                navigateToMoviePlayerScreen = navigateToMoviePlayerScreen,
             )
         }
     }

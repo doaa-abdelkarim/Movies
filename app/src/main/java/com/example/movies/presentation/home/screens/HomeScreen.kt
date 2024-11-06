@@ -10,11 +10,13 @@ import com.example.movies.util.extensions.isLargeScreen
 fun HomeScreen(
     favorites: List<Favorite>,
     navigateToDetailsScreen: (Movie) -> Unit,
+    onAddToFavoriteClick: (Movie) -> Unit,
     navigateToMoviePlayerScreen: (String) -> Unit,
 ) {
     if (LocalContext.current.isLargeScreen()) {
         HomeTabletLayout(
             favorites = favorites,
+            onAddToFavoriteClick = onAddToFavoriteClick,
             navigateToMoviePlayerScreen = navigateToMoviePlayerScreen
         )
     } else {

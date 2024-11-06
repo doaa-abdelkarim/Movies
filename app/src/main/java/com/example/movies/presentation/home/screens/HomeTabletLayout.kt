@@ -37,6 +37,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.example.movies.R
 import com.example.movies.domain.entities.Favorite
+import com.example.movies.domain.entities.Movie
 import com.example.movies.presentation.home.widgets.DrawerVideosScreen
 import com.example.movies.presentation.home.widgets.PageFavorites
 import com.example.movies.ui.theme.gray200
@@ -52,6 +53,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeTabletLayout(
     favorites: List<Favorite>,
+    onAddToFavoriteClick: (Movie) -> Unit,
     navigateToMoviePlayerScreen: (String) -> Unit,
 ) {
     val drawerMenu = mutableListOf(
@@ -172,12 +174,14 @@ fun HomeTabletLayout(
                 0 -> DrawerVideosScreen(
                     innerPadding = innerPadding,
                     videoType = MOVIE,
+                    onAddToFavoriteClick = onAddToFavoriteClick,
                     navigateToMoviePlayerScreen = navigateToMoviePlayerScreen
                 )
 
                 1 -> DrawerVideosScreen(
                     innerPadding = innerPadding,
                     videoType = TV_SHOW,
+                    onAddToFavoriteClick = onAddToFavoriteClick,
                     navigateToMoviePlayerScreen = navigateToMoviePlayerScreen
                 )
 

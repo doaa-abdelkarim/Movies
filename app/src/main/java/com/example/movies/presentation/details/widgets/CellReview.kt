@@ -1,4 +1,4 @@
-package com.example.movies.presentation.details.components
+package com.example.movies.presentation.details.widgets
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

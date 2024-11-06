@@ -1,4 +1,4 @@
-package com.example.movies.presentation.details.components
+package com.example.movies.presentation.details.widgets
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

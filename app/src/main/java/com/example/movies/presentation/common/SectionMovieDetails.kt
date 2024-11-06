@@ -23,9 +23,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.movies.R
 import com.example.movies.domain.entities.Movie
-import com.example.movies.presentation.details.components.PageMovieInfo
-import com.example.movies.presentation.details.components.PageMoviesClips
-import com.example.movies.presentation.details.components.PageMoviesReviews
+import com.example.movies.presentation.details.widgets.PageMovieInfo
+import com.example.movies.presentation.details.widgets.PageMoviesClips
+import com.example.movies.presentation.details.widgets.PageMoviesReviews
 import com.example.movies.ui.theme.regularSize18White
 import com.example.movies.util.extensions.isLargeScreen
 
@@ -39,7 +39,7 @@ fun SectionMovieDetails(
     val selectedTabIndex by remember { derivedStateOf { pagerState.currentPage } }
 
     Column {
-        DetailsHeader(modifier = Modifier.weight(1f), movie = movie)
+        SectionHeader(modifier = Modifier.weight(1f), movie = movie)
         TabsMain(
             tabsTitles = tabsTitles,
             selectedTabIndex = selectedTabIndex,
@@ -61,7 +61,7 @@ fun SectionMovieDetails(
 }
 
 @Composable
-fun DetailsHeader(modifier: Modifier, movie: Movie?) {
+private fun SectionHeader(modifier: Modifier, movie: Movie?) {
     Box(modifier = modifier) {
         CustomSubcomposeAsyncImage(
             modifier = Modifier

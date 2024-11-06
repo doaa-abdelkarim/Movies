@@ -1,4 +1,4 @@
-package com.example.movies.presentation.details.components
+package com.example.movies.presentation.details.widgets
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,7 +16,6 @@ import com.example.movies.R
 import com.example.movies.domain.entities.Movie
 import com.example.movies.ui.theme.boldSize16VeryDarkGray
 import com.example.movies.ui.theme.regularSize14LightGray
-import com.example.movies.ui.theme.regularSize16VeryDarkGray
 
 @Composable
 fun PageMovieInfo(movie: Movie?) {

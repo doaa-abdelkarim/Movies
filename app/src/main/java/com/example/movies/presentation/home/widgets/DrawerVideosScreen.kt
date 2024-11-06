@@ -24,7 +24,7 @@ import com.example.movies.util.constants.enums.VideoType
 import com.example.movies.util.extensions.isLargeScreen
 
 @Composable
-fun Movies(
+fun DrawerVideosScreen(
     innerPadding: PaddingValues,
     videoType: VideoType,
     videosViewModel: VideosViewModel =

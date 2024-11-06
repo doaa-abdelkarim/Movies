@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import com.example.movies.R
 import com.example.movies.domain.entities.Favorite
 import com.example.movies.domain.entities.Movie
-import com.example.movies.presentation.common.MainTabs
+import com.example.movies.presentation.common.TabsMain
 import com.example.movies.presentation.home.widgets.PageFavorites
 import com.example.movies.presentation.home.widgets.PageMovies
 import com.example.movies.presentation.home.widgets.PageTVShows
@@ -42,7 +42,7 @@ fun HomePhoneLayout(
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
-            MainTabs(
+            TabsMain(
                 tabsTitles = tabsTitles,
                 selectedTabIndex = selectedTabIndex,
                 pagerState = pagerState
@@ -54,7 +54,7 @@ fun HomePhoneLayout(
                 when (page) {
                     0 -> PageMovies(navigateToDetailsScreen = navigateToDetailsScreen)
                     1 -> PageTVShows(navigateToDetailsScreen = navigateToDetailsScreen)
-                    else -> PageFavorites(favorites = favorites)
+                    else -> PageFavorites(favorites = favorites, innerPadding = innerPadding)
                 }
             }
         }

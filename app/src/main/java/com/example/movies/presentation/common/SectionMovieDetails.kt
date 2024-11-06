@@ -30,7 +30,7 @@ import com.example.movies.ui.theme.regularSize18White
 import com.example.movies.util.extensions.isLargeScreen
 
 @Composable
-fun MovieDetails(
+fun SectionMovieDetails(
     movie: Movie? = null,
     navigateToMoviePlayerScreen: (String) -> Unit
 ) {
@@ -40,7 +40,7 @@ fun MovieDetails(
 
     Column {
         DetailsHeader(modifier = Modifier.weight(1f), movie = movie)
-        MainTabs(
+        TabsMain(
             tabsTitles = tabsTitles,
             selectedTabIndex = selectedTabIndex,
             pagerState = pagerState

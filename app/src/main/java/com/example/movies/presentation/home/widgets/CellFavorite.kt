@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -18,6 +19,7 @@ import com.example.movies.domain.entities.Favorite
 import com.example.movies.presentation.common.CustomSubcomposeAsyncImage
 import com.example.movies.ui.theme.gray700
 import com.example.movies.ui.theme.regularSize16White
+import com.example.movies.util.extensions.isLargeScreen
 
 @Composable
 fun CellFavorite(favorite: Favorite) {
@@ -41,7 +43,7 @@ fun CellFavorite(favorite: Favorite) {
             ),
             text = favorite.title ?: "-",
             style = regularSize16White.copy(
-                fontSize = 16.sp//dimensionResource(R.dimen.favorite_movie_title)
+                fontSize = if (LocalContext.current.isLargeScreen()) 32.sp else 16.sp
             ),
             maxLines = 2,
             overflow = TextOverflow.Ellipsis

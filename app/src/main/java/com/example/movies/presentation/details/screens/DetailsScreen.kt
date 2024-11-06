@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.movies.R
 import com.example.movies.domain.entities.Movie
-import com.example.movies.presentation.common.MovieDetails
+import com.example.movies.presentation.common.SectionMovieDetails
 import com.example.movies.ui.theme.strongPink
 import com.example.movies.ui.theme.transparent
 import com.example.movies.ui.theme.white
@@ -84,7 +84,7 @@ fun DetailsScreen(
             }
         }
     ) { innerPadding ->
-        MovieDetails(
+        SectionMovieDetails(
             movie = movie,
             navigateToMoviePlayerScreen = navigateToMoviePlayerScreen
         )

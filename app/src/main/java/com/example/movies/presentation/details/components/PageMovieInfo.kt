@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.movies.R
 import com.example.movies.domain.entities.Movie
+import com.example.movies.ui.theme.boldSize16VeryDarkGray
 import com.example.movies.ui.theme.regularSize14LightGray
 import com.example.movies.ui.theme.regularSize16VeryDarkGray
 
@@ -32,7 +33,7 @@ fun PageMovieInfo(movie: Movie?) {
         Row {
             Text(
                 text = stringResource(R.string.genres),
-                style = regularSize16VeryDarkGray
+                style = boldSize16VeryDarkGray
             )
             Text(
                 modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small)),
@@ -43,7 +44,7 @@ fun PageMovieInfo(movie: Movie?) {
         Row {
             Text(
                 text = stringResource(R.string.released),
-                style = regularSize16VeryDarkGray
+                style = boldSize16VeryDarkGray
             )
             Text(
                 modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small)),
@@ -54,7 +55,7 @@ fun PageMovieInfo(movie: Movie?) {
         Row {
             Text(
                 text = stringResource(R.string.original_title),
-                style = regularSize16VeryDarkGray
+                style = boldSize16VeryDarkGray
             )
             Text(
                 modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small)),
@@ -65,7 +66,7 @@ fun PageMovieInfo(movie: Movie?) {
         Row {
             Text(
                 text = stringResource(R.string.original_language),
-                style = regularSize16VeryDarkGray
+                style = boldSize16VeryDarkGray
             )
             Text(
                 modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small)),
@@ -76,7 +77,7 @@ fun PageMovieInfo(movie: Movie?) {
         Row {
             Text(
                 text = stringResource(R.string.popularity),
-                style = regularSize16VeryDarkGray
+                style = boldSize16VeryDarkGray
             )
             Text(
                 modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small)),
@@ -88,7 +89,7 @@ fun PageMovieInfo(movie: Movie?) {
             Row(modifier = Modifier) {
                 Text(
                     text = stringResource(R.string.revenue),
-                    style = regularSize16VeryDarkGray
+                    style = boldSize16VeryDarkGray
                 )
                 Text(
                     modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_small)),

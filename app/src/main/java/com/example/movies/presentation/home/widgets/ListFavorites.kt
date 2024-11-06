@@ -2,7 +2,9 @@ package com.example.movies.presentation.home.widgets
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
@@ -14,11 +16,15 @@ import com.example.movies.domain.entities.Favorite
 import com.example.movies.ui.theme.darkerGray
 
 @Composable
-fun ListFavorites(favorites: List<Favorite>) {
+fun ListFavorites(
+    innerPadding: PaddingValues,
+    favorites: List<Favorite>
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = darkerGray),
+            .background(color = darkerGray)
+            .padding(innerPadding),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_small))
     ) {
         itemsIndexed(favorites) { index, favorite ->
@@ -47,6 +53,7 @@ fun ListFavoritesPreview() {
                 backdropPath = "/yDHYTfA3R0jFYba16jBB1ef8oIt.jpg",
                 title = "Deadpool & Wolverine"
             ),
-        )
+        ),
+        innerPadding = PaddingValues()
     )
 }

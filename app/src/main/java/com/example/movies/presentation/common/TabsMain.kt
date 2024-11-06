@@ -17,7 +17,7 @@ import com.example.movies.ui.theme.white
 import kotlinx.coroutines.launch
 
 @Composable
-fun MainTabs(
+fun TabsMain(
     tabsTitles: List<String>,
     selectedTabIndex: Int,
     pagerState: PagerState

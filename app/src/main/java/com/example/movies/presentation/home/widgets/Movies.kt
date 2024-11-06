@@ -9,26 +9,42 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.movies.R
-import com.example.movies.presentation.common.MovieDetails
+import com.example.movies.presentation.common.SectionMovieDetails
 import com.example.movies.presentation.details.draft.parent.DetailsViewModel
+import com.example.movies.presentation.home.draft.base.VideosViewModel
 import com.example.movies.presentation.home.draft.children.movies.MoviesViewModel
+import com.example.movies.presentation.home.draft.children.tvshows.TVShowsViewModel
 import com.example.movies.ui.theme.darkerGray
+import com.example.movies.util.constants.enums.VideoType
+import com.example.movies.util.extensions.isLargeScreen
 
 @Composable
 fun Movies(
-    moviesViewModel: MoviesViewModel = hiltViewModel(),
+    innerPadding: PaddingValues,
+    videoType: VideoType,
+    videosViewModel: VideosViewModel =
+        if (videoType == VideoType.MOVIE)
+            hiltViewModel<MoviesViewModel>()
+        else
+            hiltViewModel<TVShowsViewModel>(),
     detailsViewModel: DetailsViewModel = hiltViewModel(),
     navigateToMoviePlayerScreen: (String) -> Unit,
-    innerPadding: PaddingValues,
 ) {
-    val movies = moviesViewModel.videosFlow.collectAsLazyPagingItems()
+    val movies = videosViewModel.videosFlow.collectAsLazyPagingItems().apply {
+        if (LocalContext.current.isLargeScreen() &&
+            videosViewModel.observedVideo.value == null &&
+            this.itemCount > 0
+        )
+            videosViewModel.updateObservedVideo(video = peek(0))
+    }
     val movie = detailsViewModel.movie.collectAsState().value
     LaunchedEffect(Unit) {
-        moviesViewModel.observedVideo.collect {
+        videosViewModel.observedVideo.collect {
             detailsViewModel.updateObservedMovie(movie = it)
             it?.let {
                 detailsViewModel.getMovieDetails(
@@ -50,11 +66,11 @@ fun Movies(
         ) {
             GridMovies(
                 movies = movies,
-                onItemClick = { movie -> moviesViewModel.onVideoClick(movie) }
+                onItemClick = { movie -> videosViewModel.onVideoClick(movie) }
             )
         }
         Box(modifier = Modifier.weight(1f)) {
-            MovieDetails(
+            SectionMovieDetails(
                 movie = movie,
                 navigateToMoviePlayerScreen = navigateToMoviePlayerScreen
             )

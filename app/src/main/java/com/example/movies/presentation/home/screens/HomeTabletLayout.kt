@@ -44,6 +44,8 @@ import com.example.movies.ui.theme.gray700
 import com.example.movies.ui.theme.regularSize14White
 import com.example.movies.ui.theme.transparent
 import com.example.movies.ui.theme.white
+import com.example.movies.util.constants.enums.VideoType.MOVIE
+import com.example.movies.util.constants.enums.VideoType.TV_SHOW
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -97,7 +99,7 @@ fun HomeTabletLayout(
                 }
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_normal)))
                 drawerMenu.forEachIndexed { index, menuItem ->
-                    if(index == 2)
+                    if (index == 2)
                         Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.spacing_large)))
                     NavigationDrawerItem(
                         modifier = Modifier
@@ -167,11 +169,20 @@ fun HomeTabletLayout(
             when (selectedItemIndex) {
                 0 -> Movies(
                     innerPadding = innerPadding,
+                    videoType = MOVIE,
                     navigateToMoviePlayerScreen = navigateToMoviePlayerScreen
                 )
 
-                1 -> Text("")
-                else -> PageFavorites(favorites = favorites)
+                1 -> Movies(
+                    innerPadding = innerPadding,
+                    videoType = TV_SHOW,
+                    navigateToMoviePlayerScreen = navigateToMoviePlayerScreen
+                )
+
+                else -> PageFavorites(
+                    innerPadding = innerPadding,
+                    favorites = favorites
+                )
             }
         }
     }

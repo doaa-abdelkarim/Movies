@@ -61,10 +61,10 @@ fun SetupNavGraph() {
         }
         composable<Details> {
             val detailsViewModel: DetailsViewModel = hiltViewModel()
-            val movies = detailsViewModel.movie.collectAsState().value
+            val movie = detailsViewModel.movie.collectAsState().value
             DetailsScreen(
-                movie = movies,
-                onAddToFavoriteClick = { movie -> mainActivityViewModel.onAddToFavoriteClick(movie = movie) },
+                movie = movie,
+                onAddToFavoriteClick = { mainActivityViewModel.onAddToFavoriteClick(movie = it) },
                 navigateToMoviePlayerScreen = { clipKey ->
                     navController.navigate(
                         route = MoviePlayer(

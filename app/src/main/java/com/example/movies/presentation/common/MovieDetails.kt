@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
@@ -26,9 +27,10 @@ import com.example.movies.presentation.details.components.PageMovieInfo
 import com.example.movies.presentation.details.components.PageMoviesClips
 import com.example.movies.presentation.details.components.PageMoviesReviews
 import com.example.movies.ui.theme.regularSize18White
+import com.example.movies.util.extensions.isLargeScreen
 
 @Composable
-fun DetailsContent(
+fun MovieDetails(
     movie: Movie? = null,
     navigateToMoviePlayerScreen: (String) -> Unit
 ) {
@@ -48,8 +50,8 @@ fun DetailsContent(
                 .weight(1f)
                 .fillMaxWidth(),
             state = pagerState,
-        ) {
-            when (selectedTabIndex) {
+        ) { page ->
+            when (page) {
                 0 -> PageMovieInfo(movie = movie)
                 1 -> PageMoviesClips(navigateToMoviePlayerScreen = navigateToMoviePlayerScreen)
                 else -> PageMoviesReviews()
@@ -61,15 +63,13 @@ fun DetailsContent(
 @Composable
 fun DetailsHeader(modifier: Modifier, movie: Movie?) {
     Box(modifier = modifier) {
-        Column {
-            CustomSubcomposeAsyncImage(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.8f),
-                data = movie?.backdropUri,
-                contentDescription = stringResource(R.string.movie_backdrop)
-            )
-        }
+        CustomSubcomposeAsyncImage(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.8f),
+            data = movie?.backdropUri,
+            contentDescription = stringResource(R.string.movie_backdrop)
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -79,8 +79,8 @@ fun DetailsHeader(modifier: Modifier, movie: Movie?) {
             CustomSubcomposeAsyncImage(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .aspectRatio(ratio = 0.55f)
-                    .padding(start = dimensionResource(R.dimen.spacing_large)),
+                    .padding(start = dimensionResource(R.dimen.spacing_large))
+                    .aspectRatio(ratio = 0.5f),
                 data = movie?.posterUri,
                 contentDescription = stringResource(R.string.movie_poster)
             )
@@ -89,7 +89,10 @@ fun DetailsHeader(modifier: Modifier, movie: Movie?) {
                     .padding(
                         start = dimensionResource(R.dimen.spacing_large),
                         top = dimensionResource(R.dimen.spacing_small),
-                        bottom = dimensionResource(R.dimen.spacing_large)
+                        bottom = if (LocalContext.current.isLargeScreen())
+                            dimensionResource(R.dimen.spacing_small)
+                        else
+                            dimensionResource(R.dimen.spacing_large)
                     )
                     .align(Alignment.Bottom),
                 text = movie?.title ?: "",

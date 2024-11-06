@@ -1,15 +1,11 @@
 package com.example.movies.presentation.home.screens
 
-import android.app.Activity
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.example.movies.domain.entities.Favorite
 import com.example.movies.domain.entities.Movie
+import com.example.movies.util.extensions.isLargeScreen
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun HomeScreen(
     favorites: List<Favorite>,
@@ -17,9 +13,7 @@ fun HomeScreen(
     navigateToMoviePlayerScreen: (String) -> Unit,
 ) {
 
-    val windowSizeClass = calculateWindowSizeClass(LocalContext.current as Activity)
-
-    if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded) {
+    if (LocalContext.current.isLargeScreen()) {
         HomeTabletLayout(
             favorites = favorites,
             navigateToMoviePlayerScreen = navigateToMoviePlayerScreen

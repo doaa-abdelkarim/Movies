@@ -50,8 +50,8 @@ fun HomePhoneLayout(
             HorizontalPager(
                 state = pagerState,
                 modifier = Modifier.fillMaxWidth()
-            ) {
-                when (selectedTabIndex) {
+            ) { page ->
+                when (page) {
                     0 -> PageMovies(navigateToDetailsScreen = navigateToDetailsScreen)
                     1 -> PageTVShows(navigateToDetailsScreen = navigateToDetailsScreen)
                     else -> PageFavorites(favorites = favorites)

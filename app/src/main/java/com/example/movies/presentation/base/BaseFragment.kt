@@ -44,6 +44,7 @@ abstract class BaseDBFragment<DB : ViewDataBinding, VM : ViewModel>(
 
         loader = view.findViewById<ConstraintLayout>(R.id.loader)
         initViews()
+        attachListeners()
         observeState()
         listenToEvents()
     }

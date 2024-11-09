@@ -3,8 +3,6 @@ package com.example.movies.presentation.details.parent
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -26,23 +24,25 @@ import com.example.movies.presentation.home.children.movies.MoviesFragment
 import com.example.movies.presentation.home.children.movies.MoviesViewModel
 import com.example.movies.presentation.home.children.tvshows.TVShowsViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import com.ragabz.core.base.BaseDBFragment
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DetailsFragment : Fragment(R.layout.fragment_details) {
+class DetailsFragment : BaseDBFragment<FragmentDetailsBinding, DetailsViewModel>(
+    layoutId = R.layout.fragment_details
+) {
 
     @Inject
     @ApplicationContext
     lateinit var appContext: Context
 
+    override val viewModel: DetailsViewModel by viewModels()
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var baseVideosViewModel: BaseVideosViewModel
-    private val detailsViewModel: DetailsViewModel by viewModels()
 
-    private lateinit var binding: FragmentDetailsBinding
     private val args: DetailsFragmentArgs by navArgs()
     private var selectedMovieId: Int = -1
     private var isMovie: Boolean = false
@@ -64,25 +64,11 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentDetailsBinding.bind(view)
         binding.lifecycleOwner = this
-
-        initViews()
-        attachListeners()
-        observeState()
     }
 
-    private fun initViews() {
+    override fun initViews() {
         initDetailsViewPager()
-    }
-
-    private fun attachListeners() {
-        binding.buttonAddToFavorites.setOnClickListener {
-            detailsViewModel.movie.value.let {
-                if (it is UiState.Data)
-                    mainActivityViewModel.onAddToFavoriteClick(movie = it.data)
-            }
-        }
     }
 
     private fun initDetailsViewPager() {
@@ -108,15 +94,23 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     }
 
+    override fun attachListeners() {
+        binding.buttonAddToFavorites.setOnClickListener {
+            viewModel.movie.value.let {
+                if (it is UiState.Data)
+                    mainActivityViewModel.onAddToFavoriteClick(movie = it.data)
+            }
+        }
+    }
 
-    private fun observeState() {
+    override fun observeState() {
         if ((appContext as MoviesApp).isLargeScreen) {
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     baseVideosViewModel.observedVideo.collect {
-                        detailsViewModel.updateObservedMovie(movie = it)
+                        viewModel.updateObservedMovie(movie = it)
                         it?.let {
-                            detailsViewModel.getMovieDetails(
+                            viewModel.getMovieDetails(
                                 observedMovie = it,
                                 isLargeScreen = true
                             )
@@ -127,7 +121,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                detailsViewModel.movie.collect { uiState ->
+                viewModel.movie.collect { uiState ->
                     when (uiState) {
                         is UiState.Initial -> {}
 
@@ -145,31 +139,14 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
     }
 
-    private fun onInProgress() {
-        binding.loader.constraintLayoutLoaderRoot.visibility = View.VISIBLE
-    }
-
-    private fun onRequestSucceeded() {
-        onRequestCompleted()
+    override fun onRequestSucceeded() {
+        super.onRequestSucceeded()
         binding.buttonAddToFavorites.isEnabled = true
     }
 
-    private fun onRequestFailed(error: Throwable) {
-        onRequestCompleted()
-        Toast
-            .makeText(
-                context,
-                error.localizedMessage ?: getString(
-                    R.string.unknown_error
-                ),
-                Toast.LENGTH_LONG
-            )
-            .show()
+    override fun onRequestFailed(error: Throwable) {
+        super.onRequestFailed(error = error)
         binding.buttonAddToFavorites.isEnabled = false
-    }
-
-    private fun onRequestCompleted() {
-        binding.loader.constraintLayoutLoaderRoot.visibility = View.GONE
     }
 
     companion object {

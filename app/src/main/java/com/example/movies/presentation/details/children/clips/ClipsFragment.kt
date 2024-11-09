@@ -2,11 +2,6 @@ package com.example.movies.presentation.details.children.clips
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +19,7 @@ import com.example.movies.presentation.home.children.tvshows.TVShowsFragmentDire
 import com.example.movies.util.constants.AppConstants.Companion.KEY_STATE_IS_MOVIE
 import com.example.movies.util.constants.AppConstants.Companion.KEY_STATE_MOVIE_ID
 import com.example.movies.util.exhaustive
+import com.ragabz.core.base.BaseVBFragment
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
@@ -31,49 +27,25 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class ClipsFragment : Fragment() {
+class ClipsFragment : BaseVBFragment<FragmentClipsBinding, ClipsViewModel>(
+    viewBindingInflater = FragmentClipsBinding::inflate
+) {
     @Inject
     @ApplicationContext
     lateinit var appContext: Context
 
-    private var _binding: FragmentClipsBinding? = null
-    private val binding
-        get() = _binding!!
-
+    override val viewModel: ClipsViewModel by viewModels()
     private val detailsViewModel: DetailsViewModel by viewModels({ requireParentFragment() })
-    private val clipsViewModel: ClipsViewModel by viewModels()
 
     private lateinit var clipsAdapter: ClipsAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentClipsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        initViews()
-        observeState()
-        listenToEvents()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
-    private fun initViews() {
+    override fun initViews() {
         initRecyclerView()
     }
 
     private fun initRecyclerView() {
         clipsAdapter = ClipsAdapter(ClipsAdapter.OnItemClickListener {
-            clipsViewModel.onClipClick(it)
+            viewModel.onClipClick(it)
         })
         binding.apply {
             recyclerViewClipsList.apply {
@@ -84,13 +56,13 @@ class ClipsFragment : Fragment() {
         }
     }
 
-    private fun observeState() {
+    override fun observeState() {
         if ((appContext as MoviesApp).isLargeScreen) {
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     detailsViewModel.observedMovie.collect {
                         it?.let {
-                            clipsViewModel.getMovieClips(
+                            viewModel.getMovieClips(
                                 observedMovie = it,
                                 isLargeScreen = true
                             )
@@ -102,7 +74,7 @@ class ClipsFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                clipsViewModel.clips.collect { uiState ->
+                viewModel.clips.collect { uiState ->
                     when (uiState) {
                         is UiState.Initial -> {}
 
@@ -122,10 +94,10 @@ class ClipsFragment : Fragment() {
         }
     }
 
-    private fun listenToEvents() {
+    override fun listenToEvents() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                clipsViewModel.clipsEvent.collect {
+                viewModel.clipsEvent.collect {
                     when (it) {
                         is ClipsEvent.EventNavigateToMoviePlayerScreen -> {
                             if ((appContext as MoviesApp).isLargeScreen)
@@ -152,31 +124,6 @@ class ClipsFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun onInProgress() {
-        binding.loader.constraintLayoutLoaderRoot.visibility = View.VISIBLE
-    }
-
-    private fun onRequestSucceeded() {
-        onRequestCompleted()
-    }
-
-    private fun onRequestFailed(error: Throwable) {
-        onRequestCompleted()
-        Toast
-            .makeText(
-                context,
-                error.localizedMessage ?: getString(
-                    R.string.unknown_error
-                ),
-                Toast.LENGTH_LONG
-            )
-            .show()
-    }
-
-    private fun onRequestCompleted() {
-        binding.loader.constraintLayoutLoaderRoot.visibility = View.GONE
     }
 
     companion object {

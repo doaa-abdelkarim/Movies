@@ -2,35 +2,36 @@ package com.example.movies.presentation.details.children.info
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.movies.R
 import com.example.movies.databinding.FragmentInfoBinding
 import com.example.movies.presentation.details.parent.DetailsViewModel
 import com.example.movies.presentation.home.UiState
+import com.ragabz.core.base.BaseDBFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class InfoFragment : Fragment(R.layout.fragment_info) {
+class InfoFragment : BaseDBFragment<FragmentInfoBinding, ViewModel>(
+    layoutId = R.layout.fragment_info
+) {
 
-    private lateinit var binding: FragmentInfoBinding
-
+    override val viewModel: ViewModel
+        get() = TODO("Not yet implemented")
     private val detailsViewModel: DetailsViewModel by viewModels({ requireParentFragment() })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentInfoBinding.bind(view)
-        binding.lifecycleOwner = this
 
-        observeState()
+        binding.lifecycleOwner = this
     }
 
-    private fun observeState() {
+    override fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 detailsViewModel.movie.collect { uiState ->

@@ -1,4 +1,4 @@
-package com.example.movies.presentation.details.draft.parent
+package com.example.movies.presentation.details.viewmodels
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

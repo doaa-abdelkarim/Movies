@@ -1,4 +1,4 @@
-package com.example.movies.presentation.home.draft.parent
+package com.example.movies.presentation.home.widgets
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

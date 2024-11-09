@@ -5,9 +5,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.movies.presentation.details.draft.children.clips.ClipsEvent
-import com.example.movies.presentation.details.draft.children.clips.ClipsViewModel
-import com.example.movies.presentation.details.draft.parent.DetailsViewModel
+import com.example.movies.presentation.details.viewmodels.ClipsEvent
+import com.example.movies.presentation.details.viewmodels.ClipsViewModel
+import com.example.movies.presentation.details.viewmodels.DetailsViewModel
 import com.example.movies.util.exhaustive
 
 @Composable

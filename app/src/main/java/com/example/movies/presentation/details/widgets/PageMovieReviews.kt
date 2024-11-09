@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.example.movies.presentation.details.draft.children.reviews.ReviewsViewModel
-import com.example.movies.presentation.details.draft.parent.DetailsViewModel
+import com.example.movies.presentation.details.viewmodels.ReviewsViewModel
+import com.example.movies.presentation.details.viewmodels.DetailsViewModel
 
 @Composable
 fun PageMoviesReviews(

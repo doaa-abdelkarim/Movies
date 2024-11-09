@@ -58,10 +58,6 @@ val regularSize16 = regular.copy(
     fontSize = 16.sp
 )
 
-val regularSize16VeryDarkGray = regularSize16.copy(
-    color = veryDarkGray
-)
-
 val regularSize16White = regularSize16.copy(
     color = white
 )
@@ -74,16 +70,9 @@ val regularSize18White = regularSize18.copy(
     color = white
 )
 
-val regularSize20 = regular.copy(
-    fontSize = 20.sp
-)
-
-val regularSize20White = regularSize20.copy(
-    color = white
-)
-
 val boldSize16 = bold.copy(
     fontSize = 16.sp
+
 )
 
 val boldSize16VeryDarkGray = boldSize16.copy(

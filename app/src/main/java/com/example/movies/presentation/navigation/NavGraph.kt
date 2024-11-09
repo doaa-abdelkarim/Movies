@@ -13,7 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.movies.presentation.MainActivityViewModel
 import com.example.movies.presentation.MainActivityViewModel.MainEvent.ShowSavedMessage
-import com.example.movies.presentation.details.draft.parent.DetailsViewModel
+import com.example.movies.presentation.details.viewmodels.DetailsViewModel
 import com.example.movies.presentation.details.screens.DetailsScreen
 import com.example.movies.presentation.home.screens.HomeScreen
 import com.example.movies.presentation.movieplayer.screens.MoviePlayerScreen

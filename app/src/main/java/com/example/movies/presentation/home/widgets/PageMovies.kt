@@ -5,8 +5,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.movies.domain.entities.Movie
-import com.example.movies.presentation.home.draft.base.VideosEvent
-import com.example.movies.presentation.home.draft.children.movies.MoviesViewModel
+import com.example.movies.presentation.home.viewmodels.VideosEvent
+import com.example.movies.presentation.home.viewmodels.MoviesViewModel
 import com.example.movies.util.exhaustive
 
 @Composable

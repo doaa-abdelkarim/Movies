@@ -11,7 +11,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.paging.compose.LazyPagingItems
 import com.example.movies.R
 import com.example.movies.domain.entities.Movie
-import com.example.movies.presentation.home.draft.parent.CellMovie
 import com.example.movies.ui.theme.darkerGray
 
 @Composable

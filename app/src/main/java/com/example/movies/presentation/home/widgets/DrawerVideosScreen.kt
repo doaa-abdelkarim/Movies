@@ -17,10 +17,10 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.movies.R
 import com.example.movies.domain.entities.Movie
 import com.example.movies.presentation.common.SectionMovieDetails
-import com.example.movies.presentation.details.draft.parent.DetailsViewModel
-import com.example.movies.presentation.home.draft.base.VideosViewModel
-import com.example.movies.presentation.home.draft.children.movies.MoviesViewModel
-import com.example.movies.presentation.home.draft.children.tvshows.TVShowsViewModel
+import com.example.movies.presentation.details.viewmodels.DetailsViewModel
+import com.example.movies.presentation.home.viewmodels.VideosViewModel
+import com.example.movies.presentation.home.viewmodels.MoviesViewModel
+import com.example.movies.presentation.home.viewmodels.TVShowsViewModel
 import com.example.movies.ui.theme.darkerGray
 import com.example.movies.util.constants.enums.VideoType
 import com.example.movies.util.extensions.isLargeScreen

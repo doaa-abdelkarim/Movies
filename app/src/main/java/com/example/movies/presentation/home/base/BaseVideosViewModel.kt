@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-abstract class VideosViewModel(
+abstract class BaseVideosViewModel(
     context: Context,
 ) : AndroidViewModel(context as Application) {
 

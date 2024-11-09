@@ -10,6 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.movies.R
 import com.example.movies.databinding.FragmentInfoBinding
 import com.example.movies.presentation.details.parent.DetailsViewModel
+import com.example.movies.presentation.home.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -32,13 +33,13 @@ class InfoFragment : Fragment(R.layout.fragment_info) {
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                detailsViewModel.movie.collect {
-                    binding.movie = it
+                detailsViewModel.movie.collect { uiState ->
+                    if (uiState is UiState.Data)
+                        binding.movie = uiState.data
                 }
             }
         }
     }
-
 
     companion object {
         fun newInstance() = InfoFragment()

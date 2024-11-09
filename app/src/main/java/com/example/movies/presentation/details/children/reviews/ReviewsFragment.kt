@@ -5,13 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.MoviesApp
+import com.example.movies.R
 import com.example.movies.databinding.FragmentReviewsBinding
 import com.example.movies.presentation.common.LoaderStateAdapter
 import com.example.movies.presentation.details.parent.DetailsViewModel
@@ -51,7 +54,7 @@ class ReviewsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initRecyclerView()
+        initViews()
         observeState()
     }
 
@@ -60,8 +63,26 @@ class ReviewsFragment : Fragment() {
         _binding = null
     }
 
+    private fun initViews() {
+        initRecyclerView()
+    }
+
     private fun initRecyclerView() {
         reviewsAdapter = ReviewsAdapter()
+            .apply {
+                addLoadStateListener { loadStates ->
+                    if (loadStates.refresh is LoadState.Loading) {
+                        onInProgress()
+                    } else if (loadStates.refresh is LoadState.Error) {
+                        onRequestFailed(
+                            error = (loadStates.refresh as LoadState.Error).error
+                        )
+                    }
+                    if (loadStates.refresh is LoadState.NotLoading) {
+                        onRequestCompleted()
+                    }
+                }
+            }
         loaderStateAdapter = LoaderStateAdapter { reviewsAdapter.retry() }
         binding.apply {
             recyclerViewReviewsList.apply {
@@ -96,6 +117,31 @@ class ReviewsFragment : Fragment() {
                     }
             }
         }
+    }
+
+    private fun onInProgress() {
+        binding.loader.constraintLayoutLoaderRoot.visibility = View.VISIBLE
+    }
+
+    private fun onRequestSucceeded() {
+        onRequestCompleted()
+    }
+
+    private fun onRequestFailed(error: Throwable) {
+        onRequestCompleted()
+        Toast
+            .makeText(
+                context,
+                error.localizedMessage ?: getString(
+                    R.string.unknown_error
+                ),
+                Toast.LENGTH_LONG
+            )
+            .show()
+    }
+
+    private fun onRequestCompleted() {
+        binding.loader.constraintLayoutLoaderRoot.visibility = View.GONE
     }
 
     companion object {

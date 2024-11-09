@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Movies</string>
+    <string name="unknown_error">Unknown error</string>
     <string name="movie_poster">Video\'s poster</string>
     <string name="movie_backdrop">video\'s backdrop</string>
     <string name="popularity_percentage">Popularity: %s </string>

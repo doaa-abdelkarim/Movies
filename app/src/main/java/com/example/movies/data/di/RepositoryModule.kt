@@ -5,6 +5,7 @@ import com.example.movies.data.local.db.MoviesDB
 import com.example.movies.data.local.db.dao.FavoritesDao
 import com.example.movies.data.remote.apis.MoviesAPI
 import com.example.movies.data.repositories.FavoritesRepository
+import com.example.movies.data.repositories.MoviesRepository1
 import com.example.movies.data.repositories.MoviesRepository2
 import com.example.movies.domain.repositories.BaseFavoritesRepository
 import com.example.movies.domain.repositories.BaseMoviesRepository
@@ -21,27 +22,26 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 class RepositoryModule {
 
     //Use the next code if network is the single source of truth
-    /*  @Provides
-      fun provideMoviesRepository(
-          moviesAPI: MoviesAPI,
-      ): MoviesRepository =
-          MoviesRepository1(
-              moviesAPI = moviesAPI,
-          )
-     */
-
-    //Use the next code if Room is the single source of truth
-    @Provides
+/*    @Provides
     fun provideMoviesRepository(
         moviesAPI: MoviesAPI,
-        moviesDB: MoviesDB,
-        networkHandler: NetworkHandler
     ): BaseMoviesRepository =
-        MoviesRepository2(
+        MoviesRepository1(
             moviesAPI = moviesAPI,
-            moviesDB = moviesDB,
-            networkHandler = networkHandler
-        )
+        )*/
+
+    //Use the next code if Room is the single source of truth
+        @Provides
+        fun provideMoviesRepository(
+            moviesAPI: MoviesAPI,
+            moviesDB: MoviesDB,
+            networkHandler: NetworkHandler
+        ): BaseMoviesRepository =
+            MoviesRepository2(
+                moviesAPI = moviesAPI,
+                moviesDB = moviesDB,
+                networkHandler = networkHandler
+            )
 
     @Provides
     fun provideFavoritesRepository(

@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.repositories.BaseMoviesRepository
-import com.example.movies.presentation.home.base.VideosViewModel
+import com.example.movies.presentation.home.base.BaseVideosViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class MoviesViewModel @Inject constructor(
     @ApplicationContext context: Context,
     private val baseMoviesRepository: BaseMoviesRepository,
-) : VideosViewModel(context) {
+) : BaseVideosViewModel(context) {
     override val videosFlow: Flow<PagingData<Movie>> = getVideos()
 
     override fun getVideos(): Flow<PagingData<Movie>> =

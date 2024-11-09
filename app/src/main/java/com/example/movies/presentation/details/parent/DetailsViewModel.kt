@@ -5,12 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.repositories.BaseMoviesRepository
+import com.example.movies.presentation.home.UiState
 import com.example.movies.util.constants.AppConstants.Companion.KEY_LAST_EMITTED_VALUE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,7 +32,7 @@ class DetailsViewModel @Inject constructor(
     private val _observedMovie = MutableStateFlow<Movie?>(null)
     val observedMovie = _observedMovie.asStateFlow()
 
-    private val _movie = MutableStateFlow<Movie?>(null)
+    private val _movie = MutableStateFlow<UiState<Movie>>(UiState.Initial)
     val movie = _movie.asStateFlow()
 
     init {
@@ -65,16 +65,16 @@ class DetailsViewModel @Inject constructor(
         doForLargeScreen: (() -> Unit)? = null,
     ) {
         viewModelScope.launch {
+            _movie.value = UiState.Loading
             try {
                 _movie.value = if (isMovie)
-                    baseMoviesRepository.getMovieDetails(selectedMovieId)
+                    UiState.Data(data = baseMoviesRepository.getMovieDetails(selectedMovieId))
                 else
-                    baseMoviesRepository.getTVShowDetails(selectedMovieId)
+                    UiState.Data(data = baseMoviesRepository.getTVShowDetails(selectedMovieId))
                 doForLargeScreen?.invoke()
             } catch (e: Exception) {
-                Timber.d(e.localizedMessage)
+                _movie.value = UiState.Error(error = e)
             }
-
         }
     }
 

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -17,6 +18,7 @@ import com.example.movies.R
 import com.example.movies.databinding.FragmentClipsBinding
 import com.example.movies.presentation.details.parent.DetailsFragmentDirections
 import com.example.movies.presentation.details.parent.DetailsViewModel
+import com.example.movies.presentation.home.UiState
 import com.example.movies.presentation.home.children.movies.MoviesFragmentDirections
 import com.example.movies.presentation.home.children.tvshows.TVShowsFragmentDirections
 import com.example.movies.util.constants.AppConstants.Companion.KEY_STATE_IS_MOVIE
@@ -55,7 +57,7 @@ class ClipsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initRecyclerView()
+        initViews()
         observeState()
         listenToEvents()
     }
@@ -63,6 +65,10 @@ class ClipsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun initViews() {
+        initRecyclerView()
     }
 
     private fun initRecyclerView() {
@@ -96,8 +102,21 @@ class ClipsFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                clipsViewModel.clips.collect {
-                    clipsAdapter.submitList(it)
+                clipsViewModel.clips.collect { uiState ->
+                    when (uiState) {
+                        is UiState.Initial -> {}
+
+                        is UiState.Loading -> onInProgress()
+
+                        is UiState.Data -> {
+                            onRequestSucceeded()
+                            clipsAdapter.submitList(uiState.data)
+                        }
+
+                        is UiState.Error -> {
+                            onRequestFailed(error = uiState.error)
+                        }
+                    }
                 }
             }
         }
@@ -133,6 +152,31 @@ class ClipsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun onInProgress() {
+        binding.loader.constraintLayoutLoaderRoot.visibility = View.VISIBLE
+    }
+
+    private fun onRequestSucceeded() {
+        onRequestCompleted()
+    }
+
+    private fun onRequestFailed(error: Throwable) {
+        onRequestCompleted()
+        Toast
+            .makeText(
+                context,
+                error.localizedMessage ?: getString(
+                    R.string.unknown_error
+                ),
+                Toast.LENGTH_LONG
+            )
+            .show()
+    }
+
+    private fun onRequestCompleted() {
+        binding.loader.constraintLayoutLoaderRoot.visibility = View.GONE
     }
 
     companion object {

@@ -20,11 +20,11 @@ import com.example.movies.presentation.common.ViewPagerAdapter
 import com.example.movies.presentation.details.children.clips.ClipsFragment
 import com.example.movies.presentation.details.children.info.InfoFragment
 import com.example.movies.presentation.details.children.reviews.ReviewsFragment
-import com.example.movies.presentation.home.base.VideosViewModel
+import com.example.movies.presentation.home.UiState
+import com.example.movies.presentation.home.base.BaseVideosViewModel
 import com.example.movies.presentation.home.children.movies.MoviesFragment
 import com.example.movies.presentation.home.children.movies.MoviesViewModel
 import com.example.movies.presentation.home.children.tvshows.TVShowsViewModel
-import com.example.movies.util.exhaustive
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -39,7 +39,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     lateinit var appContext: Context
 
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
-    private lateinit var videosViewModel: VideosViewModel
+    private lateinit var baseVideosViewModel: BaseVideosViewModel
     private val detailsViewModel: DetailsViewModel by viewModels()
 
     private lateinit var binding: FragmentDetailsBinding
@@ -51,7 +51,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         super.onCreate(savedInstanceState)
 
         if ((appContext as MoviesApp).isLargeScreen)
-            videosViewModel = if (parentFragment?.javaClass == MoviesFragment::class.java)
+            baseVideosViewModel = if (parentFragment?.javaClass == MoviesFragment::class.java)
                 ViewModelProvider(requireParentFragment())[MoviesViewModel::class.java]
             else
                 ViewModelProvider(requireParentFragment())[TVShowsViewModel::class.java]
@@ -68,14 +68,19 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         binding.lifecycleOwner = this
 
         initViews()
-        initDetailsViewPager()
+        attachListeners()
         observeState()
     }
 
     private fun initViews() {
+        initDetailsViewPager()
+    }
+
+    private fun attachListeners() {
         binding.buttonAddToFavorites.setOnClickListener {
-            detailsViewModel.movie.value?.let {
-                mainActivityViewModel.onAddToFavoriteClick(movie = it)
+            detailsViewModel.movie.value.let {
+                if (it is UiState.Data)
+                    mainActivityViewModel.onAddToFavoriteClick(movie = it.data)
             }
         }
     }
@@ -108,7 +113,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         if ((appContext as MoviesApp).isLargeScreen) {
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    videosViewModel.observedVideo.collect {
+                    baseVideosViewModel.observedVideo.collect {
                         detailsViewModel.updateObservedMovie(movie = it)
                         it?.let {
                             detailsViewModel.getMovieDetails(
@@ -122,11 +127,49 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                detailsViewModel.movie.collect {
-                    binding.movie = it
+                detailsViewModel.movie.collect { uiState ->
+                    when (uiState) {
+                        is UiState.Initial -> {}
+
+                        is UiState.Loading -> onInProgress()
+
+                        is UiState.Data -> {
+                            onRequestSucceeded()
+                            binding.movie = uiState.data
+                        }
+
+                        is UiState.Error -> onRequestFailed(error = uiState.error)
+                    }
                 }
             }
         }
+    }
+
+    private fun onInProgress() {
+        binding.loader.constraintLayoutLoaderRoot.visibility = View.VISIBLE
+    }
+
+    private fun onRequestSucceeded() {
+        onRequestCompleted()
+        binding.buttonAddToFavorites.isEnabled = true
+    }
+
+    private fun onRequestFailed(error: Throwable) {
+        onRequestCompleted()
+        Toast
+            .makeText(
+                context,
+                error.localizedMessage ?: getString(
+                    R.string.unknown_error
+                ),
+                Toast.LENGTH_LONG
+            )
+            .show()
+        binding.buttonAddToFavorites.isEnabled = false
+    }
+
+    private fun onRequestCompleted() {
+        binding.loader.constraintLayoutLoaderRoot.visibility = View.GONE
     }
 
     companion object {

@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gray_700"
-        tools:context=".ui.details.DetailsFragment">
+        tools:context=".presentation.details.parent.DetailsFragment">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guide_line_horizontal_20"
@@ -103,9 +103,15 @@
             android:layout_marginEnd="@dimen/spacing_normal"
             android:layout_marginBottom="@dimen/spacing_small"
             android:backgroundTint="@color/strong_pink"
+            android:enabled="false"
+            android:stateListAnimator="@null"
             android:text="@string/add_to_favorites"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <include
+            android:id="@+id/loader"
+            layout="@layout/loader" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

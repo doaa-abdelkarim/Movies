@@ -15,6 +15,16 @@
         app:layout_constraintWidth_percent="0.5"
         tools:listitem="@layout/cell_movie" />
 
+    <include
+        android:id="@+id/loader"
+        layout="@layout/loader"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/recycler_view_movies"
+        app:layout_constraintEnd_toEndOf="@id/recycler_view_movies"
+        app:layout_constraintStart_toStartOf="@id/recycler_view_movies"
+        app:layout_constraintTop_toTopOf="@id/recycler_view_movies" />
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_details"
         android:name="com.example.movies.presentation.details.parent.DetailsFragment"
@@ -23,9 +33,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/recycler_view_movies" />
 
-    <include
-        android:id="@+id/loader"
-        layout="@layout/loader" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

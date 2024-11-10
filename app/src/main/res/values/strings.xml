@@ -19,13 +19,13 @@
     <string name="button_retry">Retry</string>
     <string name="something_went_wrong">Something went wrong, Please try again</string>
 
-    <string-array name="tab_home_titles">
+    <string-array name="tabs_home_titles">
         <item>Movies</item>
         <item>TV Shows</item>
         <item>Favorites</item>
     </string-array>
 
-    <string-array name="tab_details_titles">
+    <string-array name="tabs_details_titles">
         <item>Info</item>
         <item>Clips</item>
         <item>Reviews</item>

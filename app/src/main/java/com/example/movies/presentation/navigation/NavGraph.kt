@@ -65,7 +65,7 @@ fun SetupNavGraph() {
             val detailsViewModel: DetailsViewModel = hiltViewModel()
             val movie by detailsViewModel.movie.collectAsState()
             DetailsScreen(
-                movie = movie,
+                movieUiState = movie,
                 onAddToFavoriteClick = { mainActivityViewModel.onAddToFavoriteClick(movie = it) },
                 navigateToMoviePlayerScreen = { clipKey ->
                     navController.navigate(

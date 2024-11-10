@@ -6,7 +6,6 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.repositories.BaseMoviesRepository
-import com.example.movies.presentation.home.base.BaseVideosViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow

@@ -1,4 +1,4 @@
-package com.example.movies.presentation.home.base
+package com.example.movies.presentation.home.viewmodels
 
 import android.app.Application
 import android.content.Context

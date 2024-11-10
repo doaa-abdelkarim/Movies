@@ -18,7 +18,7 @@ import com.example.movies.R
 import com.example.movies.domain.entities.Movie
 import com.example.movies.presentation.common.SectionMovieDetails
 import com.example.movies.presentation.details.viewmodels.DetailsViewModel
-import com.example.movies.presentation.home.viewmodels.VideosViewModel
+import com.example.movies.presentation.home.viewmodels.BaseVideosViewModel
 import com.example.movies.presentation.home.viewmodels.MoviesViewModel
 import com.example.movies.presentation.home.viewmodels.TVShowsViewModel
 import com.example.movies.ui.theme.darkerGray
@@ -29,7 +29,7 @@ import com.example.movies.util.extensions.isLargeScreen
 fun DrawerVideosScreen(
     innerPadding: PaddingValues,
     videoType: VideoType,
-    videosViewModel: VideosViewModel =
+    baseVideosViewModel: BaseVideosViewModel =
         if (videoType == VideoType.MOVIE)
             hiltViewModel<MoviesViewModel>()
         else
@@ -38,16 +38,16 @@ fun DrawerVideosScreen(
     onAddToFavoriteClick: (Movie) -> Unit,
     navigateToMoviePlayerScreen: (String) -> Unit,
 ) {
-    val movies = videosViewModel.videosFlow.collectAsLazyPagingItems().apply {
+    val movies = baseVideosViewModel.videosFlow.collectAsLazyPagingItems().apply {
         if (LocalContext.current.isLargeScreen() &&
-            videosViewModel.observedVideo.value == null &&
+            baseVideosViewModel.observedVideo.value == null &&
             this.itemCount > 0
         )
-            videosViewModel.updateObservedVideo(video = peek(0))
+            baseVideosViewModel.updateObservedVideo(video = peek(0))
     }
-    val movie by detailsViewModel.movie.collectAsState()
+    val movieUiState by detailsViewModel.movie.collectAsState()
     LaunchedEffect(Unit) {
-        videosViewModel.observedVideo.collect {
+        baseVideosViewModel.observedVideo.collect {
             detailsViewModel.updateObservedMovie(movie = it)
             it?.let {
                 detailsViewModel.getMovieDetails(
@@ -69,13 +69,13 @@ fun DrawerVideosScreen(
         ) {
             GridMovies(
                 movies = movies,
-                onItemClick = { movie -> videosViewModel.onVideoClick(movie) }
+                onItemClick = { movie -> baseVideosViewModel.onVideoClick(movie) }
             )
         }
         Box(modifier = Modifier.weight(1f)) {
             SectionMovieDetails(
                 innerPadding = PaddingValues(),
-                movie = movie,
+                movieUiState = movieUiState,
                 onAddToFavoriteClick = onAddToFavoriteClick,
                 navigateToMoviePlayerScreen = navigateToMoviePlayerScreen,
             )

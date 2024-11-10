@@ -14,13 +14,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.movies.domain.entities.Movie
 import com.example.movies.presentation.common.SectionMovieDetails
+import com.example.movies.presentation.home.UiState
 import com.example.movies.ui.theme.transparent
 import com.example.movies.ui.theme.white
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(
-    movie: Movie?,
+    movieUiState: UiState<Movie>,
     onAddToFavoriteClick: (Movie) -> Unit,
     navigateToMoviePlayerScreen: (String) -> Unit,
     navigateBack: () -> Unit,
@@ -47,7 +48,7 @@ fun DetailsScreen(
     ) { innerPadding ->
         SectionMovieDetails(
             innerPadding = innerPadding,
-            movie = movie,
+            movieUiState = movieUiState,
             onAddToFavoriteClick = onAddToFavoriteClick,
             navigateToMoviePlayerScreen = navigateToMoviePlayerScreen
         )
@@ -61,23 +62,25 @@ fun DetailsScreen(
 @Composable
 fun DetailsScreenPreview() {
     DetailsScreen(
-        movie = Movie(
-            pk = 1,
-            id = 533535,
-            posterPath = "/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
-            backdropPath = "/yDHYTfA3R0jFYba16jBB1ef8oIt.jpg",
-            title = "Deadpool & Wolverine",
-            popularity = 1636.995,
-            genres = null,
-            originalLanguage = "en",
-            overview = "A listless Wade Wilson toils away in civilian life with his days as the " +
-                    "morally flexible mercenary, Deadpool, behind him. But when his homeworld " +
-                    "faces an existential threat, Wade must reluctantly suit-up again with an " +
-                    "even more reluctant Wolverine.",
-            releaseDate = "2024-07-24",
-            originalTitle = "Deadpool & Wolverine",
-            revenue = 1336816112,
-            isMovie = true
+        movieUiState = UiState.Data(
+            data = Movie(
+                pk = 1,
+                id = 533535,
+                posterPath = "/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+                backdropPath = "/yDHYTfA3R0jFYba16jBB1ef8oIt.jpg",
+                title = "Deadpool & Wolverine",
+                popularity = 1636.995,
+                genres = null,
+                originalLanguage = "en",
+                overview = "A listless Wade Wilson toils away in civilian life with his days as the " +
+                        "morally flexible mercenary, Deadpool, behind him. But when his homeworld " +
+                        "faces an existential threat, Wade must reluctantly suit-up again with an " +
+                        "even more reluctant Wolverine.",
+                releaseDate = "2024-07-24",
+                originalTitle = "Deadpool & Wolverine",
+                revenue = 1336816112,
+                isMovie = true
+            )
         ),
         onAddToFavoriteClick = {},
         navigateToMoviePlayerScreen = {},

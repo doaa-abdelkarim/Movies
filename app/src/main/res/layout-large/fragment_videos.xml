@@ -23,6 +23,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/recycler_view_movies" />
 
+    <include
+        android:id="@+id/loader"
+        layout="@layout/loader" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

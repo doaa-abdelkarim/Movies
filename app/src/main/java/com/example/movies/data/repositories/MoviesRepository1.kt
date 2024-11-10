@@ -3,8 +3,8 @@ package com.example.movies.data.repositories
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.example.movies.data.paging.ReviewPagingSource
 import com.example.movies.data.paging.MoviesPagingSource
+import com.example.movies.data.paging.ReviewPagingSource
 import com.example.movies.data.remote.apis.MoviesAPI
 import com.example.movies.data.remote.models.asDomainModel
 import com.example.movies.domain.entities.Clip
@@ -32,7 +32,7 @@ class MoviesRepository1(
             pagingSourceFactory = {
                 MoviesPagingSource(
                     moviesAPI = moviesAPI,
-                    videoType = MOVIE
+                    videoType = if (isMovie) MOVIE else TV_SHOW
                 )
             }
         ).flow.map {
@@ -45,7 +45,8 @@ class MoviesRepository1(
     }
 
     override suspend fun getTVShowDetails(id: Int): Movie {
-        return moviesAPI.getTVShowDetails(id).asDomainModel(isMovie = false)    }
+        return moviesAPI.getTVShowDetails(id).asDomainModel(isMovie = false)
+    }
 
     override suspend fun getMovieClips(id: Int): List<Clip> {
         return moviesAPI.getMovieClips(id).asDomainModel()

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Movies</string>
+    <string name="unknown_error">Unknown error</string>
     <string name="video_poster">Video\'s poster</string>
     <string name="video_backdrop">video\'s backdrop</string>
     <string name="popularity_percentage">Popularity: %s </string>
@@ -17,16 +18,6 @@
     <string name="saved">Saved</string>
     <string name="button_retry">Retry</string>
     <string name="something_went_wrong">Something went wrong, Please try again</string>
-    <string name="movie_poster">Movie poster</string>
-    <string name="broken_image">Broken image</string>
-    <string name="movie_backdrop">Movie backdrop</string>
-    <string name="clip_image">Clip image</string>
-    <string name="reviewer_photo">Reviewer photo</string>
-    <string name="movies">Movies</string>
-    <string name="tv_shows">TV Shows</string>
-    <string name="favorites">Favourites</string>
-    <string name="popular_movies">Popular Movies</string>
-    <string name="popular_tv_shows">Popular TV Shows</string>
 
     <string-array name="tabs_home_titles">
         <item>MOVIES</item>

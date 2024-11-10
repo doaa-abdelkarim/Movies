@@ -8,6 +8,7 @@ import com.example.movies.domain.entities.Clip
 import com.example.movies.domain.entities.Movie
 import com.example.movies.domain.repositories.BaseMoviesRepository
 import com.example.movies.presentation.navigation.Screen
+import com.example.movies.presentation.home.UiState
 import com.example.movies.util.constants.AppConstants.Companion.KEY_LAST_EMITTED_VALUE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -15,7 +16,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,7 +27,7 @@ class ClipsViewModel @Inject constructor(
     private val selectedMovieId = savedStateHandle.toRoute<Screen.Details>().movieId
     private val isMovie = savedStateHandle.toRoute<Screen.Details>().isMovie
 
-    private val _clips = MutableStateFlow<List<Clip>>(emptyList())
+    private val _clips = MutableStateFlow<UiState<List<Clip>>>(UiState.Initial)
     val clips = _clips.asStateFlow()
 
     private val _clipsEventFlow = MutableSharedFlow<ClipsEvent>()
@@ -63,16 +63,16 @@ class ClipsViewModel @Inject constructor(
         doForLargeScreen: (() -> Unit)? = null,
     ) {
         viewModelScope.launch {
+            _clips.value = UiState.Loading
             try {
                 _clips.value = if (isMovie)
-                    baseMoviesRepository.getMovieClips(selectedMovieId)
+                    UiState.Data(data = baseMoviesRepository.getMovieClips(selectedMovieId))
                 else
-                    baseMoviesRepository.getTVShowClips(selectedMovieId)
+                    UiState.Data(data = baseMoviesRepository.getTVShowClips(selectedMovieId))
                 doForLargeScreen?.invoke()
             } catch (e: Exception) {
-                Timber.d(e.localizedMessage)
+                _clips.value = UiState.Error(error = e)
             }
-
         }
     }
 

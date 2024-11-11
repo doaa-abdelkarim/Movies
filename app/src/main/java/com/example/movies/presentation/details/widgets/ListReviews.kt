@@ -48,29 +48,29 @@ fun ListReviews(reviews: LazyPagingItems<Review>) {
             .background(color = darkerGray),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_normal))
     ) {
-        listItemPagingLoadState(
-            loadState = reviews.loadState.prepend,
-            keySuffix = "prepend",
-            loading = {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    CircularProgressIndicator(color = teal200)
-                }
-            },
-            error = {
-                Toast
-                    .makeText(
-                        LocalContext.current,
-                        it.error.localizedMessage ?: stringResource(
-                            R.string.unknown_error
-                        ),
-                        Toast.LENGTH_LONG
-                    )
-                    .show()
-            },
-        )
+//        listItemPagingLoadState(
+//            loadState = reviews.loadState.prepend,
+//            keySuffix = "prepend",
+//            loading = {
+//                Box(
+//                    contentAlignment = Alignment.Center,
+//                    modifier = Modifier.fillMaxSize()
+//                ) {
+//                    CircularProgressIndicator(color = teal200)
+//                }
+//            },
+//            error = {
+//                Toast
+//                    .makeText(
+//                        LocalContext.current,
+//                        it.error.localizedMessage ?: stringResource(
+//                            R.string.unknown_error
+//                        ),
+//                        Toast.LENGTH_LONG
+//                    )
+//                    .show()
+//            },
+//        )
 
         items(reviews.itemCount) { index ->
             reviews[index]?.let { CellReview(review = it) }

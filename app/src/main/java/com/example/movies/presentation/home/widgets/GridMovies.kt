@@ -54,29 +54,29 @@ fun GridMovies(
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_small)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_small)),
     ) {
-        gridItemPagingLoadState(
-            loadState = movies.loadState.prepend,
-            keySuffix = "prepend",
-            loading = {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    CircularProgressIndicator(color = teal200)
-                }
-            },
-            error = {
-                Toast
-                    .makeText(
-                        LocalContext.current,
-                        it.error.localizedMessage ?: stringResource(
-                            R.string.unknown_error
-                        ),
-                        Toast.LENGTH_LONG
-                    )
-                    .show()
-            },
-        )
+//        gridItemPagingLoadState(
+//            loadState = movies.loadState.prepend,
+//            keySuffix = "prepend",
+//            loading = {
+//                Box(
+//                    contentAlignment = Alignment.Center,
+//                    modifier = Modifier.fillMaxSize()
+//                ) {
+//                    CircularProgressIndicator(color = teal200)
+//                }
+//            },
+//            error = {
+//                Toast
+//                    .makeText(
+//                        LocalContext.current,
+//                        it.error.localizedMessage ?: stringResource(
+//                            R.string.unknown_error
+//                        ),
+//                        Toast.LENGTH_LONG
+//                    )
+//                    .show()
+//            },
+//        )
 
         items(movies.itemCount) { index ->
             movies[index]?.let {

@@ -1,6 +1,8 @@
 <h1>Small screens:</h1><br>
 
-![Screenshot_20241109_123928](https://github.com/user-attachments/assets/05faeb15-94cb-40d4-a38a-3e988d2ab24a | height=400)
+![Screenshot_20241109_123928](https://github.com/user-attachments/assets/05faeb15-94cb-40d4-a38a-3e988d2ab24a)
+
+<img src="https://github.com/user-attachments/assets/05faeb15-94cb-40d4-a38a-3e988d2ab24a" height="400" />
 
 ![Screenshot_20241109_124224](https://github.com/user-attachments/assets/2d8cb504-d791-41f7-9c45-5e05858232f3)
 

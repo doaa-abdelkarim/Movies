@@ -7,8 +7,8 @@
 </p>
 
 <img src="https://github.com/user-attachments/assets/a3c7815a-3208-4fa7-a4e9-526df408b590" height="400" />
-<img src="https://github.com/user-attachments/assets/c5e44eab-2617-4ad9-96e4-c26a10e1f1c8" height="400" />
+<img src="https://github.com/user-attachments/assets/c5e44eab-2617-4ad9-96e4-c26a10e1f1c8" />
 
 <h1>Large screens:</h1><br>
-<img src="https://github.com/user-attachments/assets/fc8e8f1d-c1e8-483f-96a1-98d1861ae25f" height="400" />
-<img src="https://github.com/user-attachments/assets/fe5347a6-7810-46c9-a4fa-1c1355f7501b" height="400" />
+<img src="https://github.com/user-attachments/assets/fc8e8f1d-c1e8-483f-96a1-98d1861ae25f" />
+<img src="https://github.com/user-attachments/assets/fe5347a6-7810-46c9-a4fa-1c1355f7501b" />

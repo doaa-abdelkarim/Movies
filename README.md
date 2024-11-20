@@ -1,9 +1,10 @@
 <h1>Small screens:</h1><br>
 <img src="https://github.com/user-attachments/assets/05faeb15-94cb-40d4-a38a-3e988d2ab24a" height="400" />
-
-<img src="https://github.com/user-attachments/assets/2d8cb504-d791-41f7-9c45-5e05858232f3" height="400" />
-<img src="https://github.com/user-attachments/assets/820a1099-44f8-436d-b8ea-8098013c8415" height="400" />
-<img src="https://github.com/user-attachments/assets/fbc2c8de-01a6-4924-9156-522ed832b7b5" height="400" />
+<p>
+  <img src="https://github.com/user-attachments/assets/2d8cb504-d791-41f7-9c45-5e05858232f3" height="400" />
+  <img src="https://github.com/user-attachments/assets/820a1099-44f8-436d-b8ea-8098013c8415" height="400" />
+  <img src="https://github.com/user-attachments/assets/fbc2c8de-01a6-4924-9156-522ed832b7b5" height="400" />
+</p>
 
 <img src="https://github.com/user-attachments/assets/a3c7815a-3208-4fa7-a4e9-526df408b590" height="400" />
 <img src="https://github.com/user-attachments/assets/c5e44eab-2617-4ad9-96e4-c26a10e1f1c8" height="400" />
